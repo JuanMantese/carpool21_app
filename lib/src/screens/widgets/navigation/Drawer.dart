@@ -1,17 +1,21 @@
 // profile_drawer.dart
 import 'package:carpool_21_app/main.dart';
-import 'package:carpool_21_app/src/screens/widgets/drawer/bloc/drawerBloc.dart';
-import 'package:carpool_21_app/src/screens/widgets/drawer/bloc/drawerEvent.dart';
-import 'package:carpool_21_app/src/screens/widgets/drawer/bloc/drawerState.dart';
+import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationBloc.dart';
+import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationEvent.dart';
+import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  CustomDrawer({super.key});
+
+  // List<Widget> pageList = <Widget>[
+  //   ProfileInfoPage(),
+  // ];
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DrawerBloc, DrawerState>(
+    return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return Drawer(
           child: ListView(
@@ -33,16 +37,16 @@ class CustomDrawer extends StatelessWidget {
                 )),
               ListTile(
                 title: const Text('Perfil'),
-                selected: state.pageIndex == 0,
+                // selected: state.pageIndex == 0,
                 onTap: () {
-                  context.read<DrawerBloc>().add(ChangeDrawerPage(pageIndex: 0));
                   Navigator.pop(context);
+                  Navigator.pushNamed(context, '/profile');
                 },
               ),
               ListTile(
                 title: const Text('Cerrar Sesion'),
                 onTap: () {
-                  context.read<DrawerBloc>().add(Logout());
+                  context.read<NavigationBloc>().add(Logout());
                   Navigator.pushAndRemoveUntil(
                     context, 
                     MaterialPageRoute(builder: ((context) => const MyApp())), 

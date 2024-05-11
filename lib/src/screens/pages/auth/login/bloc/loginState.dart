@@ -18,6 +18,7 @@ class LoginState extends Equatable {
     this.response,
   });
 
+  // Instance of the LoginState class
   LoginState copyWith({
     GlobalKey<FormState>? formKey,
     BlocFormItem? email,

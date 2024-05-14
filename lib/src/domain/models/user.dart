@@ -8,9 +8,9 @@ class User {
   String dni;
   String phone;
   String address;
-  String email;
-  String password;
-  String passwordConfirm;
+  String? email;
+  String? password;
+  String? passwordConfirm;
   String contactName;
   String contactPhone;
   String contactLastName;
@@ -28,9 +28,9 @@ class User {
     required this.dni,
     required this.phone,
     required this.address,
-    required this.email,
-    required this.password,
-    required this.passwordConfirm,
+    this.email,
+    this.password,
+    this.passwordConfirm,
     required this.contactName,
     required this.contactLastName,
     required this.contactPhone,

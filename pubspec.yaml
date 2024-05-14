@@ -41,6 +41,9 @@ dependencies:
   get_it: ^7.7.0
   fluttertoast: ^8.2.5
   shared_preferences: ^2.2.3
+  image_picker: ^1.1.1
+  path: ^1.9.0
+  http_parser: ^4.0.2
 
 flutter_native_splash:
   image: lib/assets/img/s21_logo.png

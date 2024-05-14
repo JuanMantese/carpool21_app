@@ -12,7 +12,11 @@ class AuthService {
   Future<Resource<AuthResponse>> login(String email, String password) async {
     try {
       Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/auth/login'); // Creation of the URL path
-      Map<String, String> headers = {'Content-Type': 'application/json'}; // We specify that the information sent is of type JSON
+      
+      Map<String, String> headers = {
+        'Content-Type': 'application/json'
+      }; // We specify that the information sent is of type JSON
+      
       String body = json.encode({
         'email': email,
         'password': password

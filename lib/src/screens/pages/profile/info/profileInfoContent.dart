@@ -18,7 +18,7 @@ class ProfileInfoContent extends StatelessWidget {
             _headerProfile(context),
             const Spacer(),
             _actionProfile('EDITAR PERFIL', Icons.edit, () { 
-              // Navigator.pushNamed(context, 'profile/update', arguments: user);
+              Navigator.pushNamed(context, '/profile/update', arguments: user);
              }),
             _actionProfile('CERRAR SESION', Icons.settings_power, () {}),
             SizedBox(height: 35,)
@@ -81,7 +81,7 @@ class ProfileInfoContent extends StatelessWidget {
                     )
                   ),
                 ),
-                // child: ClipOval(
+                // child: ClipOval(   DESCOMENTAR - Cuando tengamos el back
                 //   child: user != null 
                 //   ? user!.image != null 
                 //     ? FadeInImage.assetNetwork(
@@ -99,23 +99,23 @@ class ProfileInfoContent extends StatelessWidget {
                 // ),
               // ),
             ),
-            Text(
-              // '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',
+            const Text(
+              // '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',  DESCOMENTAR
               'Nombre de Usuario',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16
               ),
             ),
             Text(
-              // user?.email ?? 'correo@correo.com',
+              // user?.email ?? 'correo@correo.com',  DESCOMENTAR
               'correo@correo.com',
               style: TextStyle(
                 color: Colors.grey[700]
               ),
             ),
             Text(
-              // user?.phone ?? '3511111111',
+              // user?.phone ?? '3511111111',   DESCOMENTAR
               '3511111111',
               style: TextStyle(
                 color: Colors.grey[700]

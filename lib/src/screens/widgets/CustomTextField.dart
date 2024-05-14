@@ -6,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   Function(String text) onChanged;
   String? Function(String?)? validator;
   String text;
+  String? initialValue;
   TextInputType inputType;
   IconData icon;
   EdgeInsetsGeometry padding;
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     required this.onChanged,
     this.validator,
     required this.text,
+    this.initialValue,
     required this.inputType,
     this.icon = Icons.visibility,
     this.padding = const EdgeInsets.only(top: 30, bottom: 30, right: 15, left: 15),
@@ -28,6 +30,7 @@ class CustomTextField extends StatelessWidget {
           onChanged(text);
         },
         validator: validator,
+        initialValue: initialValue,
         decoration: InputDecoration(
           labelText: text,
           labelStyle: const TextStyle(color: Color(0xFF006D59)),

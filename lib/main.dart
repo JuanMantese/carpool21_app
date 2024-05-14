@@ -4,6 +4,7 @@ import 'package:carpool_21_app/src/screens/pages/auth/login/login.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/register/register.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHome.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/info/profileInfo.dart';
+import 'package:carpool_21_app/src/screens/pages/profile/update/profileUpdate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           '/register': (context) => const RegisterPage(),
           '/passenger/home': (context) => const PassengerHomePage(),
           '/profile': (context) => const ProfileInfoPage(),
-
+          '/profile/update': (context) => const ProfileUpdatePage(),
 
         },
         // home: const LoginPage()

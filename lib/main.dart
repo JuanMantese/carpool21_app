@@ -3,6 +3,8 @@ import 'package:carpool_21_app/injection.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/login/login.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/register/register.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHome.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/passengerMapBookingInfo.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/mapFinder/passengerMapFinder.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/info/profileInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/update/profileUpdate.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,8 @@ class MyApp extends StatelessWidget {
           '/passenger/home': (context) => const PassengerHomePage(),
           '/profile': (context) => const ProfileInfoPage(),
           '/profile/update': (context) => const ProfileUpdatePage(),
-
+          '/passenger/finder': (context) => const PassengerMapFinder(),
+          '/passenger/map/booking': (context) => const PassengerMapBookingInfo(),
         },
         // home: const LoginPage()
       ),

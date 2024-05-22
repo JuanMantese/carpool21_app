@@ -28,7 +28,7 @@ class UsersService {
       
       String body = json.encode({
         'name': user.name,
-        'lastName': user.name, 
+        'lastName': user.lastName, 
         'userId': user.userId,
         'dni': user.dni,
         'phone': user.phone,

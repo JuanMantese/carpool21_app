@@ -44,6 +44,13 @@ class CustomDrawer extends StatelessWidget {
                 },
               ),
               ListTile(
+                title: const Text('Maps'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/passenger/finder');
+                },
+              ),
+              ListTile(
                 title: const Text('Cerrar Sesion'),
                 onTap: () {
                   context.read<NavigationBloc>().add(Logout());

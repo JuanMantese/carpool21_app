@@ -48,6 +48,7 @@ dependencies:
   google_places_flutter: ^2.0.8
   geocoding: ^3.0.0
   geolocator: ^12.0.0
+  flutter_polyline_points: ^2.0.0
 
 flutter_native_splash:
   image: lib/assets/img/s21_logo.png

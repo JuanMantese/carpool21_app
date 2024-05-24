@@ -22,7 +22,8 @@ abstract class GeolocationRepository {
   // Tomando ubicacion del marker al mover la camara 
   Future<PlacemarkData?> getPlacemarkData(CameraPosition cameraPosition);
   
-  // Future<List<LatLng>> getPolyline(LatLng pickUpLatLng, LatLng destinationLatLng);
+  // Trazando la ruta desde el punto de origen al punto destino
+  Future<List<LatLng>> getPolyline(LatLng pickUpLatLng, LatLng destinationLatLng);
   
   // Stream<Position> getPositionStream();
 }

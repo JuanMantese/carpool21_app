@@ -21,6 +21,7 @@ import 'package:carpool_21_app/src/domain/useCases/geolocation/findPositionUseCa
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getMarkerUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPlacemarkDataUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/geolocation/getPolylineUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/updateUserUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/userUseCases.dart';
 import 'package:injectable/injectable.dart';
@@ -81,6 +82,7 @@ abstract class AppModule {
     createMarker: CreateMarkerUseCase(geolocationRepository),
     getMarker: GetMarkerUseCase(geolocationRepository),
     getPlacemarkData: GetPlacemarkDataUseCase(geolocationRepository),
+    getPolyline: GetPolylineUseCase(geolocationRepository),
 
   );
 }

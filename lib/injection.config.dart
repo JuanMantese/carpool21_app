@@ -14,13 +14,17 @@ import 'package:carpool_21_app/src/data/dataSource/remote/services/authService.d
     as _i4;
 import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart'
     as _i7;
-import 'package:carpool_21_app/src/di/appModule.dart' as _i10;
+import 'package:carpool_21_app/src/di/appModule.dart' as _i12;
 import 'package:carpool_21_app/src/domain/repository/authRepository.dart'
     as _i5;
+import 'package:carpool_21_app/src/domain/repository/geolocationRepository.dart'
+    as _i10;
 import 'package:carpool_21_app/src/domain/repository/usersRepository.dart'
     as _i8;
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart'
     as _i6;
+import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart'
+    as _i11;
 import 'package:carpool_21_app/src/domain/useCases/users/userUseCases.dart'
     as _i9;
 import 'package:get_it/get_it.dart' as _i1;
@@ -46,8 +50,11 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i7.UsersService>(() => appModule.usersService);
     gh.factory<_i8.UsersRepository>(() => appModule.usersRepository);
     gh.factory<_i9.UserUseCases>(() => appModule.userUseCases);
+    gh.factory<_i10.GeolocationRepository>(
+        () => appModule.geolocationRepository);
+    gh.factory<_i11.GeolocationUseCases>(() => appModule.geolocationUseCases);
     return this;
   }
 }
 
-class _$AppModule extends _i10.AppModule {}
+class _$AppModule extends _i12.AppModule {}

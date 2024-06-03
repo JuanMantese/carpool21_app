@@ -18,6 +18,8 @@ class RegisterContent extends StatefulWidget {
 
 class RegisterContentState extends State<RegisterContent> {
   bool _isPasswordVisible = false; 
+  bool _isConfirmPasswordVisible = false; 
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,29 +54,17 @@ class RegisterContentState extends State<RegisterContent> {
             child: Padding(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top + 20,
-                bottom: 20, 
-                right: 15, 
-                left: 15, 
+                bottom: 10, 
+                right: 10, 
+                left: 10, 
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'lib/assets/img/s21_logo_white.png',
-                    height: 50,
+                    'lib/assets/img/Header-Logo-Mini.png',
+                    height: 70,
                   ),
-                  const SizedBox(width: 20),
-                  const Text(
-                    'CarPool 21',
-                    style: TextStyle(
-                      fontFamily: "Montserrat",
-                      fontSize: 28,
-                      letterSpacing: 3.5,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.italic,
-                      color: Color(0xFFFFFFFF)
-                    ),
-                ),
                 ],
               ),
             ),
@@ -129,10 +119,10 @@ class RegisterContentState extends State<RegisterContent> {
                                 ),
                                 CustomTextField(
                                   onChanged: (text) {
-                                    context.read<RegisterBloc>().add(UserIdChanged(userIdInput: BlocFormItem(value: text)));
+                                    context.read<RegisterBloc>().add(StudentFileInputChanged(studentFileInput: BlocFormItem(value: text)));
                                   },
                                   validator: (value) {
-                                    return state.userId.error;
+                                    return state.studentFile.error;
                                   },
                                   text: 'Legajo', 
                                   inputType: TextInputType.text
@@ -144,8 +134,9 @@ class RegisterContentState extends State<RegisterContent> {
                                   validator: (value) {
                                     return state.dni.error;
                                   },
+                                  maxLength: 8,
                                   text: 'DNI', 
-                                  inputType: TextInputType.text
+                                  inputType: TextInputType.number
                                 ),
                                 CustomTextField(
                                   onChanged: (text) {
@@ -154,8 +145,9 @@ class RegisterContentState extends State<RegisterContent> {
                                   validator: (value) {
                                     return state.phone.error;
                                   },
+                                  maxLength: 10,
                                   text: 'Teléfono', 
-                                  inputType: TextInputType.text
+                                  inputType: TextInputType.number
                                 ),
                                 CustomTextField(
                                   onChanged: (text) {
@@ -177,7 +169,7 @@ class RegisterContentState extends State<RegisterContent> {
                                   text: 'Correo', 
                                   inputType: TextInputType.emailAddress
                                 ),
-                              ].expand((widget) => [widget, const SizedBox(height: 10,)]),
+                              ].expand((widget) => [widget, const SizedBox(height: 12,)]),
                                         
                               TextFormField(
                                 onChanged: (text) {
@@ -199,7 +191,7 @@ class RegisterContentState extends State<RegisterContent> {
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       // Change the icon based on the state of _isPasswordVisible
-                                      _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -210,6 +202,95 @@ class RegisterContentState extends State<RegisterContent> {
                                 ),
                                 obscureText: !_isPasswordVisible,
                               ),
+
+                              const SizedBox(height: 12,),
+
+                              TextFormField(
+                                onChanged: (text) {
+                                  context.read<RegisterBloc>().add(PasswordConfirmChanged(passwordConfirmInput: BlocFormItem(value: text)));
+                                },
+                                validator: (value) {
+                                  return state.passwordConfirm.error;
+                                },
+                                decoration: InputDecoration(
+                                  labelText: 'Confirmación de Contraseña',
+                                  labelStyle: const TextStyle(color: Color(0xFF006D59)),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20), 
+                                  ),
+                                  focusedBorder: OutlineInputBorder( 
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(color: Color(0xFF006D59)),
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // Change the icon based on the state of _isConfirmPasswordVisible
+                                      _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible; // Change the state when you press the icon
+                                      });
+                                    },
+                                  ),
+                                ),
+                                obscureText: !_isConfirmPasswordVisible,
+                              ),
+
+                              const SizedBox(height: 15,),
+                              const Text(
+                                'Contacto de Emergencia',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: const Color(0xFFFF0000), width: 2.0),
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Column(
+                                  children: [
+                                    CustomTextField(
+                                      onChanged: (text) {
+                                        context.read<RegisterBloc>().add(ContactNameChanged(contactNameInput: BlocFormItem(value: text)));
+                                      },
+                                      validator: (value) {
+                                        return state.contactName.error;
+                                      },
+                                      text: 'Nombre', 
+                                      inputType: TextInputType.text
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    CustomTextField(
+                                      onChanged: (text) {
+                                        context.read<RegisterBloc>().add(ContactLastNameChanged(contactLastNameInput: BlocFormItem(value: text)));
+                                      },
+                                      validator: (value) {
+                                        return state.contactLastName.error;
+                                      },
+                                      text: 'Apellido', 
+                                      inputType: TextInputType.text
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    CustomTextField(
+                                      onChanged: (text) {
+                                        context.read<RegisterBloc>().add(ContactPhoneChanged(contactPhoneInput: BlocFormItem(value: text)));
+                                      },
+                                      validator: (value) {
+                                        return state.contactPhone.error;
+                                      },
+                                      maxLength: 10,
+                                      text: 'Telefono', 
+                                      inputType: TextInputType.number
+                                    ),
+                                  ],
+                                ),
+                              ),
+
                             ],
                           ),
                           
@@ -219,7 +300,7 @@ class RegisterContentState extends State<RegisterContent> {
                             onPressed: () {
                               if (state.formKey!.currentState!.validate()) {                      
                                 context.read<RegisterBloc>().add(FormSubmit());
-                                context.read<RegisterBloc>().add(FormReset());
+                                // context.read<RegisterBloc>().add(FormReset());
                               } else {
                                 print('El formulario no es valido');
                               }
@@ -247,17 +328,17 @@ class RegisterContentState extends State<RegisterContent> {
                   ),
                   
                   // const Spacer(),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.09),
+                  SizedBox(height: 10),
                   Container(
-                    // margin: EdgeInsets.only(
-                    //   bottom: MediaQuery.of(context).padding.bottom
-                    // ),
+                    margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom
+                    ),
                     child: TextButton(
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Ya tienes usuario?',
+                            '¿Ya tenés usuario?',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16,

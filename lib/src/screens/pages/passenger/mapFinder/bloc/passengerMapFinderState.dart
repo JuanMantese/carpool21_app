@@ -16,6 +16,8 @@ class PassengerMapFinderState extends Equatable {
   final String pickUpText; // Variable para pasar el texto del input del origen
   final String destinationText; // Variable para pasar el texto del input del destino
 
+  final Map<PolylineId, Polyline> polylines;
+
   // Constructor 
   PassengerMapFinderState({
     this.controller,
@@ -27,6 +29,8 @@ class PassengerMapFinderState extends Equatable {
     this.destinationLatLng,
     this.pickUpText = '',
     this.destinationText = '',
+
+    this.polylines = const <PolylineId, Polyline>{},
   });
 
   // CopuWith - Nos permite cambiamos el estado de las variables
@@ -40,6 +44,8 @@ class PassengerMapFinderState extends Equatable {
     LatLng? destinationLatLng,
     String? pickUpText,
     String? destinationText,
+
+    Map<PolylineId, Polyline>? polylines,
   }) {
     
     return PassengerMapFinderState(
@@ -52,11 +58,13 @@ class PassengerMapFinderState extends Equatable {
       destinationLatLng: destinationLatLng ?? this.destinationLatLng,
       pickUpText: pickUpText ?? this.pickUpText,
       destinationText: destinationText ?? this.destinationText,
+
+      polylines: polylines ?? this.polylines,
     );
   }
 
 
   @override
-  List<Object?> get props => [controller, position, markers, cameraPosition, placemarkData, pickUpLatLng, destinationLatLng, pickUpText, destinationText];
+  List<Object?> get props => [controller, position, markers, cameraPosition, placemarkData, pickUpLatLng, destinationLatLng, pickUpText, destinationText, polylines];
 
 }

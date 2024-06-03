@@ -60,7 +60,7 @@ class LoginContentState extends State<LoginContent> {
                   left: 15, 
                 ),
                 child: Image.asset(
-                  'lib/assets/img/universidad-siglo-21.png',
+                  'lib/assets/img/Header-Logo-Big.png',
                   height: 90,
                 ),
               ),
@@ -72,13 +72,12 @@ class LoginContentState extends State<LoginContent> {
                 children: [
                   const SizedBox(height: 100.0),
                   const Text(
-                    'Car Pool 21',
+                    'Inisiar Sesión',
                     style: TextStyle(
                       fontFamily: "Montserrat",
                       fontSize: 28,
                       letterSpacing: 3.5,
-                      fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w700,
                       color: Color(0xFF006D59)
                     ),
                   ),
@@ -134,37 +133,34 @@ class LoginContentState extends State<LoginContent> {
                       }
                     }
                   ),
-      
-                  // const Spacer(), REVISAR ESTE ELEMENTO
-                  Column(
-                    children: [
-                      TextButton(
-                        child: const Text('No tienes usuario? Registrate AQUÍ'),
-                        onPressed: () {
-                          // Implement registration logic
-                        },
-                      ),
-                      const SizedBox(height: 24.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/register');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: const Size(180, 50), // width and height
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: const Text(
-                          'Registrarse',
+                  const SizedBox(height: 24.0),
+                  TextButton(
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '¿No tenés usuario?',
                           style: TextStyle(
-                            color: Color(0xFF00A98F),
-                            fontWeight: FontWeight.w700
+                            color: Colors.black,
+                            fontSize: 16,
+                            height: 3,
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 10,),
+                        Text(
+                          'Registrate AQUÍ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            height: 3,
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
                   ),
                 ],
               ),

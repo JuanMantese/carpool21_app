@@ -1,6 +1,7 @@
 import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoState.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/passengerMapBookingInfoContent.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,8 +67,8 @@ class _PassengerMapBookingInfoState extends State<PassengerMapBookingInfo> {
     return Scaffold(
       body: BlocBuilder<PassengerMapBookingInfoBloc, PassengerMapBookingInfoState>(
         builder: (context, state) {
-          return Center(
-            child: Text('Detalle de viaje'),
+          return Scaffold(
+            body: PassengerMapBookingInfoContent(state)
           );
         },
       ),

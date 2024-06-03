@@ -1,4 +1,5 @@
 import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoState.dart';
+import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
 import 'package:flutter/foundation.dart';
@@ -39,10 +40,11 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
         markers: Set<Marker>.of(state.markers.values), // Marcadores
         polylines: Set<Polyline>.of(state.polylines.values), // Ruta de origen a destino
         onMapCreated: (GoogleMapController controller) {
-          controller.setMapStyle('JSON');
-      
-          if (!state.controller!.isCompleted) {
-            state.controller?.complete(controller);
+          // controller.setMapStyle('JSON');
+          if (state.controller != null) {
+            if (!state.controller!.isCompleted) {
+              state.controller?.complete(controller);
+            }
           }
         },
       ),
@@ -52,8 +54,12 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
   Widget _cardBookingInfo(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.49,
-      padding: EdgeInsets.only(left: 20, right: 20),
-      decoration: BoxDecoration(
+      padding: EdgeInsets.only(
+        left: 20, 
+        right: 20,
+        bottom: MediaQuery.of(context).padding.bottom
+      ),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
@@ -133,67 +139,23 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
             leading: Icon(Icons.money),
           ),
 
-          // CustomTextField(
-          //   margin: EdgeInsets.only(left: 15, right: 15),
-          //   inputType: TextInputType.text,
-          //   text: 'Ofrecer', 
-          //   icon: Icons.attach_money, 
-          //   keyboardType: TextInputType.phone,
-          //   onChanged: (text) {
-          //     context.read<ClientMapBookingInfoBloc>().add(FareOfferedChanged(fareOffered: BlocFormItem(value: text)));
-          //   },
-          //   validator: (value) {
-          //     return state.fareOffered.error;
-          //   },
-          // ),
-
-          _actionProfile(
-            'Reservar',
-            Icons.search,
-            () {
-              // context.read<PassengerMapBookingInfoBloc>().add(CreatePassengerRequest());
-            }
-          )
+          // Botón para confirmar los datos del viaje y crear el viaje.
+          Spacer(),
+          CustomButton(
+            text: 'Confirmar viaje',
+            onPressed: () {
+              // Cambio de pantalla y creación del Viaje
+            },
+            margin: const EdgeInsets.only(
+              right: 40,
+              left: 40,
+              bottom: 20
+            ),
+          ),
         ],
       )
     );
   }
 
-  Widget _actionProfile(String option, IconData icon, Function() function) {
-    return GestureDetector(
-      onTap: () {
-        function();
-      },
-      child: Container(
-        margin: EdgeInsets.only(left: 10, right: 0, top: 15),
-        child: ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(
-            option,
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          leading: Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color.fromARGB(255, 19, 58, 213),
-                  Color.fromARGB(255, 65, 173, 255),
-                ]
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(50))
-            ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+
 }

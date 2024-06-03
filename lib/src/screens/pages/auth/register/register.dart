@@ -36,8 +36,8 @@ class _RegisterPageState extends State<RegisterPage> {
             Fluttertoast.showToast(msg: 'Registro exitoso', toastLength: Toast.LENGTH_LONG); 
             print('Success Data: ${response.data}');
 
-            // Form Reload
-            context.read<RegisterBloc>().add(FormReset());
+            // Form Reload DESCOMENTAR
+            // context.read<RegisterBloc>().add(FormReset());
           }
         },
         child: BlocBuilder<RegisterBloc, RegisterState>(

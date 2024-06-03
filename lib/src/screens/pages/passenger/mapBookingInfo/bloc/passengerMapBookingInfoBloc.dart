@@ -34,8 +34,8 @@ class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, Pas
 
       // Defino los Markers aca para que primero se inicialicen las posiciones
       // Trayendo las imagenes de los marker que coloco en el mapa al trazar la ruta
-      BitmapDescriptor pickUpMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-maker-green.png');
-      BitmapDescriptor destinationMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-maker-green.png');
+      BitmapDescriptor pickUpMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-green-small.png');
+      BitmapDescriptor destinationMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-green-small.png');
 
       // Actualizando estado de los marcadores
       Marker markerPickUp = geolocationUseCases.getMarker.run(

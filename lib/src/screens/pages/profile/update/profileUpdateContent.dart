@@ -90,23 +90,20 @@ class ProfileUpdateContent extends StatelessWidget {
           children: [
             _imageUser(context),
             Text(
-              // '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',  DESCOMENTAR
-              'Nombre de Usuario',
+              '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16
               ),
             ),
             Text(
-              // user?.email ?? 'correo@correo.com',  DESCOMENTAR
-              'correo@correo.com',
+              user?.email ?? 'correo@correo.com',
               style: TextStyle(
                 color: Colors.grey[700]
               ),
             ),
             Text(
-              // user?.phone ?? '3511111111',  DESCOMENTAR
-              '3511111111',
+              user?.phone?.toString() ?? '3511111111',
               style: TextStyle(
                 color: Colors.grey[700]
               ),
@@ -155,13 +152,13 @@ class ProfileUpdateContent extends StatelessWidget {
                 ),
                 CustomTextField(
                   onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(UserIdChanged(userIdInput: BlocFormItem(value: text)));
+                    context.read<ProfileUpdateBloc>().add(StudentFileChanged(studentFileInput: BlocFormItem(value: text)));
                   },
                   validator: (value) {
-                    return state.userId.error;
+                    return state.studentFile.error;
                   },
                   text: 'Legajo', 
-                  initialValue: user?.userId,
+                  initialValue: user?.studentFile,
                   inputType: TextInputType.text
                 ),
                 CustomTextField(
@@ -172,8 +169,8 @@ class ProfileUpdateContent extends StatelessWidget {
                     return state.dni.error;
                   },
                   text: 'DNI', 
-                  initialValue: user?.dni,
-                  inputType: TextInputType.text
+                  initialValue: user?.dni.toString(),
+                  inputType: TextInputType.number
                 ),
                 CustomTextField(
                   onChanged: (text) {
@@ -183,8 +180,8 @@ class ProfileUpdateContent extends StatelessWidget {
                     return state.phone.error;
                   },
                   text: 'Teléfono', 
-                  initialValue: user?.phone,
-                  inputType: TextInputType.text
+                  initialValue: user?.phone?.toString(),
+                  inputType: TextInputType.number
                 ),
                 CustomTextField(
                   onChanged: (text) {

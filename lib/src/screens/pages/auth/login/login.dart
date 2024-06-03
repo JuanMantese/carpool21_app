@@ -37,7 +37,12 @@ class _LoginPageState extends State<LoginPage> {
             final authResponse = response.data as AuthResponse;
             context.read<LoginBloc>().add(SaveUserSession(authResponse: authResponse));
 
-            Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+            if (authResponse.user.roles!.length > 1) {
+              Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+            }
+            else {
+              Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+            }
 
             Fluttertoast.showToast(msg: 'Login exitoso', toastLength: Toast.LENGTH_LONG); 
             print('Success Data: ${response.data}');

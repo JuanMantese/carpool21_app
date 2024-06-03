@@ -19,12 +19,20 @@ class ChangeMapCameraPosition extends PassengerMapFinderEvent {
 }
 
 // Obteniendo ubicacion del marker en el mapa al mover la camara
-class OnCameraMove extends PassengerMapFinderEvent {
-  CameraPosition cameraPosition;
-  OnCameraMove({required this.cameraPosition});
-}
+// class OnCameraMove extends PassengerMapFinderEvent {
+//   CameraPosition cameraPosition;
+//   OnCameraMove({required this.cameraPosition});
+// }
 
-class OnCameraIdle extends PassengerMapFinderEvent {}
+// class OnCameraIdle extends PassengerMapFinderEvent {}
+
+// Seteando el lugar de origen o destino de acuerdo a lo elegido en el modal
+class SelectPredefinedLocation extends PassengerMapFinderEvent {
+  final LatLng location;
+  final String locationType; // 'pickup' or 'destination'
+
+  SelectPredefinedLocation({required this.location, required this.locationType});
+}
 
 // El evento se dispara cuando el usuario elije un lugar de Origen
 class OnAutoCompletedPickUpSelected extends PassengerMapFinderEvent {
@@ -41,6 +49,15 @@ class OnAutoCompletedDestinationSelected extends PassengerMapFinderEvent {
   String destinationText;
   OnAutoCompletedDestinationSelected({required this.lat, required this.lng, required this.destinationText});
 }
+
+// class AddPolyline extends PassengerMapFinderEvent {}
+
+class DrawPolyline extends PassengerMapFinderEvent {}
+
+// Reseteando los valores al salir del Mapa
+class ClearPickUpLocation extends PassengerMapFinderEvent {}
+class ClearDestinationLocation extends PassengerMapFinderEvent {}
+class PassengerMapFinderResetEvent extends PassengerMapFinderEvent {}
 
 // class ListenDriversPositionSocketIO extends PassengerMapFinderEvent {}
 // class ListenDriversDisconnectedSocketIO extends PassengerMapFinderEvent {}

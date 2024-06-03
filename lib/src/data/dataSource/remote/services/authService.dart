@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:carpool_21_app/src/data/api/apiConfig.dart';
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';

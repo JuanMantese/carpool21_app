@@ -18,13 +18,14 @@ class CustomButton extends StatelessWidget {
     this.color = const Color(0xFF00A98F),
     this.textColor = Colors.white,
     // this.icon = Icons.visibility,
-    this.margin = const EdgeInsets.only(top: 30, bottom: 30, right: 15, left: 15),
-    this.padding = const EdgeInsets.only(top: 30, bottom: 30, right: 15, left: 15),
+    this.margin = const EdgeInsets.all(0),
+    this.padding = const EdgeInsets.all(0),
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       child: ElevatedButton(
         onPressed: () {
           onPressed();
@@ -37,7 +38,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Ingresar',
+          text,
           style: TextStyle(
             color: textColor,
             fontSize: 18,

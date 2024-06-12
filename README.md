@@ -1,7 +1,7 @@
 # Carpool 21 - App
 
 <p align="center">
-  <img alt="carpool_logo" src="./lib/assets/img/carpool_logo.jpeg" width="150" />
+  <img alt="carpool_logo" src="./lib/assets/img/logo-carpool21.png" width="150" />
 </p>
 
 A new Flutter Application for students at Universidad Empresarial Siglo 21.
@@ -14,14 +14,14 @@ Developed by:
     DNI: 43272208
   - Franco Jara
     
-    Legajo: SOF
+    Legajo: SOF01681
 
-    DNI:
+    DNI: 36617205
   - Franco Apostoli
     
-    Legajo: SOF
+    Legajo: SOF01654
     
-    DNI:
+    DNI: 44762769
 
 ## Getting Started
 

@@ -49,5 +49,9 @@
 	<string>Esta aplicación requiere acceso a la galería de fotos</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Esta aplicación requiere acceso a la cámara</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>La aplicación necesita acceso a tu ubicación mientras la estás utilizando.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>La aplicación necesita acceso a tu ubicación en todo momento.</string>
 </dict>
 </plist>

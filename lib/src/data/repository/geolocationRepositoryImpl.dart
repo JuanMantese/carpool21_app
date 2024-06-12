@@ -99,16 +99,54 @@ class GeolocationRepositoryImpl implements GeolocationRepository {
       return null;
     }
   }
+
+  // Tomando ubicacion del conductor en el mapa
+  @override
+  Future<PlacemarkData?> getLocationData(LatLng location) async {
+    try {
+      double lat = location.latitude;
+      double lng = location.longitude;
+
+      List<Placemark> placemarkList = await placemarkFromCoordinates(lat, lng);
+      
+      if (placemarkList != null) {
+        if (placemarkList.length > 0) {
+          // Obtenemos los datos
+          String direction = placemarkList[0].thoroughfare!; 
+          String street = placemarkList[0].subThoroughfare!;
+          String city = placemarkList[0].locality!;
+          String department = placemarkList[0].administrativeArea!;
+          
+          // Armado de la ubicación
+          PlacemarkData placemarkData = PlacemarkData(
+            address: '$direction, $street, $city, $department', 
+            lat: lat, 
+            lng: lng
+          );
+          return placemarkData;
+        }
+      }
+    } catch (e) {
+      print('Error Geolocation Repository Impl: $e');
+      return null;
+    }
+  }
   
   // Trazando la ruta desde el punto de origen al punto destino
   @override
   Future<List<LatLng>> getPolyline(LatLng pickUpLatLng, LatLng destinationLatLng) async {
+    print('Polyline Creation');
+    print(pickUpLatLng.latitude);
+    print(pickUpLatLng.longitude);
+    print(destinationLatLng.latitude);
+    print(destinationLatLng.longitude);
+
+
     PolylineResult result = await PolylinePoints().getRouteBetweenCoordinates(
       API_KEY_GOOGLE,
       PointLatLng(pickUpLatLng.latitude, pickUpLatLng.longitude),
       PointLatLng(destinationLatLng.latitude, destinationLatLng.longitude),
       travelMode: TravelMode.driving,
-      wayPoints: [PolylineWayPoint(location: "Córdoba, Argentina")]
     );
 
     List<LatLng> polylineCoordinates = [];
@@ -120,13 +158,14 @@ class GeolocationRepositoryImpl implements GeolocationRepository {
     return polylineCoordinates;
   }
   
-  // @override
-  // Stream<Position> getPositionStream() {
-  //   LocationSettings locationSettings = LocationSettings(
-  //     accuracy: LocationAccuracy.best,
-  //     distanceFilter: 1
-  //   );
-  //   return Geolocator.getPositionStream(locationSettings: locationSettings);
-  // }
+  // Actualiza la posicion del conductor en tiempo real
+  @override
+  Stream<Position> getPositionStream() {
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.best, // Como queremos que sea el seguimiento - best: Equilibrio entre seguimiento y uso de bateria
+      distanceFilter: 1
+    );
+    return Geolocator.getPositionStream(locationSettings: locationSettings);
+  }
 
 }

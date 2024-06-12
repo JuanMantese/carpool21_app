@@ -18,9 +18,9 @@ class LastNameChanged extends RegisterInitEvent {
 }
 
 // Input UserId Event
-class UserIdChanged extends RegisterInitEvent {
-  final BlocFormItem userIdInput;
-  UserIdChanged({ required this.userIdInput }); 
+class StudentFileInputChanged extends RegisterInitEvent {
+  final BlocFormItem studentFileInput;
+  StudentFileInputChanged({ required this.studentFileInput }); 
 }
 
 // Input DNI Event

@@ -1,4 +1,5 @@
 import 'package:carpool_21_app/src/domain/models/user.dart';
+import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,6 +12,8 @@ class ProfileInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('User');
+    print(user);
     return Stack(
       children: [
         Column(
@@ -25,6 +28,12 @@ class ProfileInfoContent extends StatelessWidget {
           ],
         ),
         _cardUserInfo(context),
+        CustomIconBack(
+          margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
       ],
     );
   }
@@ -99,24 +108,21 @@ class ProfileInfoContent extends StatelessWidget {
                 // ),
               // ),
             ),
-            const Text(
-              // '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',  DESCOMENTAR
-              'Nombre de Usuario',
-              style: TextStyle(
+            Text(
+              '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16
               ),
             ),
             Text(
-              // user?.email ?? 'correo@correo.com',  DESCOMENTAR
-              'correo@correo.com',
+              user?.email ?? 'correo@correo.com',
               style: TextStyle(
                 color: Colors.grey[700]
               ),
             ),
             Text(
-              // user?.phone ?? '3511111111',   DESCOMENTAR
-              '3511111111',
+              user?.phone.toString() ?? '3510000000',
               style: TextStyle(
                 color: Colors.grey[700]
               ),

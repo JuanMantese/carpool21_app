@@ -5,6 +5,7 @@ class CustomTextField extends StatelessWidget {
 
   Function(String text) onChanged;
   String? Function(String?)? validator;
+  int? maxLength;
   String text;
   String? initialValue;
   TextInputType inputType;
@@ -15,6 +16,7 @@ class CustomTextField extends StatelessWidget {
     super.key, 
     required this.onChanged,
     this.validator,
+    this.maxLength,
     required this.text,
     this.initialValue,
     required this.inputType,
@@ -31,6 +33,7 @@ class CustomTextField extends StatelessWidget {
         },
         validator: validator,
         initialValue: initialValue,
+        maxLength: maxLength,
         decoration: InputDecoration(
           labelText: text,
           labelStyle: const TextStyle(color: Color(0xFF006D59)),
@@ -41,6 +44,7 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             borderSide: const BorderSide(color: Color(0xFF006D59)),
           ),
+          counterText: "", // buildCounter to hide the counter maxLength
         ),
         keyboardType: inputType,
       ),

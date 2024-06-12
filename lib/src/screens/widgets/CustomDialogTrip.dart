@@ -1,5 +1,5 @@
-import 'package:carpool_21_app/src/screens/pages/passenger/mapFinder/bloc/passengerMapFinderBloc.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/mapFinder/bloc/passengerMapFinderEvent.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -55,13 +55,11 @@ class CustomDialogTrip extends StatelessWidget {
           alignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              // onPressed: () {
-              //   Navigator.pop(context);
-              // },
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.441722, -64.195714), // Coordenadas del Campus Universitario
+                  LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
                   'destination',
                 );
               },
@@ -82,7 +80,12 @@ class CustomDialogTrip extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                _setPredefinedLocation(
+                  context,
+                  LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
+                  'destination',
+                );
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF00A98F)),
@@ -101,7 +104,12 @@ class CustomDialogTrip extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                _setPredefinedLocation(
+                  context,
+                  LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
+                  'pickUp',
+                );
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF00A98F)),
@@ -120,7 +128,12 @@ class CustomDialogTrip extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                _setPredefinedLocation(
+                  context,
+                  LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
+                  'pickUp',
+                );
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF00A98F)),
@@ -167,11 +180,17 @@ class CustomDialogTrip extends StatelessWidget {
     );
   }
 
-  void _setPredefinedLocation(BuildContext context, LatLng location, String locationType) {
+  void _setPredefinedLocation(BuildContext context, LatLng location, String address, String locationType) {
     Navigator.pop(context); // Cerrar el diálogo
-    Navigator.pushNamed(context, '/passenger/finder'); // Navegar al mapa
+    Navigator.pushNamed(context, '/driver/finder'); // Navegar al mapa
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PassengerMapFinderBloc>().add(SelectPredefinedLocation(location: location, locationType: locationType));
+      context.read<DriverMapFinderBloc>().add(
+        SelectPredefinedLocation(
+          location: location, 
+          address: address,
+          locationType: locationType
+        )
+      );
     });
   }
 }

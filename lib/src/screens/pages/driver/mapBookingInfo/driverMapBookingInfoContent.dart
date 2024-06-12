@@ -1,17 +1,17 @@
-import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoState.dart';
+import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
-import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // PANTALLA DONDE EL PASAJERO VA A VER EL RECORRIDO QUE HACE EL VIAJE QUE ESTA CONSULTANDO
-class PassengerMapBookingInfoContent extends StatelessWidget {
+class DriverMapBookingInfoContent extends StatelessWidget {
   
-  PassengerMapBookingInfoState state;
-  
-  PassengerMapBookingInfoContent(this.state ,{super.key});
+  DriverMapBookingInfoState state;
+  TimeAndDistanceValues timeAndDistanceValues;
+
+  DriverMapBookingInfoContent(this.state, this.timeAndDistanceValues, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,12 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
           child: _cardBookingInfo(context),
         ),
         Container(
-          margin: EdgeInsets.only(top: 50, left: 20),
-          child: CustomIconBack()
+          margin: const EdgeInsets.only(top: 50, left: 20),
+          child: CustomIconBack(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
         )
       ],
     );
@@ -76,7 +80,7 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            title: Text(
+            title: const Text(
               'Recoger en',
               style: TextStyle(
                 fontSize: 15
@@ -84,15 +88,15 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
             ),
             subtitle: Text(
               state.pickUpText,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13
               ),
             ),
-            leading: Icon(Icons.location_on),
+            leading: const Icon(Icons.location_on),
           ),
 
           ListTile(
-            title: Text(
+            title: const Text(
               'Dejar en',
               style: TextStyle(
                 fontSize: 15
@@ -100,51 +104,60 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
             ),
             subtitle: Text(
               state.destinationText,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13
               ),
             ),
-            leading: Icon(Icons.my_location),
+            leading: const Icon(Icons.my_location),
           ),
 
           ListTile(
-            title: Text(
+            title: const Text(
               'Tiempo y distancia aproximados',
               style: TextStyle(
                 fontSize: 15
               ),
             ),
-            // subtitle: Text(
-            //   '${timeAndDistanceValues.distance.text} y ${timeAndDistanceValues.duration.text}',
-            //   style: TextStyle(
-            //     fontSize: 13
-            //   ),
-            // ),
-            leading: Icon(Icons.timer),
+            subtitle: Text(
+              '${timeAndDistanceValues.distance.text} y ${timeAndDistanceValues.duration.text}',
+              style: const TextStyle(
+                fontSize: 13
+              ),
+            ),
+            leading: const Icon(Icons.timer),
           ),
 
           ListTile(
-            title: Text(
+            title: const Text(
               'Precio',
               style: TextStyle(
                 fontSize: 15
               ),
             ),
-            // subtitle: Text(
-            //   '\$${timeAndDistanceValues.recommendedValue}',
-            //   style: TextStyle(
-            //     fontSize: 13
-            //   ),
-            // ),
-            leading: Icon(Icons.money),
+            subtitle: Text(
+              '\$${timeAndDistanceValues.tripPrice}',
+              style: const TextStyle(
+                fontSize: 13
+              ),
+            ),
+            leading: const Icon(Icons.money),
           ),
 
           // Botón para confirmar los datos del viaje y crear el viaje.
-          Spacer(),
+          const Spacer(),
           CustomButton(
             text: 'Confirmar viaje',
             onPressed: () {
-              // Cambio de pantalla y creación del Viaje
+              Navigator.pushNamed(context, '/driver/createTrip',
+                arguments: {
+                  'pickUpLatLng': state.pickUpLatLng,
+                  'pickUpText': state.pickUpText,
+                  'destinationLatLng': state.destinationLatLng,
+                  'destinationText': state.destinationText,
+                  'timeAndDistanceValues': timeAndDistanceValues,
+                  'state': state,
+                }
+              );
             },
             margin: const EdgeInsets.only(
               right: 40,
@@ -156,6 +169,4 @@ class PassengerMapBookingInfoContent extends StatelessWidget {
       )
     );
   }
-
-
 }

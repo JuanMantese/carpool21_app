@@ -72,7 +72,7 @@ class LoginContentState extends State<LoginContent> {
                 children: [
                   const SizedBox(height: 100.0),
                   const Text(
-                    'Inisiar Sesión',
+                    'Iniciar Sesión',
                     style: TextStyle(
                       fontFamily: "Montserrat",
                       fontSize: 28,

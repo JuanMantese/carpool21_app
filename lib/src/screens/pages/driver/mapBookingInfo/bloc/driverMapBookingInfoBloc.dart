@@ -1,25 +1,28 @@
 import 'dart:async';
+import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoEvent.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/mapBookingInfo/bloc/passengerMapBookingInfoState.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoEvent.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
-class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, PassengerMapBookingInfoState> {
+class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMapBookingInfoState> {
 
   GeolocationUseCases geolocationUseCases;
-  // PassengerRequestsUseCases passengerRequestsUseCases;
+  DriverTripRequestsUseCases driverTripRequestsUseCases;
   // AuthUseCases authUseCases;
   // BlocSocketIO blocSocketIO;
   
 
   // DESCOMENTAR
-  // PassengerMapBookingInfoBloc(this.blocSocketIO, this.geolocationUseCases, this.passengerRequestsUseCases, this.authUseCases): super(PassengerMapBookingInfoState()) {
-  PassengerMapBookingInfoBloc(this.geolocationUseCases): super(PassengerMapBookingInfoState()) {
+  // DriverMapBookingInfoBloc(this.blocSocketIO, this.geolocationUseCases, this.DriverRequestsUseCases, this.authUseCases): super(DriverMapBookingInfoState()) {
+  DriverMapBookingInfoBloc(this.geolocationUseCases, this.driverTripRequestsUseCases): super(DriverMapBookingInfoState()) {
   
-    on<PassengerMapBookingInfoInitEvent>((event, emit) async {
+    on<DriverMapBookingInfoInitEvent>((event, emit) async {
       Completer<GoogleMapController> controller = Completer<GoogleMapController>();
 
       emit(
@@ -34,12 +37,12 @@ class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, Pas
 
       // Defino los Markers aca para que primero se inicialicen las posiciones
       // Trayendo las imagenes de los marker que coloco en el mapa al trazar la ruta
-      BitmapDescriptor pickUpMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-green-small.png');
+      BitmapDescriptor pickUpMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-small.png');
       BitmapDescriptor destinationMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-green-small.png');
 
       // Actualizando estado de los marcadores
       Marker markerPickUp = geolocationUseCases.getMarker.run(
-        'MyLocation',
+        'originLocation',
         state.pickUpLatLng!.latitude,
         state.pickUpLatLng!.longitude,
         'Lugar de Origen',
@@ -48,7 +51,7 @@ class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, Pas
       );
 
       Marker markerDestination = geolocationUseCases.getMarker.run(
-        'MyLocation',
+        'destinationLocation',
         state.destinationLatLng!.latitude,
         state.destinationLatLng!.longitude,
         'Lugar de Destino',
@@ -66,16 +69,24 @@ class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, Pas
       );
     });
 
+    // Ajustando la posicion de la camara en el mapa segun la ruta elegida
     on<ChangeMapCameraPosition>((event, emit) async {
-      GoogleMapController googleMapController = await state.controller!.future;
-      await googleMapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(event.lat, event.lng),
-          zoom: 12,
-          bearing: 0
-        )
-      ));
-    });
+      print('Entramos a ChangeMapCameraPosition');
+      print(event.pickUpLatLng);
+      print(event.destinationLatLng);
+
+      try {
+        GoogleMapController googleMapController = await state.controller!.future;
+
+        // Calcula los límites usando pickUpLatLng y destinationLatLng
+        LatLngBounds bounds = calculateBounds(event.pickUpLatLng, event.destinationLatLng);
+
+        await googleMapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 100));
+        print('Posicionamiento completado');
+      } catch (e) {
+        print('ERROR EN ChangeMapCameraPosition: $e');
+      }
+    });  
 
     // Agregando la ruta al mapa
     on<AddPolyline>((event, emit) async {
@@ -94,6 +105,26 @@ class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, Pas
           polylines: {
             id: polyline
           }
+        )
+      );
+    });
+
+    // Trayendo los datos: Teimpo estimado del trayecto y Distancia del punto de origen al punto de destino
+    on<GetTimeAndDistanceValues>((event, emit) async {
+      emit(
+        state.copyWith(
+          responseTimeAndDistance: Loading()
+        )
+      );
+      Resource<TimeAndDistanceValues> response = await driverTripRequestsUseCases.getTimeAndDistance.run(
+        state.pickUpLatLng!.latitude,
+        state.pickUpLatLng!.longitude,
+        state.destinationLatLng!.latitude,
+        state.destinationLatLng!.longitude,
+      );
+      emit(
+        state.copyWith(
+          responseTimeAndDistance: response
         )
       );
     });
@@ -137,25 +168,26 @@ class PassengerMapBookingInfoBloc extends Bloc<PassengerMapBookingInfoEvent, Pas
     //     });
     //   }
     // });
+  }
 
-    // on<GetTimeAndDistanceValues>((event, emit) async {
-    //   emit(
-    //     state.copyWith(
-    //       responseTimeAndDistance: Loading()
-    //     )
-    //   );
-    //   Resource<TimeAndDistanceValues> response = await clientRequestsUseCases.getTimeAndDistance.run(
-    //     state.pickUpLatLng!.latitude,
-    //     state.pickUpLatLng!.longitude,
-    //     state.destinationLatLng!.latitude,
-    //     state.destinationLatLng!.longitude,
-    //   );
-    //   emit(
-    //     state.copyWith(
-    //       responseTimeAndDistance: response
-    //     )
-    //   );
-    // });
+  // Funcion para calcular los limites de la ruta, y poder realizar el movimiento de la camara
+  LatLngBounds calculateBounds(LatLng pickUp, LatLng destination) {
+    LatLngBounds bounds;
 
+    if (pickUp.latitude > destination.latitude && pickUp.longitude > destination.longitude) {
+      bounds = LatLngBounds(southwest: destination, northeast: pickUp);
+    } else if (pickUp.longitude > destination.longitude) {
+      bounds = LatLngBounds(
+        southwest: LatLng(pickUp.latitude, destination.longitude),
+        northeast: LatLng(destination.latitude, pickUp.longitude));
+    } else if (pickUp.latitude > destination.latitude) {
+      bounds = LatLngBounds(
+        southwest: LatLng(destination.latitude, pickUp.longitude),
+        northeast: LatLng(pickUp.latitude, destination.longitude));
+    } else {
+      bounds = LatLngBounds(southwest: pickUp, northeast: destination);
+    }
+
+    return bounds;
   }
 }

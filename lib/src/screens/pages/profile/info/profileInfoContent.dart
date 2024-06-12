@@ -30,6 +30,9 @@ class ProfileInfoContent extends StatelessWidget {
         _cardUserInfo(context),
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         )
       ],
     );
@@ -107,7 +110,7 @@ class ProfileInfoContent extends StatelessWidget {
             ),
             Text(
               '${user?.name} ${user?.lastName}' ?? 'Nombre de Usuario',
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16
               ),

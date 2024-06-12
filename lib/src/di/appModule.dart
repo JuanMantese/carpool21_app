@@ -1,14 +1,22 @@
 
+import 'package:carpool_21_app/src/data/api/apiConfig.dart';
 import 'package:carpool_21_app/src/data/dataSource/local/sharedPref.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/authService.dart';
+import 'package:carpool_21_app/src/data/dataSource/remote/services/driverTripRequestsService.dart';
+import 'package:carpool_21_app/src/data/dataSource/remote/services/driversPositionService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
 import 'package:carpool_21_app/src/data/repository/authRepositoryImpl.dart';
+import 'package:carpool_21_app/src/data/repository/driverPositionRepositoryImpl.dart';
+import 'package:carpool_21_app/src/data/repository/driverTripRequestsRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/geolocationRepositoryImpl.dart';
+import 'package:carpool_21_app/src/data/repository/socketRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/usersRepositoryImpl.dart';
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
-import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/repository/authRepository.dart';
+import 'package:carpool_21_app/src/domain/repository/driverPositionRepository.dart';
+import 'package:carpool_21_app/src/domain/repository/driverTripRequestsRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/geolocationRepository.dart';
+import 'package:carpool_21_app/src/domain/repository/socketRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/usersRepository.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/getUserSessionUseCases.dart';
@@ -16,15 +24,27 @@ import 'package:carpool_21_app/src/domain/useCases/auth/loginUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/logoutUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/registerUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/saveUserSessionUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTimeAndDistanceUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/drivers-position/createDriverPositionUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/drivers-position/deleteDriverPositionUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/drivers-position/driversPositionUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/drivers-position/getDriverPositionUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/createMarkerUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/findPositionUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/geolocation/getLocationDataUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getMarkerUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPlacemarkDataUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPolylineUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/geolocation/getPositionStreamUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/socket/connectSocketUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/socket/disconnectSocketUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/socket/socketUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/updateUserUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/userUseCases.dart';
 import 'package:injectable/injectable.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 
 // Here I place all the dependencies that I am going to use in the project
@@ -46,8 +66,27 @@ abstract class AppModule {
   }
 
   @injectable
-  AuthService get authService => AuthService(); // Remote Storage
+  AuthService get authService => AuthService(); // Auth Service - Remote Storage
 
+  @injectable
+  UsersService get usersService => UsersService(token); // User Service - Remote Storage
+
+  @injectable
+  DriversPositionService get driversPositionService => DriversPositionService(); // Drivers Position Service - Remote Storage
+
+  @injectable
+  DriverTripRequestsService get driverTripRequestsService => DriverTripRequestsService(); // Drivers Trip Requests Service - Remote Storage
+
+  // Socket IO - Inicializando Socket IO
+  Socket get socket => io('http://${ApiConfig.API_CARPOOL21}', 
+    OptionBuilder()
+      .setTransports(['websocket']) // for Flutter or Dart VM
+      .disableAutoConnect()  // disable auto-connection
+      .build()
+  );
+
+
+  // Auth Repository
   @injectable
   AuthRepository get authRepository => AuthRepositoryImpl(authService, sharedPref);
 
@@ -61,9 +100,7 @@ abstract class AppModule {
   );
 
 
-  @injectable
-  UsersService get usersService => UsersService(token); // Service User
-
+  // User Repository
   @injectable
   UsersRepository get usersRepository => UsersRepositoryImpl(usersService);
 
@@ -71,6 +108,7 @@ abstract class AppModule {
   UserUseCases get userUseCases => UserUseCases(
     update: UpdateUserUseCase(usersRepository),
   );
+
 
   // Geolocation Repository
   @injectable
@@ -81,8 +119,40 @@ abstract class AppModule {
     findPosition: FindPositionUseCase(geolocationRepository),
     createMarker: CreateMarkerUseCase(geolocationRepository),
     getMarker: GetMarkerUseCase(geolocationRepository),
+    getLocationData: GetLocationDataUseCase(geolocationRepository),
     getPlacemarkData: GetPlacemarkDataUseCase(geolocationRepository),
     getPolyline: GetPolylineUseCase(geolocationRepository),
+    getPositionStream: GetPositionStreamUseCase(geolocationRepository),
+  );
 
+
+  // Drivers Position Repository
+  @injectable
+  DriverPositionRepository get driverPositionRepository => DriversPositionRepositoryImpl(driversPositionService);
+ 
+  @injectable
+  DriversPositionUseCases get driversPositionUseCases => DriversPositionUseCases(
+    createDriverPosition: CreateDriverPositionUseCase(driverPositionRepository),
+    deleteDriverPosition: DeleteDriverPositionUseCase(driverPositionRepository),
+    getDriverPosition: GetDriverPositionUseCase(driverPositionRepository),
+  );
+
+  // Driver Trip Request Repository
+  @injectable
+  DriverTripRequestsRepository get driverTripRequestsRepository => DriverTripRequestsRepositoryImpl(driverTripRequestsService);
+ 
+  @injectable
+  DriverTripRequestsUseCases get driverTripRequestsUseCases => DriverTripRequestsUseCases(
+    getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository)
+  );
+
+  // Socket Repository
+  @injectable
+  SocketRepository get socketRepository => SocketRepositoryImpl(socket);
+  
+  @injectable
+  SocketUseCases get socketUseCases => SocketUseCases(
+    connect: ConnectSocketUseCase(socketRepository),
+    disconnect: DisconnectSocketUseCase(socketRepository),
   );
 }

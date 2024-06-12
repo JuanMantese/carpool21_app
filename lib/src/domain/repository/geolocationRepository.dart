@@ -19,11 +19,15 @@ abstract class GeolocationRepository {
     BitmapDescriptor imageMarker 
   );
   
-  // Tomando ubicacion del marker al mover la camara 
+  // Tomando información del marker (direccion) segun la posición de la camara en el mapa
   Future<PlacemarkData?> getPlacemarkData(CameraPosition cameraPosition);
   
+  // Tomando información del marker (direccion) segun su Latitud y Longitud
+  Future<PlacemarkData?> getLocationData(LatLng location);
+
   // Trazando la ruta desde el punto de origen al punto destino
   Future<List<LatLng>> getPolyline(LatLng pickUpLatLng, LatLng destinationLatLng);
   
-  // Stream<Position> getPositionStream();
+  // Seguimiento del conductor - Actualiza la posicion del conductor en tiempo real
+  Stream<Position> getPositionStream();
 }

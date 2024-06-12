@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomIconBack extends StatelessWidget {
 
+  Function() onPressed;
   Color color;
   EdgeInsetsGeometry? margin;
 
   CustomIconBack({
+    required this.onPressed,
     this.color = Colors.white,
     this.margin
   });
@@ -16,9 +18,7 @@ class CustomIconBack extends StatelessWidget {
       alignment: Alignment.topLeft,
       margin: margin,
       child: IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        }, 
+        onPressed: onPressed,
         icon: Icon(
           Icons.arrow_back_ios,
           size: 30,

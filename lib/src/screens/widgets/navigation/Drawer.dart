@@ -311,6 +311,13 @@ class CustomDrawer extends StatelessWidget {
           },
         ),
         ListTile(
+          title: const Text('MapLocation'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/passenger/location');
+          },
+        ),
+        ListTile(
           title: const Text('Modal'),
           onTap: () {
             CustomDialog(

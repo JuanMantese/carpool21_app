@@ -41,6 +41,9 @@ class ProfileUpdateContent extends StatelessWidget {
                   _formUpdateProfile(context),
                   CustomIconBack(
                     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   )
                 ],
               ),

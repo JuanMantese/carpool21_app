@@ -2,6 +2,9 @@ import 'package:carpool_21_app/blocProviders.dart';
 import 'package:carpool_21_app/injection.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/login/login.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/register/register.dart';
+import 'package:carpool_21_app/src/screens/pages/carInfo/info/carInfo.dart';
+import 'package:carpool_21_app/src/screens/pages/carInfo/register/carRegister.dart';
+import 'package:carpool_21_app/src/screens/pages/carInfo/update/carUpdate.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/createTrip.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/driverHome.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapLocation/driverMapLocation.dart';
@@ -43,12 +46,16 @@ class CarPool21 extends StatelessWidget {
           // '/roles': (context) => const RolesPage(), // ELIMINAR - Por ahora lo utilizo, pero vamos a manejar el cambio de roles desde el Drawer
           '/profile': (context) => const ProfileInfoPage(),
           '/profile/update': (context) => const ProfileUpdatePage(),
+          '/car/info': (context) => const CarInfoPage(),
+          '/car/register': (context) => const CarRegisterPage(),
+          '/car/update': (context) => const CarUpdatePage(),
+          
           '/passenger/home': (context) => const PassengerHomePage(),
           '/driver/home': (context) => const DriverHomePage(),
           '/driver/finder': (context) => const DriverMapFinder(),
           '/driver/map/booking': (context) => const DriverMapBookingInfo(),
           '/driver/createTrip': (context) => const CreateTripPage(),
-          '/passenger/location': (context) => const DriverMapLocation(),
+          '/driver/location': (context) => const DriverMapLocation(),
         },
         // home: const LoginPage()
       ),

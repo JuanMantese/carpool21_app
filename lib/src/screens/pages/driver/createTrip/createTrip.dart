@@ -1,4 +1,5 @@
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripState.dart';
@@ -7,6 +8,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driv
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateTripPage extends StatefulWidget {
   const CreateTripPage({super.key});
@@ -21,7 +23,7 @@ class _CreateTripState extends State<CreateTripPage> {
   late TimeAndDistanceValues timeAndDistanceValues;
   late DriverMapBookingInfoState state;
 
-@override
+  @override
   void initState() {
     super.initState();
 
@@ -34,53 +36,79 @@ class _CreateTripState extends State<CreateTripPage> {
       state = args['state'];
 
       context.read<CreateTripBloc>().add(InitializeTrip(
-        pickUpText: pickUpText,
-        destinationText: destinationText,
-        timeAndDistanceValues: timeAndDistanceValues,
-        state: state,
-      ));
+            pickUpText: pickUpText,
+            pickUpLatLng: state.pickUpLatLng!,
+            destinationText: destinationText,
+            destinationLatLng: state.destinationLatLng!,
+            timeAndDistanceValues: timeAndDistanceValues,
+            state: state,
+          ));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _headerProfile(context),
-          CustomIconBack(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          Container(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 70),
-            padding: const EdgeInsets.all(16.0),
-            child: BlocBuilder<CreateTripBloc, CreateTripState>(
-              builder: (context, state) {
-                return CreateTripContent(
-                  pickUpText: state.pickUpText,
-                  destinationText: state.destinationText,
-                  timeAndDistanceValues: state.timeAndDistanceValues,
-                  state: state.state,
-                  onVehicleChanged: (value) {
-                    context.read<CreateTripBloc>().add(UpdateVehicle(vehicle: value!));
-                  },
-                  onAvailableSeatsChanged: (value) {
-                    context.read<CreateTripBloc>().add(UpdateAvailableSeats(seats: int.parse(value!)));
-                  },
-                  onDepartureTimeChanged: (value) {
-                    context.read<CreateTripBloc>().add(UpdateDepartureTime(time: value));
-                  },
-                  onConfirm: () {
-                    // Implementar la lógica de confirmación del viaje
-                  },
-                );
+      body: BlocListener<CreateTripBloc, CreateTripState>(
+        listener: (context, state) {
+          final responseDriverTripRequest = state.responseDriverTripRequest;
+          
+          if (responseDriverTripRequest is Success) {
+            int idDriverRequest = responseDriverTripRequest.data;
+            
+            // DESCOMENTAR
+            // context.read<CreateTripBloc>().add(EmitNewClientRequestSocketIO(idDriverRequest: idDriverRequest));
+            Navigator.pushNamed(context, '/driver/trip/detail', arguments: idDriverRequest);
+            Fluttertoast.showToast(msg: 'Solicitud enviada', toastLength: Toast.LENGTH_LONG);
+          }
+        },
+        child: Stack(
+          children: [
+            _headerProfile(context),
+            CustomIconBack(
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top + 15, left: 30),
+              onPressed: () {
+                Navigator.pop(context);
               },
             ),
-          ),
-        ],
+            Container(
+              margin:
+                  EdgeInsets.only(top: MediaQuery.of(context).padding.top + 70),
+              padding: const EdgeInsets.all(16.0),
+              child: BlocBuilder<CreateTripBloc, CreateTripState>(
+                builder: (context, state) {
+                  return CreateTripContent(
+                    pickUpText: state.pickUpText,
+                    destinationText: state.destinationText,
+                    timeAndDistanceValues: state.timeAndDistanceValues,
+                    state: state.state,
+                    onVehicleChanged: (value) {
+                      context
+                        .read<CreateTripBloc>()
+                        .add(UpdateVehicle(vehicle: value!));
+                    },
+                    onAvailableSeatsChanged: (value) {
+                      context
+                        .read<CreateTripBloc>()
+                        .add(UpdateAvailableSeats(seats: int.parse(value!)));
+                    },
+                    onDepartureTimeChanged: (value) {
+                      context
+                        .read<CreateTripBloc>()
+                        .add(UpdateDepartureTime(time: value));
+                    },
+                    onConfirm: () {
+                      context
+                        .read<CreateTripBloc>()
+                        .add(CreateTripRequest());
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -103,17 +131,14 @@ class _CreateTripState extends State<CreateTripPage> {
             end: Alignment.bottomLeft,
           ),
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30), 
-            bottomRight: Radius.circular(30), 
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
           ),
         ),
         child: const Text(
           'REGISTRAR VIAJE',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 19
-          ),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:carpool_21_app/src/data/api/apiConfig.dart';
+import 'package:carpool_21_app/src/domain/models/driverTripRequest.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/domain/utils/listToString.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
@@ -34,6 +35,25 @@ class DriverTripRequestsService {
     }
   }
 
+  // Creacion de un viaje
+  Future<Resource<int>> create(DriverTripRequest driverTripRequest) async {
+    try {
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/driver-trip-requests');
+      Map<String, String> headers = { 'Content-Type': 'application/json' };
+      String body = json.encode(driverTripRequest);
 
-
+      final response = await http.post(url, headers: headers, body: body);
+      final data = json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Success(data);
+      }
+      else {
+        return ErrorData(listToString(data['message']));
+      }
+      
+    } catch (e) {
+      print('Error: $e');
+      return ErrorData(e.toString());
+    }
+  }
 }

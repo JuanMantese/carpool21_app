@@ -1,6 +1,7 @@
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
 import 'package:equatable/equatable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class CreateTripEvent extends Equatable {
   @override
@@ -9,19 +10,23 @@ abstract class CreateTripEvent extends Equatable {
 
 class InitializeTrip extends CreateTripEvent {
   final String pickUpText;
+  late LatLng pickUpLatLng;
   final String destinationText;
+  late LatLng destinationLatLng;
   final TimeAndDistanceValues timeAndDistanceValues;
   final DriverMapBookingInfoState state;
 
   InitializeTrip({
     required this.pickUpText,
+    required this.pickUpLatLng,
     required this.destinationText,
+    required this.destinationLatLng,
     required this.timeAndDistanceValues,
     required this.state,
   });
 
   @override
-  List<Object?> get props => [pickUpText, destinationText, timeAndDistanceValues, state];
+  List<Object?> get props => [pickUpText, pickUpLatLng, destinationText, destinationLatLng, timeAndDistanceValues, state];
 }
 
 class UpdateVehicle extends CreateTripEvent {
@@ -50,3 +55,5 @@ class UpdateDepartureTime extends CreateTripEvent {
   @override
   List<Object?> get props => [time];
 }
+
+class CreateTripRequest extends CreateTripEvent {}

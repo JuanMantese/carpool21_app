@@ -2,20 +2,26 @@
 import 'package:carpool_21_app/src/data/api/apiConfig.dart';
 import 'package:carpool_21_app/src/data/dataSource/local/sharedPref.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/authService.dart';
+import 'package:carpool_21_app/src/data/dataSource/remote/services/carInfoService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/driverTripRequestsService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/driversPositionService.dart';
+import 'package:carpool_21_app/src/data/dataSource/remote/services/reserveService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
 import 'package:carpool_21_app/src/data/repository/authRepositoryImpl.dart';
+import 'package:carpool_21_app/src/data/repository/carInfoRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/driverPositionRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/driverTripRequestsRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/geolocationRepositoryImpl.dart';
+import 'package:carpool_21_app/src/data/repository/reserveRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/socketRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/usersRepositoryImpl.dart';
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/repository/authRepository.dart';
+import 'package:carpool_21_app/src/domain/repository/carInfoRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/driverPositionRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/driverTripRequestsRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/geolocationRepository.dart';
+import 'package:carpool_21_app/src/domain/repository/reserveRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/socketRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/usersRepository.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
@@ -24,6 +30,11 @@ import 'package:carpool_21_app/src/domain/useCases/auth/loginUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/logoutUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/registerUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/saveUserSessionUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/createCarInfoUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/getCarInfoUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/updateCarInfoUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/createTripRequestUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTimeAndDistanceUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/createDriverPositionUseCase.dart';
@@ -38,6 +49,8 @@ import 'package:carpool_21_app/src/domain/useCases/geolocation/getMarkerUseCase.
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPlacemarkDataUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPolylineUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPositionStreamUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/createReserveUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/connectSocketUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/disconnectSocketUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/socketUseCases.dart';
@@ -72,10 +85,16 @@ abstract class AppModule {
   UsersService get usersService => UsersService(token); // User Service - Remote Storage
 
   @injectable
+  CarInfoService get carInfoService => CarInfoService(token); // Car Info Service - Remote Storage
+
+  @injectable
   DriversPositionService get driversPositionService => DriversPositionService(); // Drivers Position Service - Remote Storage
 
   @injectable
   DriverTripRequestsService get driverTripRequestsService => DriverTripRequestsService(); // Drivers Trip Requests Service - Remote Storage
+
+  @injectable
+  ReserveService get reserveService => ReserveService(); // Reserve Service - Remote Storage
 
   // Socket IO - Inicializando Socket IO
   Socket get socket => io('http://${ApiConfig.API_CARPOOL21}', 
@@ -126,6 +145,18 @@ abstract class AppModule {
   );
 
 
+  // Car Info Repository
+  @injectable
+  CarInfoRepository get carInfoRepository => CarInfoRepositoryImpl(carInfoService);
+ 
+  @injectable
+  CarInfoUseCases get carInfoUseCases => CarInfoUseCases(
+    createCarInfo: CreateCarInfoUseCase(carInfoRepository),
+    updateCarInfo: UpdateCarInfoUseCase(carInfoRepository),
+    getCarInfo: GetCarInfoUseCase(carInfoRepository)
+  );
+
+
   // Drivers Position Repository
   @injectable
   DriverPositionRepository get driverPositionRepository => DriversPositionRepositoryImpl(driversPositionService);
@@ -137,14 +168,27 @@ abstract class AppModule {
     getDriverPosition: GetDriverPositionUseCase(driverPositionRepository),
   );
 
+
   // Driver Trip Request Repository
   @injectable
   DriverTripRequestsRepository get driverTripRequestsRepository => DriverTripRequestsRepositoryImpl(driverTripRequestsService);
  
   @injectable
   DriverTripRequestsUseCases get driverTripRequestsUseCases => DriverTripRequestsUseCases(
+    createTripRequestUseCase: CreateTripRequestUseCase(driverTripRequestsRepository),
     getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository)
   );
+
+
+  // Reserve Repository
+  @injectable
+  ReserveRepository get reserveRepository => ReserveRepositoryImpl(reserveService);
+ 
+  @injectable
+  ReserveUseCases get reserveUseCases => ReserveUseCases(
+    createReserve: CreateReserveUseCase(reserveRepository),
+  );
+
 
   // Socket Repository
   @injectable

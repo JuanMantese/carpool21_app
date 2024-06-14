@@ -29,7 +29,7 @@ class UsersService {
       String body = json.encode({
         'name': user.name,
         'lastName': user.lastName, 
-        'userId': user.userId,
+        'studentFile': user.studentFile,
         'dni': user.dni,
         'phone': user.phone,
         'address': user.address,
@@ -80,13 +80,13 @@ class UsersService {
       // Assemble the body with the fields that we are going to send
       request.fields['name'] = user.name;
       request.fields['lastname'] = user.lastName;
-      request.fields['userId'] = user.userId;
-      request.fields['dni'] = user.dni;
-      request.fields['phone'] = user.phone;
+      request.fields['studentFile'] = user.studentFile;
+      request.fields['dni'] = user.dni.toString();
+      request.fields['phone'] = user.phone.toString();
       request.fields['address'] = user.address;
       request.fields['contactName'] = user.contactName;
       request.fields['contactLastName'] = user.contactLastName;
-      request.fields['contactPhone'] = user.contactPhone;
+      request.fields['contactPhone'] = user.contactPhone.toString();
 
       // Send request
       final response = await request.send();
@@ -105,5 +105,5 @@ class UsersService {
       return ErrorData(error.toString());
     }
   }
-
+  
 }

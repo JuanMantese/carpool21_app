@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:convert';
-
 import 'package:carpool_21_app/src/data/api/apiConfig.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/utils/listToString.dart';
@@ -80,7 +79,7 @@ class UsersService {
       // Assemble the body with the fields that we are going to send
       request.fields['name'] = user.name;
       request.fields['lastname'] = user.lastName;
-      request.fields['studentFile'] = user.studentFile;
+      // request.fields['studentFile'] = user.studentFile;
       request.fields['dni'] = user.dni.toString();
       request.fields['phone'] = user.phone.toString();
       request.fields['address'] = user.address;
@@ -105,5 +104,5 @@ class UsersService {
       return ErrorData(error.toString());
     }
   }
-  
+
 }

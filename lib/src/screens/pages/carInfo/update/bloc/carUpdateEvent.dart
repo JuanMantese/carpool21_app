@@ -43,10 +43,10 @@ class NroGreenCardChanged extends CarUpdateEvent {
   NroGreenCardChanged({ required this.nroGreenCardInput }); 
 }
 
-// Input NroCarInsurance Event
-class NroCarInsuranceChanged extends CarUpdateEvent {
-  final BlocFormItem nroCarInsuranceInput;
-  NroCarInsuranceChanged({ required this.nroCarInsuranceInput }); 
+// Input Year Event
+class YearChanged extends CarUpdateEvent {
+  final BlocFormItem yearInput;
+  YearChanged({ required this.yearInput }); 
 }
 
 // Submit Form Event

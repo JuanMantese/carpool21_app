@@ -1,10 +1,12 @@
 
 import 'package:carpool_21_app/src/data/api/apiConfig.dart';
 import 'package:carpool_21_app/src/data/dataSource/local/sharedPref.dart';
+import 'package:carpool_21_app/src/data/dataSource/remote/service_handler.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/authService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/carInfoService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/driverTripRequestsService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/driversPositionService.dart';
+import 'package:carpool_21_app/src/data/dataSource/remote/services/passengerRequestService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/reserveService.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
 import 'package:carpool_21_app/src/data/repository/authRepositoryImpl.dart';
@@ -12,6 +14,7 @@ import 'package:carpool_21_app/src/data/repository/carInfoRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/driverPositionRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/driverTripRequestsRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/geolocationRepositoryImpl.dart';
+import 'package:carpool_21_app/src/data/repository/passengerRequestRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/reserveRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/socketRepositoryImpl.dart';
 import 'package:carpool_21_app/src/data/repository/usersRepositoryImpl.dart';
@@ -21,6 +24,7 @@ import 'package:carpool_21_app/src/domain/repository/carInfoRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/driverPositionRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/driverTripRequestsRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/geolocationRepository.dart';
+import 'package:carpool_21_app/src/domain/repository/passengerRequestRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/reserveRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/socketRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/usersRepository.dart';
@@ -33,6 +37,7 @@ import 'package:carpool_21_app/src/domain/useCases/auth/saveUserSessionUseCases.
 import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/createCarInfoUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/getCarInfoUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/getCarListUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/updateCarInfoUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/createTripRequestUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
@@ -49,6 +54,8 @@ import 'package:carpool_21_app/src/domain/useCases/geolocation/getMarkerUseCase.
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPlacemarkDataUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPolylineUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/getPositionStreamUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/passenger-request/getNerbyTripRequestUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/passenger-request/passengerRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/createReserveUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/connectSocketUseCase.dart';
@@ -92,6 +99,9 @@ abstract class AppModule {
 
   @injectable
   DriverTripRequestsService get driverTripRequestsService => DriverTripRequestsService(); // Drivers Trip Requests Service - Remote Storage
+
+  @injectable
+  PassengerRequestsService get passengerRequestsService => PassengerRequestsService(); // Passenger Requests Service - Remote Storage
 
   @injectable
   ReserveService get reserveService => ReserveService(); // Reserve Service - Remote Storage
@@ -153,7 +163,8 @@ abstract class AppModule {
   CarInfoUseCases get carInfoUseCases => CarInfoUseCases(
     createCarInfo: CreateCarInfoUseCase(carInfoRepository),
     updateCarInfo: UpdateCarInfoUseCase(carInfoRepository),
-    getCarInfo: GetCarInfoUseCase(carInfoRepository)
+    getCarInfo: GetCarInfoUseCase(carInfoRepository),
+    getCarList: GetCarListUseCase(carInfoRepository),
   );
 
 
@@ -179,6 +190,14 @@ abstract class AppModule {
     getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository)
   );
 
+  // Passenger Request Repository
+  @injectable
+  PassengerRequestRepository get passengerRequestRepository => PassengerRequestRepositoryImpl(passengerRequestsService);
+ 
+  @injectable
+  PassengerRequestsUseCases get passengerRequestsUseCases => PassengerRequestsUseCases(
+    getNearbyTripRequestUseCase: GetNearbyTripRequestUseCase(passengerRequestRepository)
+  );
 
   // Reserve Repository
   @injectable

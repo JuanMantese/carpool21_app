@@ -13,9 +13,10 @@ class CarRegisterState extends Equatable {
   final BlocFormItem brand; // Marca
   final BlocFormItem model; // Modelo
   final BlocFormItem patent; // Patente
+  final BlocFormItem year; // Año del auto
+  final BlocFormItem seats; // Cantidad de asientos
   final BlocFormItem color; // Color del auto
   final BlocFormItem nroGreenCard; // Numero Cedula Verde
-  final BlocFormItem nroCarInsurance; // Seguro del auto
   final Resource? response; 
 
   const CarRegisterState({
@@ -24,9 +25,10 @@ class CarRegisterState extends Equatable {
     this.brand = const BlocFormItem(error: 'Ingresá la Marca'),
     this.model = const BlocFormItem(error: 'Ingresá el Modelo'),
     this.patent = const BlocFormItem(error: 'Ingresá la patente'),
+    this.year = const BlocFormItem(error: 'Ingresá el Año del Vehículo'),
+    this.seats = const BlocFormItem(error: 'Elegí la cantidad de asientos'),
     this.color = const BlocFormItem(error: 'Elegí el color'),
     this.nroGreenCard = const BlocFormItem(error: 'Ingresá el Nro de Cedula Verde'),
-    this.nroCarInsurance = const BlocFormItem(error: 'Ingresá el Nro de Seguro'),
     this.response
   });
 
@@ -36,9 +38,10 @@ class CarRegisterState extends Equatable {
     BlocFormItem? brand,
     BlocFormItem? model,
     BlocFormItem? patent,
+    BlocFormItem? year,
+    BlocFormItem? seats,
     BlocFormItem? color,
     BlocFormItem? nroGreenCard,
-    BlocFormItem? nroCarInsurance,
     Resource? response,
   }) {
     return CarRegisterState(
@@ -47,13 +50,14 @@ class CarRegisterState extends Equatable {
       brand: brand ?? this.brand,
       model: model ?? this.model,
       patent: patent ?? this.patent,
+      year: year ?? this.year,
+      seats: seats ?? this.seats,
       color: color ?? this.color,
       nroGreenCard: nroGreenCard ?? this.nroGreenCard,
-      nroCarInsurance: nroCarInsurance ?? this.nroCarInsurance,
       response: response
     );
   }
 
   @override
-  List<Object?> get props => [brand, model, patent, color, nroGreenCard, nroCarInsurance, response];
+  List<Object?> get props => [brand, model, patent, year, seats, color, nroGreenCard, response];
 }

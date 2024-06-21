@@ -29,8 +29,8 @@ class CarUpdateBloc extends Bloc<CarUpdateEvent, CarUpdateState> {
           model: BlocFormItem(value: event.car?.model ?? ''),
           patent: BlocFormItem(value: event.car?.patent ?? ''),
           color: BlocFormItem(value: event.car?.color ?? ''),
-          nroGreenCard: BlocFormItem(value: event.car?.nroCarInsurance.toString() ?? ''),
-          nroCarInsurance: BlocFormItem(value: event.car?.nroCarInsurance.toString() ?? ''),
+          year: BlocFormItem(value: event.car?.year.toString() ?? ''),
+          nroGreenCard: BlocFormItem(value: event.car?.nroGreenCard.toString() ?? ''),
         )
       );
     });
@@ -95,12 +95,12 @@ class CarUpdateBloc extends Bloc<CarUpdateEvent, CarUpdateState> {
       );
     });
 
-    on<NroCarInsuranceChanged>((event, emit) {
+    on<YearChanged>((event, emit) {
       emit(
         state.copyWith(
-          nroCarInsurance: BlocFormItem(
-            value: event.nroCarInsuranceInput.value,
-            error: event.nroCarInsuranceInput.value.isEmpty ? 'Ingresá el ID del seguro' : null
+          year: BlocFormItem(
+            value: event.yearInput.value,
+            error: event.yearInput.value.isEmpty ? 'Ingresá el Año del Vehiculo' : null
           ),
           formKey: formKey
         )
@@ -113,7 +113,7 @@ class CarUpdateBloc extends Bloc<CarUpdateEvent, CarUpdateState> {
       print('Patente: ${ state.patent.value }');
       print('Color: ${ state.color.value }');      
       print('Cedula Verde: ${ state.nroGreenCard.value }');
-      print('Datos del Seguro: ${ state.nroCarInsurance.value }');
+      print('Datos del Seguro: ${ state.year.value }');
 
       // Issuance of status change - Loading
       emit(

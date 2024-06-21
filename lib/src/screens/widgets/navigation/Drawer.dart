@@ -24,7 +24,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
+    // final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
 
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
@@ -205,6 +205,30 @@ class CustomDrawer extends StatelessWidget {
           },
         ),
         ListTile(
+          leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
+          title: const Text('Vehículos'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/car/list');
+          },
+        ),
+        // ListTile(
+        //   leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
+        //   title: const Text('Detail Vehículo'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/car/info');
+        //   },
+        // ),
+        // ListTile(
+        //   leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
+        //   title: const Text('Crear Vehículos'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/car/register');
+        //   },
+        // ),
+        ListTile(
           leading: const Icon(Icons.perm_phone_msg, color: Color(0xFF006D59)),
           title: const Text('Contacto'),
           onTap: () {
@@ -252,6 +276,13 @@ class CustomDrawer extends StatelessWidget {
           },
         ),
         ListTile(
+          title: const Text('Trips Available'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/passenger/request/trips');
+          },
+        ),
+        ListTile(
           leading: const Icon(Icons.power_settings_new, color: Color(0xFF006D59)),
           title: const Text('Cerrar Sesion'),
           onTap: () {
@@ -284,7 +315,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Vehículos'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/vehículos');
+            Navigator.pushNamed(context, '/car/list');
           },
         ),
         ListTile(
@@ -314,7 +345,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('MapLocation'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/location');
+            Navigator.pushNamed(context, '/driver/location');
           },
         ),
         ListTile(

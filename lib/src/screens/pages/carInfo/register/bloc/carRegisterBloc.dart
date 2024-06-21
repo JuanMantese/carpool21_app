@@ -1,5 +1,7 @@
 
+import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterState.dart';
@@ -10,11 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
 
   AuthUseCases authUseCases;
+  CarInfoUseCases carInfoUseCases;
   final formKey = GlobalKey<FormState>();
 
   // Constructor
   CarRegisterBloc(
     this.authUseCases,
+    this.carInfoUseCases,
   ): super(CarRegisterState()) {
     
     // We initialize the form with the values ​​of the current User
@@ -58,6 +62,30 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
       );
     });
 
+    on<YearChanged>((event, emit) {
+      emit(
+        state.copyWith(
+          year: BlocFormItem(
+            value: event.yearInput.value,
+            error: event.yearInput.value.isEmpty ? 'Ingresá el año de tu Vehículo' : null
+          ),
+          formKey: formKey
+        )
+      );
+    });
+
+    on<SeatsChanged>((event, emit) {
+      emit(
+        state.copyWith(
+          seats: BlocFormItem(
+            value: event.seatsInput.value,
+            error: event.seatsInput.value.isEmpty ? 'Seleccioná la cantidad de asientos' : null
+          ),
+          formKey: formKey
+        )
+      );
+    });
+
     on<ColorChanged>((event, emit) {
       emit(
         state.copyWith(
@@ -82,25 +110,14 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
       );
     });
 
-    on<NroCarInsuranceChanged>((event, emit) {
-      emit(
-        state.copyWith(
-          nroCarInsurance: BlocFormItem(
-            value: event.nroCarInsuranceInput.value,
-            error: event.nroCarInsuranceInput.value.isEmpty ? 'Ingresá el ID del seguro' : null
-          ),
-          formKey: formKey
-        )
-      );
-    });
-
     on<FormSubmit>((event, emit) async {
       print('Marca: ${ state.brand.value }');
       print('Modelo: ${ state.model.value }');
       print('Patente: ${ state.patent.value }');
+      print('Año del Vehículo: ${ state.year.value }');
+      print('Cantidad de Asientos: ${ state.seats.value }');
       print('Color: ${ state.color.value }');      
       print('Cedula Verde: ${ state.nroGreenCard.value }');
-      print('Datos del Seguro: ${ state.nroCarInsurance.value }');
 
       // Issuance of status change - Loading
       emit(
@@ -110,16 +127,27 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
         )
       );
 
-      // // PARA QUE APAREZCA El estado de Loading (circle) - Tirar el Back y que quede cargando - ELIMINAR
-      // Resource response = await userUseCases.update.run(state.id, state.toUser(), state.image);
+      // PARA QUE APAREZCA El estado de Loading (circle) - Tirar el Back y que quede cargando - ELIMINAR
+      Resource response = await carInfoUseCases.createCarInfo.run(
+        CarInfo(
+          // idDriver: state.idDriver,
+          brand: state.brand.value, 
+          model: state.model.value, 
+          patent: state.patent.value,
+          seats: int.parse(state.seats.value),
+          year: int.parse(state.year.value),
+          nroGreenCard: state.nroGreenCard.value,
+          color: state.color.value
+        )
+      );
 
-      // // Issuance of status change - Success/Error
-      // emit(
-      //   state.copyWith(
-      //     response: response,
-      //     formKey: formKey
-      //   )
-      // );
+      // Issuance of status change - Success/Error
+      emit(
+        state.copyWith(
+          response: response,
+          formKey: formKey
+        )
+      );
     });
   }
 }

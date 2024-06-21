@@ -3,6 +3,7 @@ import 'package:carpool_21_app/injection.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/login/login.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/register/register.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/info/carInfo.dart';
+import 'package:carpool_21_app/src/screens/pages/carInfo/list/carList.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/carRegister.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/update/carUpdate.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/createTrip.dart';
@@ -11,6 +12,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/mapLocation/driverMapLoc
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHome.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/driverMapBookingInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/driverMapFinder.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/tripsAvailable.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/info/profileInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/update/profileUpdate.dart';
 import 'package:flutter/material.dart';
@@ -46,11 +48,16 @@ class CarPool21 extends StatelessWidget {
           // '/roles': (context) => const RolesPage(), // ELIMINAR - Por ahora lo utilizo, pero vamos a manejar el cambio de roles desde el Drawer
           '/profile': (context) => const ProfileInfoPage(),
           '/profile/update': (context) => const ProfileUpdatePage(),
+          
+          '/car/list': (context) => const CarListPage(),
           '/car/info': (context) => const CarInfoPage(),
           '/car/register': (context) => const CarRegisterPage(),
           '/car/update': (context) => const CarUpdatePage(),
           
           '/passenger/home': (context) => const PassengerHomePage(),
+          '/passenger/request/trips': (context) => const TripsAvailablePage(),
+
+
           '/driver/home': (context) => const DriverHomePage(),
           '/driver/finder': (context) => const DriverMapFinder(),
           '/driver/map/booking': (context) => const DriverMapBookingInfo(),

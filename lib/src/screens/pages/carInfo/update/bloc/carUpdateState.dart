@@ -15,8 +15,9 @@ class CarUpdateState extends Equatable {
   final BlocFormItem model; // Modelo
   final BlocFormItem patent; // Patente
   final BlocFormItem color; // Color del auto
+  final BlocFormItem seats; // Seguro del auto
+  final BlocFormItem year; // Seguro del auto
   final BlocFormItem nroGreenCard; // Numero Cedula Verde
-  final BlocFormItem nroCarInsurance; // Seguro del auto
   final Resource? response; 
 
   const CarUpdateState({
@@ -26,8 +27,9 @@ class CarUpdateState extends Equatable {
     this.model = const BlocFormItem(error: 'Ingresá el Modelo'),
     this.patent = const BlocFormItem(error: 'Ingresá la patente'),
     this.color = const BlocFormItem(error: 'Elegí el color'),
+    this.seats = const BlocFormItem(error: 'Ingresá la cantidad de asientos'),
+    this.year = const BlocFormItem(error: 'Ingresá el Año del Vehiculo'),
     this.nroGreenCard = const BlocFormItem(error: 'Ingresá el Nro de Cedula Verde'),
-    this.nroCarInsurance = const BlocFormItem(error: 'Ingresá el Nro de Seguro'),
     this.response
   });
 
@@ -38,8 +40,9 @@ class CarUpdateState extends Equatable {
     BlocFormItem? model,
     BlocFormItem? patent,
     BlocFormItem? color,
+    BlocFormItem? seats,
+    BlocFormItem? year,
     BlocFormItem? nroGreenCard,
-    BlocFormItem? nroCarInsurance,
     Resource? response,
   }) {
     return CarUpdateState(
@@ -49,8 +52,9 @@ class CarUpdateState extends Equatable {
       model: model ?? this.model,
       patent: patent ?? this.patent,
       color: color ?? this.color,
+      seats: seats ?? this.seats,
+      year: year ?? this.year,
       nroGreenCard: nroGreenCard ?? this.nroGreenCard,
-      nroCarInsurance: nroCarInsurance ?? this.nroCarInsurance,
       response: response
     );
   }
@@ -61,10 +65,11 @@ class CarUpdateState extends Equatable {
     model: model.value,
     patent: patent.value,
     color: color.value,
-    nroGreenCard: int.tryParse(nroGreenCard.value) ?? 0,
-    nroCarInsurance: int.tryParse(nroCarInsurance.value) ?? 0,
+    seats: int.tryParse(seats.value) ?? 0,
+    year: int.tryParse(year.value) ?? 0,
+    nroGreenCard: nroGreenCard.value,
   );
 
   @override
-  List<Object?> get props => [brand, model, patent, color, nroGreenCard, nroCarInsurance, response];
+  List<Object?> get props => [brand, model, patent, color, seats, year, nroGreenCard, response];
 }

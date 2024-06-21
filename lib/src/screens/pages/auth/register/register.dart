@@ -27,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (response is ErrorData) {
             Fluttertoast.showToast(msg: response.message, toastLength: Toast.LENGTH_LONG); 
             print('Error Data: ${response.message}');
+            
           } else if (response is Success) {
             final authResponse = response.data as AuthResponse;
             context.read<RegisterBloc>().add(SaveUserSession(authResponse: authResponse));

@@ -12,4 +12,7 @@ abstract class CarInfoRepository {
   // Trayendo los datos de un vehiculo
   Future<Resource<CarInfo>> getCarInfo(int idDriver);
 
+  // Trayendo los datos de todos los vehiculos de un conductor
+  Future<Resource<List<CarInfo>>> getCarList();
+
 }

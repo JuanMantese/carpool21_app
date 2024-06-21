@@ -197,13 +197,13 @@ class CarUpdateContent extends StatelessWidget {
               ),
               CustomTextField(
                 onChanged: (text) {
-                  context.read<CarUpdateBloc>().add(NroCarInsuranceChanged(nroCarInsuranceInput: BlocFormItem(value: text)));
+                  context.read<CarUpdateBloc>().add(YearChanged(yearInput: BlocFormItem(value: text)));
                 },
                 validator: (value) {
-                  return state.nroCarInsurance.error;
+                  return state.year.error;
                 },
-                text: 'Poliza', 
-                initialValue: car?.nroCarInsurance.toString(),
+                text: 'Año', 
+                initialValue: car?.year.toString(),
                 inputType: TextInputType.text
               ),
             ].expand((widget) => [widget, const SizedBox(height: 10,)]),

@@ -28,19 +28,39 @@ class CarRegisterContent extends StatelessWidget {
             child: IntrinsicHeight(
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      _headerCarInfo(context),
-                    ],
-                  ),
+                  _headerCarInfo(context),
                   CustomIconBack(
                     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
-                  _cardCarInfo(context),
-                  _formRegisterCar(context),
+
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom + 26
+                    ),
+                    child: Column(
+                      children: [
+                        _cardCarInfo(context),
+                        _formRegisterCar(context),
+
+                        const Spacer(),
+                        CustomButton(
+                          onPressed: () {
+                            if (state.formKey!.currentState!.validate()) {                      
+                              context.read<CarRegisterBloc>().add(FormSubmit());
+                            } else {
+                              print('El formulario no es valido');
+                            }
+                          },
+                          margin: const EdgeInsets.only(left: 60, right: 60, top: 15),
+                          text: 'Registrar Vehículo',
+                          color: const Color(0xFF00A98F)
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -71,7 +91,7 @@ class CarRegisterContent extends StatelessWidget {
         ),
       ),
       child: const Text(
-        'REGISTRAR VEHICULO',
+        'REGISTRAR VEHÍCULO',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -122,90 +142,89 @@ class CarRegisterContent extends StatelessWidget {
 
   Widget _formRegisterCar(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        left: 35, 
-        right: 35, 
-        top: MediaQuery.of(context).padding.top * 6.5,
-      ),
+      margin: const EdgeInsets.only(left: 35, right: 35, top: 10),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.65,
-      child: Column(
-        children: [
-          Column(
-            children: [
-              ...[
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<CarRegisterBloc>().add(BrandChanged(brandInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.brand.error;
-                  },
-                  text: 'Marca', 
-                  inputType: TextInputType.text
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<CarRegisterBloc>().add(ModelChanged(modelInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.model.error;
-                  },
-                  text: 'Modelo', 
-                  inputType: TextInputType.text
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<CarRegisterBloc>().add(PatentChanged(patentInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.patent.error;
-                  },
-                  text: 'Patente', 
-                  inputType: TextInputType.text
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<CarRegisterBloc>().add(ColorChanged(colorInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.color.error;
-                  },
-                  text: 'Color', 
-                  inputType: TextInputType.number
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<CarRegisterBloc>().add(NroGreenCardChanged(nroGreenCardInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.nroGreenCard.error;
-                  },
-                  text: 'Nro. Cedula Verde', 
-                  inputType: TextInputType.number
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<CarRegisterBloc>().add(NroCarInsuranceChanged(nroCarInsuranceInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.nroCarInsurance.error;
-                  },
-                  text: 'Nro. Seguro del auto', 
-                  inputType: TextInputType.text
-                ),
-              ].expand((widget) => [widget, const SizedBox(height: 10,)]),
-            ],
-          ),
-          // SizedBox(height: 35,)
-          CustomButton(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 15),
-            text: 'Registrar Vehiculo', 
-            onPressed: () {
-              
-            }
-          )
-        ],
+      child: IntrinsicHeight(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                ...[
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(BrandChanged(brandInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.brand.error;
+                    },
+                    text: 'Marca', 
+                    inputType: TextInputType.text
+                  ),
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(ModelChanged(modelInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.model.error;
+                    },
+                    text: 'Modelo', 
+                    inputType: TextInputType.text
+                  ),
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(PatentChanged(patentInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.patent.error;
+                    },
+                    text: 'Patente', 
+                    inputType: TextInputType.text
+                  ),
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(YearChanged(yearInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.year.error;
+                    },
+                    text: 'Año del Vehiculo', 
+                    inputType: TextInputType.text
+                  ),
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(SeatsChanged(seatsInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.seats.error;
+                    },
+                    text: 'Cantidad de asientos', 
+                    inputType: TextInputType.text
+                  ),
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(ColorChanged(colorInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.color.error;
+                    },
+                    text: 'Color', 
+                    inputType: TextInputType.text
+                  ),
+                  CustomTextField(
+                    onChanged: (text) {
+                      context.read<CarRegisterBloc>().add(NroGreenCardChanged(nroGreenCardInput: BlocFormItem(value: text)));
+                    },
+                    validator: (value) {
+                      return state.nroGreenCard.error;
+                    },
+                    text: 'Nro. Cedula Verde', 
+                    inputType: TextInputType.text
+                  ),
+                ].expand((widget) => [widget, const SizedBox(height: 10,)]),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

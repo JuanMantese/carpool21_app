@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-
 DriverTripRequest driverTripRequestFromJson(String str) => DriverTripRequest.fromJson(json.decode(str));
 
 String driverTripRequestToJson(DriverTripRequest data) => json.encode(data.toJson());
@@ -51,7 +49,7 @@ class DriverTripRequest {
   );
 
   Map<String, dynamic> toJson() => {
-    "idClient": idDriver,
+    "idDriver": idDriver,
     "idVehicle": idVehicle,
     "idCompensation": idCompensation,
     "pickupText": pickupText,

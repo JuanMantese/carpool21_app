@@ -13,10 +13,11 @@ class DriverMapFinderState extends Equatable {
   final Map<PolylineId, Polyline> polylines; // Ruta del origen al destino
   final CameraPosition cameraPosition; // Posicion de la camara en el mapa
   final PlacemarkData? placemarkData; // Marcador en el mapa segun posicion de la camara
-  final LatLng? pickUpLatLng; // Variable para pasar los datos (Lat y Lng) de origen
-  final LatLng? destinationLatLng; // Variable para pasar los datos (Lat y Lng) de destino
   final String pickUpText; // Variable para pasar el texto del input del origen
+  final LatLng? pickUpLatLng; // Variable para pasar los datos (Lat y Lng) de origen
   final String destinationText; // Variable para pasar el texto del input del destino
+  final LatLng? destinationLatLng; // Variable para pasar los datos (Lat y Lng) de destino
+  final String? departureTime; // Horario de Partida
   final bool isLocationSelected; // Variable para saber si el usuario selecciono un lugar desde el Modal
   final Socket? socket; // Actualizacion en tiempo real
 
@@ -29,10 +30,11 @@ class DriverMapFinderState extends Equatable {
     this.polylines = const <PolylineId, Polyline>{},
     this.cameraPosition = const CameraPosition(target: LatLng(-31.322187, -64.2219203), zoom: 15.0),
     this.placemarkData,
-    this.pickUpLatLng,
-    this.destinationLatLng,
     this.pickUpText = '',
+    this.pickUpLatLng,
     this.destinationText = '',
+    this.destinationLatLng,
+    this.departureTime,
     this.isLocationSelected = false,
     this.socket
   });
@@ -45,10 +47,10 @@ class DriverMapFinderState extends Equatable {
     Map<PolylineId, Polyline>? polylines,
     CameraPosition? cameraPosition,
     PlacemarkData? placemarkData,
-    LatLng? pickUpLatLng,
-    LatLng? destinationLatLng,
     String? pickUpText,
+    LatLng? pickUpLatLng,
     String? destinationText,
+    LatLng? destinationLatLng,
     bool? isLocationSelected,
     Socket? socket,
   }) {

@@ -26,6 +26,9 @@ class CarInfoRepositoryImpl implements CarInfoRepository{
     return carInfoService.getCarInfo(idDriver);
   }
 
-
+  @override
+  Future<Resource<List<CarInfo>>> getCarList() {
+    return carInfoService.getCarList();
+  }
 
 }

@@ -6,6 +6,9 @@ class DriverTripRequestsUseCases {
 
   CreateTripRequestUseCase createTripRequestUseCase;
   GetTimeAndDistanceUseCase getTimeAndDistance;
+  // Get Current Trip
+  // Get Historical Trips
+  // Get Next Trips
 
   DriverTripRequestsUseCases({
     required this.createTripRequestUseCase,

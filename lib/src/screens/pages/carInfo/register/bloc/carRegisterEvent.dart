@@ -23,6 +23,18 @@ class PatentChanged extends CarRegisterEvent {
   PatentChanged({ required this.patentInput }); 
 }
 
+// Input Year Event
+class YearChanged extends CarRegisterEvent {
+  final BlocFormItem yearInput;
+  YearChanged({ required this.yearInput }); 
+}
+
+// Input Seats Event
+class SeatsChanged extends CarRegisterEvent {
+  final BlocFormItem seatsInput;
+  SeatsChanged({ required this.seatsInput }); 
+}
+
 // Input Color Event
 class ColorChanged extends CarRegisterEvent {
   final BlocFormItem colorInput;
@@ -33,12 +45,6 @@ class ColorChanged extends CarRegisterEvent {
 class NroGreenCardChanged extends CarRegisterEvent {
   final BlocFormItem nroGreenCardInput;
   NroGreenCardChanged({ required this.nroGreenCardInput }); 
-}
-
-// Input NroCarInsurance Event
-class NroCarInsuranceChanged extends CarRegisterEvent {
-  final BlocFormItem nroCarInsuranceInput;
-  NroCarInsuranceChanged({ required this.nroCarInsuranceInput }); 
 }
 
 // Submit Form Event

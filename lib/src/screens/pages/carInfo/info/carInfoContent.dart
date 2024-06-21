@@ -1,5 +1,4 @@
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButtonAction.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +74,7 @@ class CarInfoContent extends StatelessWidget {
         ),
       ),
       child: const Text(
-        'VEHICULO',
+        'VEHÍCULO',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -138,14 +137,6 @@ class CarInfoContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Color: ${car?.color}' ?? 'color',
-                  style: TextStyle(
-                    color: Colors.grey[900],
-                    fontSize: 16
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
                   'Patente: ${car?.patent}' ?? 'Patente',
                   style: TextStyle(
                     color: Colors.grey[900],
@@ -154,7 +145,7 @@ class CarInfoContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Cedula Verde: ${car?.nroGreenCard.toString()}' ?? 'Cedula Verde',
+                  'Año: ${car?.year.toString()}' ?? 'Año',
                   style: TextStyle(
                     color: Colors.grey[900],
                     fontSize: 16
@@ -162,7 +153,23 @@ class CarInfoContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Poliza: ${car?.nroCarInsurance.toString()}' ?? 'Poliza',
+                  'Asientos: ${car?.seats.toString()}' ?? 'Asientos',
+                  style: TextStyle(
+                    color: Colors.grey[900],
+                    fontSize: 16
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Color: ${car?.color}' ?? 'color',
+                  style: TextStyle(
+                    color: Colors.grey[900],
+                    fontSize: 16
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Cedula Verde: ${car?.nroGreenCard.toString()}' ?? 'Cedula Verde',
                   style: TextStyle(
                     color: Colors.grey[900],
                     fontSize: 16

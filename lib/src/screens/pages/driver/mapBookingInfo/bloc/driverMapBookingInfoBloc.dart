@@ -138,29 +138,6 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
     //   );
     // });
 
-    // on<CreatePassengerRequest>((event, emit) async {
-    //   AuthResponse authResponse = await authUseCases.getUserSession.run();
-
-    //   Resource<int> response = await passengerRequestsUseCases.createPassengerRequest.run(
-    //     PassengerRequest(
-    //       idClient: authResponse.user.id!, 
-    //       fareOffered: double.parse(state.fareOffered.value), 
-    //       pickupDescription: state.pickUpDescription, 
-    //       destinationDescription: state.destinationDescription, 
-    //       pickupLat: state.pickUpLatLng!.latitude, 
-    //       pickupLng: state.pickUpLatLng!.longitude, 
-    //       destinationLat: state.destinationLatLng!.latitude, 
-    //       destinationLng: state.destinationLatLng!.longitude
-    //     )
-    //   );
-
-    //   emit(
-    //     state.copyWith(
-    //       responsePassengerRequest: response
-    //     )
-    //   );
-    // });
-
     // on<EmitNewPassengerRequestSocketIO>((event, emit) {
     //   if (blocSocketIO.state.socket != null) {
     //     blocSocketIO.state.socket?.emit('new_client_request', {

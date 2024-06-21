@@ -56,7 +56,7 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             });
 
             // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);   // REVISAR o ELIMINAR
-            Navigator.pop(context);
+            // Navigator.pop(context);
           }
         },
         child: BlocBuilder<CarRegisterBloc, CarRegisterState>(

@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
 
             // ELIMINAR - ESTA ACA PARA PROBAR EL HOME ANTES DE TENER UN BACKEND ---------------
             // ---------------------------------------------------------------------------------
-            Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
             // ---------------------------------------------------------------------------------
             // ELIMINAR - ESTA ACA PARA PROBAR EL HOME ANTES DE TENER UN BACKEND ---------------
 
@@ -38,7 +38,9 @@ class _LoginPageState extends State<LoginPage> {
             context.read<LoginBloc>().add(SaveUserSession(authResponse: authResponse));
 
             if (authResponse.user.roles!.length > 1) {
-              Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+              // Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+
             }
             else {
               Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);

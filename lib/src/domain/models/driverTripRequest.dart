@@ -9,9 +9,11 @@ class DriverTripRequest {
   int idDriver;
   int idVehicle;
   int idCompensation;
+  String pickupNeighborhood;
   String pickupText;
   double pickupLat;
   double pickupLng;
+  String destinationNeighborhood;
   String destinationText;
   double destinationLat;
   double destinationLng;
@@ -23,9 +25,11 @@ class DriverTripRequest {
     required this.idDriver,
     required this.idVehicle,
     required this.idCompensation,
+    required this.pickupNeighborhood,
     required this.pickupText,
     required this.pickupLat,
     required this.pickupLng,
+    required this.destinationNeighborhood,
     required this.destinationText,
     required this.destinationLat,
     required this.destinationLng,
@@ -38,9 +42,11 @@ class DriverTripRequest {
     idDriver: json["idDriver"],
     idVehicle: json["idVehicle"],
     idCompensation: json["idCompensation"],
+    pickupNeighborhood: json["pickupNeighborhood"],
     pickupText: json["pickupText"],
     pickupLat: json["pickupLat"]?.toDouble(),
     pickupLng: json["pickupLng"]?.toDouble(),
+    destinationNeighborhood: json["destinationNeighborhood"],
     destinationText: json["destinationText"],
     destinationLat: json["destinationLat"]?.toDouble(),
     destinationLng: json["destinationLng"]?.toDouble(),
@@ -52,9 +58,11 @@ class DriverTripRequest {
     "idDriver": idDriver,
     "idVehicle": idVehicle,
     "idCompensation": idCompensation,
+    "pickupNeighborhood": pickupNeighborhood,
     "pickupText": pickupText,
     "pickuplat": pickupLat,
     "pickupLng": pickupLng,
+    "destinationNeighborhood": destinationNeighborhood,
     "destinationText": destinationText,
     "destinationLat": destinationLat,
     "destinationLng": destinationLng,

@@ -4,7 +4,7 @@ class User {
   int? id;
   String name;
   String lastName;
-  String studentFile;
+  String? studentFile;
   int dni;
   int phone;
   String address;
@@ -24,7 +24,7 @@ class User {
     this.id,
     required this.name,
     required this.lastName,
-    required this.studentFile,
+    this.studentFile,
     required this.dni,
     required this.phone,
     required this.address,
@@ -42,7 +42,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
+    id: json["idUser"],
     name: json["name"],
     lastName: json["lastName"],
     studentFile: json["studentFile"],
@@ -50,20 +50,18 @@ class User {
     phone: json["phone"] is String ? int.parse(json["phone"]) : json["phone"],
     address: json["address"],
     email: json["email"],
-    password: json['password'],
-    passwordConfirm: json['passwordConfirm'],
+    // password: json['password'],
+    // passwordConfirm: json['passwordConfirm'],
     contactName: json["contactName"],
     contactLastName: json["contactLastName"],
     contactPhone: json["contactPhone"] is String ? int.parse(json["contactPhone"]) : json["contactPhone"],
-    photoUser: json["photoUser"],
-    notificationToken: json["notification_token"],
-    createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
-    updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
+    // photoUser: json["photoUser"],
+    // notificationToken: json["notification_token"],
     roles: json["roles"] != null ? List<Role>.from(json["roles"].map((x) => Role.fromJson(x))) : [],
   );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
+    // 'idUser': id,
     'name': name,
     'lastName': lastName,
     'studentFile': studentFile,
@@ -72,14 +70,14 @@ class User {
     'address': address,
     'email': email,
     'password': password,
-    'passwordConfirm': passwordConfirm,
+    // 'passwordConfirm': passwordConfirm,
     'contactName': contactName,
     'contactLastName': contactLastName,
     'contactPhone': contactPhone,
-    'photoUser': photoUser,
-    'notification_token': notificationToken,
-    'created_at': createdAt?.toIso8601String(),
-    'updated_at': updatedAt?.toIso8601String(),
+    // 'photoUser': photoUser,
+    // 'notification_token': notificationToken,
+    // 'created_at': createdAt?.toIso8601String(),
+    // 'updated_at': updatedAt?.toIso8601String(),
     'roles': roles != null ? List<dynamic>.from(roles!.map((x) => x.toJson())) : [],
   };
 }

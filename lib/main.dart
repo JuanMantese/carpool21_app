@@ -9,6 +9,7 @@ import 'package:carpool_21_app/src/screens/pages/carInfo/update/carUpdate.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/createTrip.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/driverHome.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapLocation/driverMapLocation.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/tripDetail.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHome.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/driverMapBookingInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/driverMapFinder.dart';
@@ -57,11 +58,11 @@ class CarPool21 extends StatelessWidget {
           '/passenger/home': (context) => const PassengerHomePage(),
           '/passenger/request/trips': (context) => const TripsAvailablePage(),
 
-
           '/driver/home': (context) => const DriverHomePage(),
           '/driver/finder': (context) => const DriverMapFinder(),
           '/driver/map/booking': (context) => const DriverMapBookingInfo(),
           '/driver/createTrip': (context) => const CreateTripPage(),
+          '/driver/trip/detail': (context) => const TripDetailPage(),
           '/driver/location': (context) => const DriverMapLocation(),
         },
         // home: const LoginPage()

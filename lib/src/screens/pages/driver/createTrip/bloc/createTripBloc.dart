@@ -20,9 +20,7 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
     destinationText: '',
     destinationLatLng: null,
     timeAndDistanceValues: TimeAndDistanceValues(
-      tripPrice: 0.0,
-      destinationAddresses: "",
-      originAddresses: "",
+      tripPrice: 1000.0,
       distance: Distance(text: "", value: 0.0),
       duration: Duration(text: "", value: 0.0),
     ),
@@ -40,6 +38,10 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
       ));
     });
 
+    on<UpdateNeighborhood>((event, emit) {
+      emit(state.copyWith(neighborhood: event.neighborhood));
+    });
+
     on<UpdateVehicle>((event, emit) {
       emit(state.copyWith(selectedVehicle: event.vehicle));
     });
@@ -48,8 +50,8 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
       emit(state.copyWith(availableSeats: event.seats));
     });
 
-    on<UpdateDepartureTime>((event, emit) {
-      emit(state.copyWith(departureTime: event.time));
+    on<UpdateTripDescription>((event, emit) {
+      emit(state.copyWith(tripDescription: event.tripDescription));
     });
 
 
@@ -62,8 +64,10 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
       print(state.destinationText);
       print(state.destinationLatLng!.latitude);
       print(state.destinationLatLng!.longitude);
+      print(state.neighborhood);
+      print(state.selectedVehicle);
       print(state.availableSeats);
-      print(state.departureTime);
+      print(state.tripDescription);
 
 
       AuthResponse? authResponse = await authUseCases.getUserSession.run();
@@ -73,9 +77,11 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
           idDriver: authResponse?.user.id ?? 1, 
           idVehicle: 1,
           idCompensation: 1,
+          pickupNeighborhood: 'Centro',
           pickupText: state.pickUpText, 
           pickupLat: state.pickUpLatLng!.latitude, 
           pickupLng: state.pickUpLatLng!.longitude, 
+          destinationNeighborhood: 'US21',
           destinationText: state.destinationText, 
           destinationLat: state.destinationLatLng!.latitude, 
           destinationLng: state.destinationLatLng!.longitude,

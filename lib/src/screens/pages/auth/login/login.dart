@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/login/bloc/loginBloc.dart';
@@ -31,9 +32,16 @@ class _LoginPageState extends State<LoginPage> {
             // ---------------------------------------------------------------------------------
             // ELIMINAR - ESTA ACA PARA PROBAR EL HOME ANTES DE TENER UN BACKEND ---------------
 
-            Fluttertoast.showToast(msg: response.message, toastLength: Toast.LENGTH_LONG); 
             print('Error Data: ${response.message}');
+            Fluttertoast.showToast(
+              msg: response.message, 
+              toastLength: Toast.LENGTH_LONG,
+              timeInSecForIosWeb: 2,
+              textColor: Colors.white,
+              fontSize: 16.0
+            ); 
           } else if (response is Success) {
+            print('Success Data: ${response.data}');
             final authResponse = response.data as AuthResponse;
             context.read<LoginBloc>().add(SaveUserSession(authResponse: authResponse));
 
@@ -46,8 +54,17 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
             }
 
-            Fluttertoast.showToast(msg: 'Login exitoso', toastLength: Toast.LENGTH_LONG); 
-            print('Success Data: ${response.data}');
+            // Mostrar mensaje de éxito
+            // showCustomFlushbar(context);
+
+            Fluttertoast.showToast(
+              msg: 'Login exitoso', 
+              toastLength: Toast.LENGTH_LONG,
+              timeInSecForIosWeb: 2,
+              backgroundColor: const Color.fromARGB(255, 45, 139, 48),
+              textColor: Colors.white,
+              fontSize: 16.0
+            ); 
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(
@@ -63,5 +80,35 @@ class _LoginPageState extends State<LoginPage> {
         ),
       )
     );
+  }
+
+  // Alert / Dialog / Custom Alert
+  void showCustomFlushbar(BuildContext context) {
+    Flushbar(
+      duration: Duration(seconds: 3),
+      margin: EdgeInsets.all(40),
+      padding: EdgeInsets.all(10),
+ 
+      backgroundGradient: LinearGradient(
+        colors: [
+          Colors.pink.shade500,
+          Colors.pink.shade300,
+          Colors.pink.shade100
+        ],
+        stops: [0.4, 0.7, 1],
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.black45,
+          offset: Offset(3, 3),
+          blurRadius: 3,
+        ),
+      ],
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+      // title: 'Login exitoso',
+      message: 'Welcome to Flutter community.',
+      messageSize: 17,
+    ).show(context);
   }
 }

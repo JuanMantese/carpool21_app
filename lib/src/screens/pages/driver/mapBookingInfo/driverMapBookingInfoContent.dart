@@ -22,14 +22,13 @@ class DriverMapBookingInfoContent extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: _cardBookingInfo(context),
         ),
-        Container(
-          margin: const EdgeInsets.only(top: 50, left: 20),
-          child: CustomIconBack(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )
-        )
+        CustomIconBack(
+          margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ],
     );
   }
@@ -37,12 +36,14 @@ class DriverMapBookingInfoContent extends StatelessWidget {
   // Mostrando la ruta dell viaje
   Widget _googleMaps(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: MediaQuery.of(context).size.height * 0.55,
       child: GoogleMap(  // Mapa de Google
         mapType: MapType.normal,
         initialCameraPosition: state.cameraPosition, // Posicion inicial del mapa
         markers: Set<Marker>.of(state.markers.values), // Marcadores
         polylines: Set<Polyline>.of(state.polylines.values), // Ruta de origen a destino
+        myLocationEnabled: false, // Icono de ubicacion predeterminado
+        myLocationButtonEnabled: false, // Boton de accion para ir a la posicion del usuario
         onMapCreated: (GoogleMapController controller) {
           // controller.setMapStyle('JSON');
           if (state.controller != null) {
@@ -92,7 +93,10 @@ class DriverMapBookingInfoContent extends StatelessWidget {
                 fontSize: 13
               ),
             ),
-            leading: const Icon(Icons.location_on),
+            leading: const Icon(
+              Icons.my_location,
+              color: Color(0xFF3b82f6),
+            ),
           ),
 
           ListTile(
@@ -108,7 +112,10 @@ class DriverMapBookingInfoContent extends StatelessWidget {
                 fontSize: 13
               ),
             ),
-            leading: const Icon(Icons.my_location),
+            leading: const Icon(
+              Icons.location_on,
+              color: Color(0xFFdc2627),
+            ),
           ),
 
           ListTile(
@@ -140,13 +147,16 @@ class DriverMapBookingInfoContent extends StatelessWidget {
                 fontSize: 13
               ),
             ),
-            leading: const Icon(Icons.money),
+            leading: const Icon(
+              Icons.money,
+              color: Color.fromARGB(255, 23, 135, 52),
+            ),
           ),
 
           // Botón para confirmar los datos del viaje y crear el viaje.
           const Spacer(),
           CustomButton(
-            text: 'Confirmar viaje',
+            text: 'Confirmar recorrido',
             onPressed: () {
               Navigator.pushNamed(context, '/driver/createTrip',
                 arguments: {

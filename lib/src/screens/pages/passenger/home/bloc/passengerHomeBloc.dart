@@ -67,9 +67,12 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
 
     on<GetUserInfo>((event, emit) async {
       AuthResponse? authResponse = await authUseCases.getUserSession.run();
+
       if (authResponse != null && authResponse.user != null) {
-        print('Entro en 1');
+        print('Datos del usuario obtenidos - Passenger');
+        
         List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+        
         emit(
           state.copyWith(
             roles: roles,
@@ -78,7 +81,7 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
           )
         );
       } else {
-        print('Entro en 2');
+        print('No entro en GetUserInfo - Passenger');
         _setTestUser(event, emit);
       }
     });

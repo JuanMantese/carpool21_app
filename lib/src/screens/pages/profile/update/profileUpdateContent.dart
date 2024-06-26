@@ -4,6 +4,7 @@ import 'package:carpool_21_app/src/screens/pages/profile/update/bloc/profileUpda
 import 'package:carpool_21_app/src/screens/pages/profile/update/bloc/profileUpdateState.dart';
 import 'package:carpool_21_app/src/screens/utils/blocFormItem.dart';
 import 'package:carpool_21_app/src/screens/utils/galleryOrPhoto.dart';
+import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
@@ -29,22 +30,39 @@ class ProfileUpdateContent extends StatelessWidget {
             child: IntrinsicHeight(
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      _headerProfile(context),
-                      const Spacer(),
-                      _actionProfile(context, 'ACTUALIZAR INFORMACIÓN', Icons.settings_power),
-                      SizedBox(height: 35,)
-                    ],
-                  ),
-                  _cardUserInfo(context),
-                  _formUpdateProfile(context),
+                  _headerProfile(context),
                   CustomIconBack(
                     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                  )
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).padding.bottom + 26
+                    ),
+                    child: Column(
+                      children: [
+                        _cardUserInfo(context),
+                        _formUpdateProfile(context),
+
+                        const Spacer(),
+                        CustomButton(
+                          onPressed: () {
+                            // if (state.formKey!.currentState!.validate()) {                      
+                            //   context.read<CarRegisterBloc>().add(FormSubmit());
+                            // } else {
+                            //   print('El formulario no es valido');
+                            // }
+                          },
+                          margin: const EdgeInsets.only(left: 60, right: 60, top: 15),
+                          text: 'Actualizar Información',
+                          color: const Color(0xFF00A98F)
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -68,6 +86,10 @@ class ProfileUpdateContent extends StatelessWidget {
           ],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
       ),
       child: const Text(
@@ -119,90 +141,85 @@ class ProfileUpdateContent extends StatelessWidget {
 
   Widget _formUpdateProfile(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: 35, 
         right: 35, 
-        top: MediaQuery.of(context).padding.top * 7,
+        top: 20,
       ),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.75,
-      child: Column(
-        children: [
-          Column(
-            children: [
-              ...[
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(NameChanged(nameInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.name.error;
-                  },
-                  text: 'Nombre', 
-                  initialValue: user?.name,
-                  inputType: TextInputType.text
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(LastNameChanged(lastNameInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.lastName.error;
-                  },
-                  text: 'Apellido', 
-                  initialValue: user?.lastName,
-                  inputType: TextInputType.text
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(StudentFileChanged(studentFileInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.studentFile.error;
-                  },
-                  text: 'Legajo', 
-                  initialValue: user?.studentFile,
-                  inputType: TextInputType.text
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(DniChanged(dniInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.dni.error;
-                  },
-                  text: 'DNI', 
-                  initialValue: user?.dni.toString(),
-                  inputType: TextInputType.number
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(PhoneChanged(phoneInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.phone.error;
-                  },
-                  text: 'Teléfono', 
-                  initialValue: user?.phone?.toString(),
-                  inputType: TextInputType.number
-                ),
-                CustomTextField(
-                  onChanged: (text) {
-                    context.read<ProfileUpdateBloc>().add(AddressChanged(addressInput: BlocFormItem(value: text)));
-                  },
-                  validator: (value) {
-                    return state.address.error;
-                  },
-                  text: 'Domicilio', 
-                  initialValue: user?.address,
-                  inputType: TextInputType.text
-                ),
-              ].expand((widget) => [widget, const SizedBox(height: 10,)]),
-            ],
-          ),
-          _actionProfile(context, 'ACTUALIZAR INFORMACIÓN', Icons.settings_power),
-          // SizedBox(height: 35,)
-        ],
+      child: IntrinsicHeight(
+        child: Column(
+          children: [
+            ...[
+              CustomTextField(
+                onChanged: (text) {
+                  context.read<ProfileUpdateBloc>().add(NameChanged(nameInput: BlocFormItem(value: text)));
+                },
+                validator: (value) {
+                  return state.name.error;
+                },
+                text: 'Nombre', 
+                initialValue: user?.name,
+                inputType: TextInputType.text
+              ),
+              CustomTextField(
+                onChanged: (text) {
+                  context.read<ProfileUpdateBloc>().add(LastNameChanged(lastNameInput: BlocFormItem(value: text)));
+                },
+                validator: (value) {
+                  return state.lastName.error;
+                },
+                text: 'Apellido', 
+                initialValue: user?.lastName,
+                inputType: TextInputType.text
+              ),
+              CustomTextField(
+                onChanged: (text) {
+                  context.read<ProfileUpdateBloc>().add(StudentFileChanged(studentFileInput: BlocFormItem(value: text)));
+                },
+                validator: (value) {
+                  return state.studentFile.error;
+                },
+                text: 'Legajo', 
+                initialValue: user?.studentFile,
+                inputType: TextInputType.text
+              ),
+              CustomTextField(
+                onChanged: (text) {
+                  context.read<ProfileUpdateBloc>().add(DniChanged(dniInput: BlocFormItem(value: text)));
+                },
+                validator: (value) {
+                  return state.dni.error;
+                },
+                text: 'DNI', 
+                initialValue: user?.dni.toString(),
+                inputType: TextInputType.number
+              ),
+              CustomTextField(
+                onChanged: (text) {
+                  context.read<ProfileUpdateBloc>().add(PhoneChanged(phoneInput: BlocFormItem(value: text)));
+                },
+                validator: (value) {
+                  return state.phone.error;
+                },
+                text: 'Teléfono', 
+                initialValue: user?.phone?.toString(),
+                inputType: TextInputType.number
+              ),
+              CustomTextField(
+                onChanged: (text) {
+                  context.read<ProfileUpdateBloc>().add(AddressChanged(addressInput: BlocFormItem(value: text)));
+                },
+                validator: (value) {
+                  return state.address.error;
+                },
+                text: 'Domicilio', 
+                initialValue: user?.address,
+                inputType: TextInputType.text
+              ),
+            ].expand((widget) => [widget, const SizedBox(height: 10,)]),
+          ],
+        ),
       ),
     );
   }
@@ -268,7 +285,7 @@ class ProfileUpdateContent extends StatelessWidget {
             child: 
               FadeInImage.assetNetwork(
                 placeholder: 'lib/assets/img/profile-icon.png', 
-                image: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg',
+                image: 'https://lh3.googleusercontent.com/fife/ALs6j_GUNUZAmJJ2p-J9avylOcBQ9VLhtxmDLQur4B-x5qi49xRFetc8yO2eDnAoLktheYMrMYC0tDECkO37Ljrk2UfNG8d5FhjicsdWXEptuuHgv6SGLIj0SIpzyMFila5hzDXJGmOAMQBL_RsV2XInu-TYYPnnvvTIWhIaRgL4A6RCEOgnsZgy2cX9tW_x0ebkL3G_C7F9192Up-apqb7Rq_AB15-cWC1KzrCtIu8S3MFp3UUMJ_ZoH0ddRmPJuRJ9VAR8jkfkLM59bCvJfdu1EymY-HJC8VnlXFo0DrDZafSDedqO5u7NVLxcSwtxdJRcq92z-qpnMK9Cx0Jig2w224YZUwi3p3UJMlr-3JWwdYansYuPC42RA4F8CJRivN6OdDRCwXgFj3sjMXoW3dhKsrMOj7RlLMbN3NqvM4qbN-WPaG5gK_LXBDfwd2J7uTzk54J9C4RMHw-d-wA6zsm_OpfsgT2ELIgM7djGhTKLYTd2HB5BSD2HjJoysHPekGe7xJoIHYHWwppxNoGDuP4K3IZQgRBAwjpQeiUteeKLEUhY2RVrzHcL0LmBfU-1dFIe_2WfgkZYRQyXfpcsiNnrinV9hYoliE0W3qt1eLBxOv3niTc9kpfa5pXbC2VxsqGUIu19BtcOSych1VzZy1K3HsjOm0ji5ZqBB2n0vHPkqF1RIuneGsLVtN7xAm5Q_1c0x5w28xWgvzwkVqB8qvCUXldUKd7HAj41QMlLYFT0OW7spmhQ6I1lRMrXMFxTf9lQRBETAbrG7wepfpEwe08qK7NyeXsT0_2rs5E8HYYV6tUqLkRSAs5nQ78FME2W6yECv2fPfMgHeanJld_U9U55_ZOF7KCRcqin5St4hJRFP5ieH7HAyyJcWJc_Mbol0bJXdkTXvHiCc9TAtgXbJ7WhQadjZRzAYkdhPF231xSRFnrPYlfbDODjMykZt5M7ZutpPT5GeoHZ624oznwRnBzLhUB2Lvpt7WSUm4sxULLJu92lrv0cqD9qZyaY8D5w1DplR4gV7VgbbAXfWh48doZsAIiVpNpYtAvvFFuRGZ8xT3A8jdkGUq6OkrbM0HDRPQ5F0h1vGmbhchdCkYyBjpBrSFxan3TIzovOU7rtPI2ir5flYyfmYqUoOptd4jcj4EYdyYafRqo5MFerVOYxsEJzA5jt5Iz100Fequ1FBbX5OWnrxlcKkxr7dEHED9-asxqNlW0T8Waw6Gjy0VidwPqC85dUszkdYvKVI887ixvqRhg3TthD7tHzD-Y1Rhw63Alc9TavlBUGsInkjDTCOwLYS1Us-iFbd9SF0YGunVaYQUPWen0_rJw5vwzzaThNmKwyD-gzsf2IEZ9G0h_s4fRBlX9usiaUGcQ9Fm8GNEYNC1BCCQYSwaDBiZyecePFnRaAHO0XypiGfMnlqip6aBMca-HO6NWsSuNfrfxuU_7RCp4SN7QXz7cEUUL1vwoEYeEXOazSvhMfiLOokm1IR2ycluXYuglj9a_7V-ceEnqbTyElbq1HkBxaym72XCNE-ouiyzPdMGcjmv3ZRjXq_FyaNeqsARygVklKv1j8DdeivkKjTrQ1hXu_ImHeW6aZn4-W10Whlw88X7x9TQP6=w3440-h1780',
                 fit: BoxFit.cover,
                 fadeInDuration: const Duration(seconds: 1),
               )

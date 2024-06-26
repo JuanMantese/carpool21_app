@@ -1,7 +1,6 @@
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
-import 'package:carpool_21_app/src/screens/widgets/CustomTimePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -11,9 +10,10 @@ class CreateTripContent extends StatelessWidget {
   final String destinationText;
   final TimeAndDistanceValues timeAndDistanceValues;
   final DriverMapBookingInfoState state;
+  final ValueChanged<String?> onNeighborhoodChanged;
   final ValueChanged<String?> onVehicleChanged;
   final ValueChanged<String?> onAvailableSeatsChanged;
-  final ValueChanged<String> onDepartureTimeChanged;
+  final ValueChanged<String?> onTripDescriptionChanged;
   final VoidCallback onConfirm;
 
   CreateTripContent({
@@ -21,9 +21,10 @@ class CreateTripContent extends StatelessWidget {
     required this.destinationText,
     required this.timeAndDistanceValues,
     required this.state,
+    required this.onNeighborhoodChanged,
     required this.onVehicleChanged,
     required this.onAvailableSeatsChanged,
-    required this.onDepartureTimeChanged,
+    required this.onTripDescriptionChanged,
     required this.onConfirm,
     super.key
   });
@@ -33,7 +34,7 @@ class CreateTripContent extends StatelessWidget {
     return Column(
       children: [
         _buildTripInfoCard(context),
-        SizedBox(height: 16.0),
+        SizedBox(height: 40.0),
         _buildDetailForm(context),
         SizedBox(height: 16.0),
         CustomButton(
@@ -53,7 +54,7 @@ class CreateTripContent extends StatelessWidget {
       color: Colors.white,
       surfaceTintColor: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,23 +83,23 @@ class CreateTripContent extends StatelessWidget {
               ),
             ),
 
-            SizedBox(
-              height: 200,
-              child: GoogleMap(
-                mapType: MapType.normal,
-                myLocationButtonEnabled: false,
-                initialCameraPosition: state.cameraPosition,
-                markers: Set<Marker>.of(state.markers.values),
-                polylines: Set<Polyline>.of(state.polylines.values),
-                onMapCreated: (GoogleMapController controller) {
-                  if (state.controller != null) {
-                    if (!state.controller!.isCompleted) {
-                      state.controller?.complete(controller);
-                    }
-                  }
-                },
-              ),
-            ),
+            // SizedBox(
+            //   height: 200,
+            //   child: GoogleMap(
+            //     mapType: MapType.normal,
+            //     myLocationButtonEnabled: false,
+            //     initialCameraPosition: state.cameraPosition,
+            //     markers: Set<Marker>.of(state.markers.values),
+            //     polylines: Set<Polyline>.of(state.polylines.values),
+            //     onMapCreated: (GoogleMapController controller) {
+            //       if (state.controller != null) {
+            //         if (!state.controller!.isCompleted) {
+            //           state.controller?.complete(controller);
+            //         }
+            //       }
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -108,6 +109,23 @@ class CreateTripContent extends StatelessWidget {
   Widget _buildDetailForm(BuildContext context) {
     return Column(
       children: [
+        TextFormField(
+          onChanged: onNeighborhoodChanged,
+          // validator: validator,
+          decoration: InputDecoration(
+            labelText: 'Barrio de origen',
+            labelStyle: const TextStyle(color: Color(0xFF006D59)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            focusedBorder: OutlineInputBorder( 
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(color: Color(0xFF006D59)),
+            ),
+          ),
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(height: 16.0),
         DropdownButtonFormField<String>(
           decoration: InputDecoration(
             labelText: 'Vehículo',
@@ -115,13 +133,14 @@ class CreateTripContent extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          items: <String>['Vehículo 1', 'Vehículo 2', 'Vehículo 3']
+          items: 
+            <String>['Vehículo 1', 'Vehículo 2', 'Vehículo 3']
               .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
           onChanged: onVehicleChanged,
         ),
         const SizedBox(height: 16.0),
@@ -142,9 +161,18 @@ class CreateTripContent extends StatelessWidget {
           onChanged: onAvailableSeatsChanged,
         ),
         const SizedBox(height: 16.0),
-        CustomTimePicker(
-          labelText: 'Horario de partida',
-          onTimeChanged: onDepartureTimeChanged,
+        TextFormField(
+          maxLength: 200,
+          minLines: 4,
+          maxLines: null,
+          decoration: InputDecoration(
+            labelText: 'Descripción',
+            alignLabelWithHint: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          onChanged: onTripDescriptionChanged,
         ),
       ],
     );

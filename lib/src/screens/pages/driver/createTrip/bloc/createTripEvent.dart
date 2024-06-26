@@ -29,6 +29,15 @@ class InitializeTrip extends CreateTripEvent {
   List<Object?> get props => [pickUpText, pickUpLatLng, destinationText, destinationLatLng, timeAndDistanceValues, state];
 }
 
+class UpdateNeighborhood extends CreateTripEvent {
+  final String neighborhood;
+
+  UpdateNeighborhood({required this.neighborhood});
+
+  @override
+  List<Object?> get props => [neighborhood];
+}
+
 class UpdateVehicle extends CreateTripEvent {
   final String vehicle;
 
@@ -47,13 +56,13 @@ class UpdateAvailableSeats extends CreateTripEvent {
   List<Object?> get props => [seats];
 }
 
-class UpdateDepartureTime extends CreateTripEvent {
-  final String time;
+class UpdateTripDescription extends CreateTripEvent {
+  final String tripDescription;
 
-  UpdateDepartureTime({required this.time});
+  UpdateTripDescription({required this.tripDescription});
 
   @override
-  List<Object?> get props => [time];
+  List<Object?> get props => [tripDescription];
 }
 
 class CreateTripRequest extends CreateTripEvent {}

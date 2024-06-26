@@ -1,9 +1,12 @@
-
 import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeState.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/driverHomeContent.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHomeContent.dart';
 import 'package:carpool_21_app/src/screens/widgets/navigation/Drawer.dart';
 import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationBloc.dart';
@@ -14,15 +17,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:carpool_21_app/src/screens/utils/globals.dart' as globals;
 
-
 class CustomNavigation extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Key for Scaffold
+  final GlobalKey<ScaffoldState> _scaffoldKey =
+      GlobalKey<ScaffoldState>(); // Key for Scaffold
 
   final List<Role> roles;
   final User currentUser;
   final UsersService userService;
 
-  CustomNavigation({required this.roles, required this.currentUser, required this.userService});
+  CustomNavigation(
+      {required this.roles,
+      required this.currentUser,
+      required this.userService});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +36,14 @@ class CustomNavigation extends StatelessWidget {
       create: (_) => NavigationBloc(GetIt.instance<AuthUseCases>()),
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
-          final currentIndex = _getCurrentIndex(globals.currentRole, state.navigationType);
-      
+          final currentIndex =
+              _getCurrentIndex(globals.currentRole, state.navigationType);
+
           return Scaffold(
             key: _scaffoldKey,
             endDrawer: CustomDrawer(
-              roles: roles, 
-              currentUser: currentUser, 
+              roles: roles,
+              currentUser: currentUser,
               userService: userService,
             ), // Add Drawer to the Scaffold
             body: Center(
@@ -89,7 +96,8 @@ class CustomNavigation extends StatelessWidget {
   }
 
   // List of Navigation Bar Items - Rol validation
-  List<BottomNavigationBarItem> _buildBottomNavigationBarItems(String currentRole, NavigationState state) {
+  List<BottomNavigationBarItem> _buildBottomNavigationBarItems(
+      String currentRole, NavigationState state) {
     if (currentRole == 'passenger') {
       return [
         _buildBottomNavigationBarItem(
@@ -132,22 +140,20 @@ class CustomNavigation extends StatelessWidget {
   }
 
   // Single Bottom Navigation Bar Item
-  BottomNavigationBarItem _buildBottomNavigationBarItem({
-    required IconData icon, 
-    required String label, 
-    required bool isActive
-  }) {
+  BottomNavigationBarItem _buildBottomNavigationBarItem(
+      {required IconData icon, required String label, required bool isActive}) {
     return BottomNavigationBarItem(
       icon: Container(
         width: isActive ? 42 : 24,
         height: isActive ? 42 : 24,
         decoration: BoxDecoration(
-          color: isActive ? const Color(0xFF00A98F) : Colors.transparent,
-          shape: BoxShape.circle
-        ),
+            color: isActive ? const Color(0xFF00A98F) : Colors.transparent,
+            shape: BoxShape.circle),
         child: Icon(
-          icon, 
-          color: isActive ? Colors.white : const Color.fromARGB(255, 111, 111, 111),
+          icon,
+          color: isActive
+              ? Colors.white
+              : const Color.fromARGB(255, 111, 111, 111),
           size: isActive ? 30 : 24,
         ),
       ),
@@ -159,17 +165,23 @@ class CustomNavigation extends StatelessWidget {
   Widget _buildPage(NavigationState state) {
     switch (state.navigationType) {
       case NavigationType.inicioPassenger:
-        return PassengerHomeContent();
+        return BlocBuilder<PassengerHomeBloc, PassengerHomeState>(
+          builder: (context, passengerState) {
+            return PassengerHomeContent(passengerState);
+          },
+        );
       case NavigationType.inicioDriver:
-        return DriverHomeContent();
+        return BlocBuilder<DriverHomeBloc, DriverHomeState>(
+          builder: (context, driverState) {
+            return DriverHomeContent(driverState);
+          },
+        );
       case NavigationType.reservas:
-        return Text('Reservas Page');
+        return const Text('Reservas Page');
       case NavigationType.viaje:
-        return Text('Viaje Page');
-      case NavigationType.perfil:
-        return Text('Perfil Page');
+        return const Text('Viaje Page');
       default:
-        return Text('Page not found');
+        return const Text('Page not found');
     }
   }
 
@@ -201,4 +213,3 @@ class CustomNavigation extends StatelessWidget {
     return 0; // Default index
   }
 }
-

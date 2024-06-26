@@ -1,6 +1,7 @@
 
 import 'package:carpool_21_app/src/domain/models/driverTripRequest.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 
 abstract class DriverTripRequestsRepository {
@@ -13,5 +14,7 @@ abstract class DriverTripRequestsRepository {
   );
 
   Future<Resource<int>> create(DriverTripRequest driverTripRequest);
+
+  Future<Resource<TripDetail>> getTripDetail();
 
 }

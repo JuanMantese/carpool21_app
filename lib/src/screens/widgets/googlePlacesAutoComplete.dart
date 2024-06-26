@@ -62,7 +62,7 @@ class GooglePlacesAutoComplete extends StatelessWidget {
         seperatedBuilder: const Divider(),
         containerHorizontalPadding: 10,
 
-        // OPTIONAL // If you want to customize list view item builder
+        // Customize list view item builder
         itemBuilder: (context, index, Prediction prediction) {
           return Container(
             padding: const EdgeInsets.all(10),
@@ -77,9 +77,7 @@ class GooglePlacesAutoComplete extends StatelessWidget {
             ),
           );
         },
-
         isCrossBtnShown: true,
-
         // default 600 ms ,
       ),
     );

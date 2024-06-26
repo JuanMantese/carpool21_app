@@ -1,5 +1,5 @@
 
-import 'package:carpool_21_app/src/domain/models/passengerRequest.dart';
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,7 +8,7 @@ class TripsAvailableState extends Equatable {
   // Resource para traer la información
   final Resource? response;
 
-  final List<PassengerRequest>? testingArrayTrips;
+  final List<TripDetail>? testingArrayTrips;
 
   TripsAvailableState({
     this.response,
@@ -17,7 +17,7 @@ class TripsAvailableState extends Equatable {
 
   TripsAvailableState copyWith({
     Resource? response,
-    List<PassengerRequest>? testingArrayTrips
+    List<TripDetail>? testingArrayTrips
   }) {
     return TripsAvailableState(
       response: response,

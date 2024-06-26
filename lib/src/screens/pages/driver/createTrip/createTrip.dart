@@ -5,6 +5,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTr
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripState.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/createTripContent.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
+import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,8 +74,7 @@ class _CreateTripState extends State<CreateTripPage> {
               },
             ),
             Container(
-              margin:
-                  EdgeInsets.only(top: MediaQuery.of(context).padding.top + 70),
+              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 60),
               padding: const EdgeInsets.all(16.0),
               child: BlocBuilder<CreateTripBloc, CreateTripState>(
                 builder: (context, state) {
@@ -83,6 +83,11 @@ class _CreateTripState extends State<CreateTripPage> {
                     destinationText: state.destinationText,
                     timeAndDistanceValues: state.timeAndDistanceValues,
                     state: state.state,
+                    onNeighborhoodChanged: (value) {
+                      context
+                        .read<CreateTripBloc>()
+                        .add(UpdateNeighborhood(neighborhood: value!));
+                    },
                     onVehicleChanged: (value) {
                       context
                         .read<CreateTripBloc>()
@@ -93,15 +98,26 @@ class _CreateTripState extends State<CreateTripPage> {
                         .read<CreateTripBloc>()
                         .add(UpdateAvailableSeats(seats: int.parse(value!)));
                     },
-                    onDepartureTimeChanged: (value) {
+                    onTripDescriptionChanged: (value) {
                       context
                         .read<CreateTripBloc>()
-                        .add(UpdateDepartureTime(time: value));
+                        .add(UpdateTripDescription(tripDescription: value!));
                     },
                     onConfirm: () {
-                      context
-                        .read<CreateTripBloc>()
-                        .add(CreateTripRequest());
+                      CustomDialog(
+                        context: context,
+                        title: 'Estás por crear un nuevo Viaje. ¿Querés confirmarlo?',
+                        content: 'Podés cancelar o editar el detalle de tu viaje hasta 30 minutos antes de su comienzo.',
+                        icon: Icons.check_circle_rounded,
+                        onPressedSend: () {
+                          // context.read<CreateTripBloc>().add(CreateTripRequest());
+  
+                          Navigator.popAndPushNamed(context, '/driver/trip/detail');
+                          // Lógica para redirigir a la home cuando se presione el botón de atrás
+                        },
+                        textSendBtn: 'Crear',
+                        textCancelBtn: 'Cancelar',
+                      );
                     },
                   );
                 },

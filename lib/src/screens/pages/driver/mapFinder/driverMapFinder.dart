@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'package:intl/intl.dart';
 
 // PANTALLA DONDE EL CONDUCTOR VA A BUSCAR LA UBICACION PARA REALIZAR SU VIAJE
 class DriverMapFinder extends StatefulWidget {
@@ -27,6 +28,13 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
   @override
   void initState() {
     super.initState();
+
+    // Inicializo la hora de partida al momento actual
+    // let initialTime = TimeOfDay.now();
+    String formattedTime = DateFormat.Hm().format(DateTime.now());
+
+    // Ejecutar la acción del BLoC para actualizar la hora de partida
+    context.read<DriverMapFinderBloc>().add(UpdateDepartureTime(time: formattedTime));
 
     // Añadir listeners a los TextEditingControllers - Escuchamos los cambios
     pickUpController.addListener(_onPickUpChanged);
@@ -99,6 +107,8 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
                 initialCameraPosition: state.cameraPosition, // Posicion inicial del mapa
                 markers: Set<Marker>.of(state.markers.values), // Marcadores
                 polylines: Set<Polyline>.of(state.polylines.values), // Ruta en el mapa
+                myLocationEnabled: false, // Icono de ubicacion predeterminado
+                myLocationButtonEnabled: false, // Boton de accion para ir a la posicion del usuario
 
                 // DELETE - ELIMINAR Funcion que no se va a utilizar
                 // onCameraMove: (CameraPosition cameraPosition) {
@@ -140,9 +150,9 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
                   Navigator.pop(context);
                 }, 
               ),
+
               IntrinsicHeight(
                 child: Container(
-                  // height: 120,
                   margin: const EdgeInsets.only(top: 80),
                   child: _googlePlacesAutocomplete()
                 ),
@@ -152,37 +162,38 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
               // _iconMyLocation(),
               // DELETE -
 
+              // Boton de ubicacion del usuario en el mapa
+              Positioned(
+                right: 20,
+                bottom: 120,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    context.read<DriverMapFinderBloc>().add(FindPosition());
+                  },
+                  child: const Icon(Icons.my_location),
+                ),
+              ),
+
               Container(
                 alignment: Alignment.bottomCenter,
                 margin: EdgeInsets.only(
-                    right: 60,
-                    left: 60,
-                    bottom: MediaQuery.of(context).padding.bottom),
+                  right: 80,
+                  left: 80,
+                  bottom: MediaQuery.of(context).padding.bottom
+                ),
                 child: CustomButton(
                   text: 'Continuar',
-                  // onPressed: () {
-                  //   // Cambio de pantalla y envio de los datos a otra pantalla
-                  //   Navigator.pushNamed(context, '/driver/map/booking',
-                  //     arguments: {
-                  //       'pickUpLatLng': state.pickUpLatLng,
-                  //       'pickUpText': state.pickUpText,
-                  //       'destinationLatLng': state.destinationLatLng,
-                  //       'destinationText': state.destinationText,
-                  //     }
-                  //   );
-                  // }
-                  onPressed: _isButtonEnabled(state) ? () {
-                      // Cambio de pantalla y envio de los datos a otra pantalla
-                      Navigator.pushNamed(context, '/driver/map/booking',
-                        arguments: {
-                          'pickUpLatLng': state.pickUpLatLng,
-                          'pickUpText': state.pickUpText,
-                          'destinationLatLng': state.destinationLatLng,
-                          'destinationText': state.destinationText,
-                        }
-                      );
-                    } : () {},
-        
+                  onPressed: () {
+                    if (_isButtonEnabled(state)) {
+                      Navigator.pushNamed(context, '/driver/map/booking', arguments: {
+                        'pickUpLatLng': state.pickUpLatLng,
+                        'pickUpText': state.pickUpText,
+                        'destinationLatLng': state.destinationLatLng,
+                        'destinationText': state.destinationText,
+                        'departureTime': state.departureTime,
+                      });
+                    }
+                  }
                 ),
               )
             ],
@@ -210,7 +221,9 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
                   context.read<DriverMapFinderBloc>().add(
                     ChangeMapCameraPosition(
                       lat: double.parse(prediction.lat!),
-                      lng: double.parse(prediction.lng!)));
+                      lng: double.parse(prediction.lng!)
+                    )
+                  );
 
                   // Seteando valores para enviar la informacion del Origen a otra pantalla
                   context
@@ -228,7 +241,7 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
               );
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           BlocBuilder<DriverMapFinderBloc, DriverMapFinderState>(
@@ -253,13 +266,15 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
               );
             },
           ),
-          SizedBox(
+          const SizedBox(
             height: 15
           ),
           CustomTimePicker(
             labelText: 'Hora de partida',
-            onTimeChanged: (time) {
-              print('Hora seleccionada: $time');
+            onTimeChanged: (value) {
+              context
+                .read<DriverMapFinderBloc>()
+                .add(UpdateDepartureTime(time: value));
             },
           ),
         ],

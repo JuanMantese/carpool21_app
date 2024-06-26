@@ -1,110 +1,125 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
+import 'package:carpool_21_app/src/domain/models/reserve.dart';
 
-PassengerRequest passengerRequestFromJson(String str) => PassengerRequest.fromJson(json.decode(str));
+TripDetail passengerRequestFromJson(String str) => TripDetail.fromJson(json.decode(str));
 
-String passengerRequestToJson(PassengerRequest data) => json.encode(data.toJson());
+String passengerRequestToJson(TripDetail data) => json.encode(data.toJson());
 
-class PassengerRequest {
+class TripDetail {
   int id;
   int idDriver;
-  int idCompensation;
+  String pickupNeighborhood;
   String pickupText;
   double pickupLat;
   double pickupLng;
+  String destinationNeighborhood;
   String destinationText;
   double destinationLat;
   double destinationLng;
   int availableSeats;
   String departureTime;
-  Position pickupPosition;
-  Position destinationPosition;
   double? distance;
   String? timeDifference;
-  CarInfo? car;
+  double? compensation;
+  CarInfo? vehicle;
+  String? observations;
+  List<Reserve>? reserves;
   DateTime? createdAt;
   DateTime updatedAt;
-  double? fareAssigned;
   GoogleDistanceMatrix? googleDistanceMatrix;
+  // Position pickupPosition;
+  // Position destinationPosition;
 
-  PassengerRequest({
+  TripDetail({
     required this.id,
     required this.idDriver,
-    required this.idCompensation,
+    required this.pickupNeighborhood,
     required this.pickupText,
     required this.pickupLat,
     required this.pickupLng,
+    required this.destinationNeighborhood,
     required this.destinationText,
     required this.destinationLat,
     required this.destinationLng,
     required this.availableSeats,
     required this.departureTime,
-    required this.pickupPosition,
-    required this.destinationPosition,
     this.distance,
     this.timeDifference,
-    this.car,
+    this.compensation,
+    this.vehicle,
+    this.observations,
+    this.reserves,
+    this.googleDistanceMatrix,
     this.createdAt,
     required this.updatedAt,
-    this.fareAssigned,
-    this.googleDistanceMatrix,
+    // required this.pickupPosition,
+    // required this.destinationPosition,
   });
 
   // Recibe una Lista con la informacion de todos los viajes disponibles y la convierte en JSON
-  static List<PassengerRequest> fromJsonList(List<dynamic> jsonList) {
-    List<PassengerRequest> toList = [];
+  static List<TripDetail> fromJsonList(List<dynamic> jsonList) {
+    List<TripDetail> toList = [];
 
     jsonList.forEach((json) { 
-      PassengerRequest clientRequestResponse = PassengerRequest.fromJson(json);
+      TripDetail clientRequestResponse = TripDetail.fromJson(json);
       toList.add(clientRequestResponse);
     });
     return toList;
   }
 
-  factory PassengerRequest.fromJson(Map<String, dynamic> json) => PassengerRequest(
+  factory TripDetail.fromJson(Map<String, dynamic> json) => TripDetail(
     id: json["id"],
     idDriver: json["idDriver"],
-    idCompensation: json["idCompensation"],
+    pickupNeighborhood: json["pickupNeighborhood"],
     pickupText: json["pickupText"],
     pickupLat: json["pickupLat"]?.toDouble(),
     pickupLng: json["pickupLng"]?.toDouble(),
+    destinationNeighborhood: json["destinationNeighborhood"],
     destinationText: json["destinationText"],
     destinationLat: json["destinationLat"]?.toDouble(),
     destinationLng: json["destinationLng"]?.toDouble(),
     availableSeats: json["availableSeats"],
     departureTime: json["departureTime"],
-    pickupPosition: Position.fromJson(json["pickup_position"]),
-    destinationPosition: Position.fromJson(json["destination_position"]),
     distance: json["distance"]?.toDouble(),
     timeDifference: json["time_difference"],
-    car: json["car"] != null ? CarInfo.fromJson(json["car"]) : null,
+    compensation: json["compensation"]?.toDouble(),
+    vehicle: json["vehicle"] != null ? CarInfo.fromJson(json["vehicle"]) : null,
+    observations: json["observations"],
+    reserves: json["reserves"] != null ? List<Reserve>.from(json["reserves"].map((x) => Reserve.fromJson(x))) : null,
     createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
     updatedAt: DateTime.parse(json["updated_at"]),
-    fareAssigned: json["fare_assigned"]?.toDouble(),
     googleDistanceMatrix: json["google_distance_matrix"] != null ? GoogleDistanceMatrix.fromJson(json["google_distance_matrix"]) : null, 
+    // pickupPosition: Position.fromJson(json["pickup_position"]),
+    // destinationPosition: Position.fromJson(json["destination_position"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "idDriver": idDriver,
-    "idCompensation": idCompensation,
+    "pickupNeighborhood": pickupNeighborhood,
     "pickupText": pickupText,
     "pickuplat": pickupLat,
     "pickupLng": pickupLng,
+    "destinationNeighborhood": destinationNeighborhood,
     "destinationText": destinationText,
     "destinationLat": destinationLat,
     "destinationLng": destinationLng,
     "availableSeats": availableSeats,
     "departureTime": departureTime,
-    "pickup_position": pickupPosition.toJson(),
-    "destination_position": destinationPosition.toJson(),
     "distance": distance,
     "time_difference": timeDifference,
-    "car": car?.toJson(),
+    "compensation": compensation,
+    "vehicle": vehicle?.toJson(),
+    "observations": observations,
+    "reserves": reserves != null ? List<dynamic>.from(reserves!.map((x) => x.toJson())) : null,
+    "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
-    "fare_assigned": fareAssigned,
     "google_distance_matrix": googleDistanceMatrix?.toJson(),
+    // "pickup_position": pickupPosition.toJson(),
+    // "destination_position": destinationPosition.toJson(),
   };
 }
 

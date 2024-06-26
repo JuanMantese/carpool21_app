@@ -98,10 +98,10 @@ abstract class AppModule {
   DriversPositionService get driversPositionService => DriversPositionService(); // Drivers Position Service - Remote Storage
 
   @injectable
-  DriverTripRequestsService get driverTripRequestsService => DriverTripRequestsService(); // Drivers Trip Requests Service - Remote Storage
+  DriverTripRequestsService get driverTripRequestsService => DriverTripRequestsService(token); // Drivers Trip Requests Service - Remote Storage
 
   @injectable
-  PassengerRequestsService get passengerRequestsService => PassengerRequestsService(); // Passenger Requests Service - Remote Storage
+  PassengerRequestsService get passengerRequestsService => PassengerRequestsService(token); // Passenger Requests Service - Remote Storage
 
   @injectable
   ReserveService get reserveService => ReserveService(); // Reserve Service - Remote Storage

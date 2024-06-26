@@ -28,10 +28,16 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
       );
     });
 
+    on<UpdateDepartureTime>((event, emit) {
+      print('Entramos');
+      print(' ${event.time}');
+      emit(state.copyWith(departureTime: event.time));
+    });
+
     on<FindPosition>((event, emit) async {
       // User Position
       Position position = await geolocationUseCases.findPosition.run();
-      print('Aqui Find Position');
+      print('Entrando en Find Position');
       print(position.latitude);
       print(position.longitude);
 
@@ -39,7 +45,7 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
       BitmapDescriptor imageMarker = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-current-location.png');
 
       // Actualizando estado de los marcadores
-      Marker marker = geolocationUseCases.getMarker.run(
+      Marker userMarker = geolocationUseCases.getMarker.run(
         'IdMyLocation',
         position.latitude,
         position.longitude,
@@ -47,20 +53,21 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
         '',
         imageMarker
       );
-      // ------------------------------------------------
+
+      // Add marker to existing markers and update state
+      final updatedMarkers = Map<MarkerId, Marker>.from(state.markers)
+        ..[userMarker.markerId] = userMarker;
 
       // Agregando el marcador al mapa
       emit(
         state.copyWith(
           position: position, // Change Position State
-          markers: {
-            marker.markerId: marker // Adding Marker
-          },
+          markers: updatedMarkers, // Adding Marker keeping existing ones
         )
       );
 
       // Modificando la posicion de la camara en el mapa
-      // DESCOMENTAR add(ChangeMapCameraPosition(lat: position.latitude, lng: position.longitude));
+      add(ChangeMapCameraPosition(lat: position.latitude, lng: position.longitude));
 
       print('Position Lat: ${position.latitude}');
       print('Position Lng: ${position.longitude}');
@@ -72,7 +79,6 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
       print('Entramos a ChangeMapCameraPosition');
       print(event.lat);
       print(event.lng);
-
 
       try {
         GoogleMapController googleMapController = await state.controller!.future;
@@ -252,7 +258,7 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
 
     on<ClearPickUpLocation>((event, emit) {
       final updatedMarkers = Map<MarkerId, Marker>.from(state.markers);
-      updatedMarkers.remove(MarkerId('PickUpLocation'));
+      updatedMarkers.remove(const MarkerId('PickUpLocation'));
       
       emit(state.copyWith(
         pickUpLatLng: null,
@@ -264,7 +270,7 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
 
     on<ClearDestinationLocation>((event, emit) {
       final updatedMarkers = Map<MarkerId, Marker>.from(state.markers);
-      updatedMarkers.remove(MarkerId('DestinationLocation'));
+      updatedMarkers.remove(const MarkerId('DestinationLocation'));
 
       emit(state.copyWith(
         destinationLatLng: null,

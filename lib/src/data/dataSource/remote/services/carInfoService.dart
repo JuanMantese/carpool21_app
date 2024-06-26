@@ -84,7 +84,10 @@ class CarInfoService {
   Future<Resource<CarInfo>> getCarInfo(int idDriver) async {
     try {
       Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/driver-car-info/$idDriver');
-      Map<String, String> headers = { 'Content-Type': 'application/json' };
+      Map<String, String> headers = { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await token}'
+      };
 
       final response = await http.get(url, headers: headers);
       final data = json.decode(response.body);

@@ -22,11 +22,23 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
           )
         );
       } else if (event is ShowReservas && globals.currentRole == 'passenger') {
-        emit(state.copyWith(navigationType: NavigationType.reservas));
+        emit(
+          state.copyWith(
+            navigationType: NavigationType.reservas
+          )
+        );
       } else if (event is ShowViaje && globals.currentRole == 'driver') {
-        emit(state.copyWith(navigationType: NavigationType.viaje));
+        emit(
+          state.copyWith(
+            navigationType: NavigationType.viaje
+          )
+        );
       } else if (event is ShowPerfil) {
-        emit(state.copyWith(navigationType: NavigationType.perfil));
+        emit(
+          state.copyWith(
+            navigationType: NavigationType.perfil
+          )
+        );
       }
     });
 
@@ -39,8 +51,9 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
     on<GetUserInfo>((event, emit) async {
       AuthResponse? authResponse = await authUseCases.getUserSession.run();
       if (authResponse != null && authResponse.user != null) {
-        print('Entro en 1');
+        print('Entro en GetUserInfo - Navigation');
         List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+        print('roles $roles');
         emit(
           state.copyWith(
             roles: roles,

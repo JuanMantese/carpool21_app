@@ -48,7 +48,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
       onTap: () => _selectTime(context),
       child: InputDecorator(
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
           labelText: widget.labelText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),

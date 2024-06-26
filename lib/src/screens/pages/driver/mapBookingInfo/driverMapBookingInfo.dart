@@ -22,6 +22,7 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
   String? pickUpText;
   LatLng? destinationLatLng;
   String? destinationText;
+  String? departureTime;
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
           destinationLatLng: destinationLatLng!,
           pickUpText: pickUpText!,
           destinationText: destinationText!,
+          departureTime: departureTime!
         ));
       
       // Aca se ejecuta la funcion para agregar la ruta en el mapa origen/destino
@@ -63,10 +65,12 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
     pickUpText = arguments['pickUpText'];
     destinationLatLng = arguments['destinationLatLng'];
     destinationText = arguments['destinationText'];
+    departureTime = arguments['departureTime'];
     print('pickUpLatLng ${pickUpLatLng}');
     print('pickUpText ${pickUpText}');
     print('destinationLatLng ${destinationLatLng}');
     print('destinationText ${destinationText}');
+    print('departureTime ${departureTime}');
 
     return Scaffold(
       body: BlocBuilder<DriverMapBookingInfoBloc, DriverMapBookingInfoState>(
@@ -85,9 +89,7 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
 
           // DELETE - Eliminar: Esta puesto para probar sin el back
           TimeAndDistanceValues mockTimeAndDistanceValues = TimeAndDistanceValues(
-            tripPrice: 10.0,
-            destinationAddresses: "Destino ficticio",
-            originAddresses: "Origen ficticio",
+            tripPrice: 1000.0,
             distance: Distance(text: "10 km", value: 10.0),
             duration: Duration(text: "15 minutos", value: 15.0),
           );

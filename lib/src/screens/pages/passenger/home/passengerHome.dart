@@ -2,7 +2,6 @@ import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHomeContent.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/info/profileInfo.dart';
 import 'package:carpool_21_app/src/screens/widgets/navigation/Navigation.dart';
 import 'package:flutter/material.dart';

@@ -30,24 +30,24 @@ class _CarListPageState extends State<CarListPage> {
         child: BlocBuilder<CarListBloc, CarListState>(
           builder: (context, state) {
             final response = state.response;
-
+            print('Aqui $response');
             if (response is Loading) {
               return const Center(child: CircularProgressIndicator());
-            } else if (response is Success) {
-              print('Aca: $response');
+            } 
+            else if (response is Success) {
               List<CarInfo> carList = response.data as List<CarInfo>;
-
               return CarListContent(state, carList);
             } 
-
-            // DELETE - Utilizamos un Array de prueba
-            if (state.testingArrayCars != null) {           
-              return CarListContent(state, null);
-            } else {
+            else {
               return Container(
                 child: Text('No logramos entrar')
               );
             }
+
+            // DELETE - Utilizamos un Array de prueba
+            // if (state.testingArrayCars != null) {           
+            //   return CarListContent(state, null);
+            // } 
           },
         ),
       ),

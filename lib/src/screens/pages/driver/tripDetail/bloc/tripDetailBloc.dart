@@ -1,41 +1,104 @@
 import 'dart:async';
-import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/models/carInfo.dart';
+import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
-import 'package:carpool_21_app/src/domain/utils/resource.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoEvent.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailEvent.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailState.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
-class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMapBookingInfoState> {
+class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
 
   GeolocationUseCases geolocationUseCases;
   DriverTripRequestsUseCases driverTripRequestsUseCases;
-  // AuthUseCases authUseCases;
-  // BlocSocketIO blocSocketIO;
-  
 
-  // DESCOMENTAR
-  // DriverMapBookingInfoBloc(this.blocSocketIO, this.geolocationUseCases, this.DriverRequestsUseCases, this.authUseCases): super(DriverMapBookingInfoState()) {
-  DriverMapBookingInfoBloc(this.geolocationUseCases, this.driverTripRequestsUseCases): super(DriverMapBookingInfoState()) {
-  
-    on<DriverMapBookingInfoInitEvent>((event, emit) async {
-      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+  // Constructor
+  TripDetailBloc(this.geolocationUseCases, this.driverTripRequestsUseCases): super(TripDetailState()) {
+    
+    void _setTestTripDetail(GetTripDetail event, Emitter<TripDetailState> emit) {
+      final TripDetail testTripDetail = TripDetail(
+        id: 1,
+        idDriver: 1,
+        pickupNeighborhood: 'Centro',
+        pickupText: "789 Oak St",
+        pickupLat: 37.7749,
+        pickupLng: -122.4294,
+        destinationNeighborhood: 'Campus Universitario',
+        destinationText: "123 Pine St",
+        destinationLat: 37.7949,
+        destinationLng: -122.4194,
+        availableSeats: 2,
+        departureTime: "18:30",
+        distance: 12.0,
+        timeDifference: "20 mins",
+        vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', seats: 5, year: 2023),
+        createdAt: DateTime.parse("2024-06-14T12:00:00Z"),
+        updatedAt: DateTime.parse("2024-06-14T12:00:00Z"),
+        compensation: 25.0,
+        googleDistanceMatrix: GoogleDistanceMatrix(
+          distance: Distance(text: "12 km", value: 12000),
+          duration: Distance(text: "20 mins", value: 1200),
+          status: "OK",
+        ),
+        observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
+        reserves: [
+          Reserve(
+            idTrip: 1, 
+            idPassenger: 1, 
+            name: 'Franco Jose', 
+            lastName: 'Jara'
+          ),
+          Reserve(
+            idTrip: 1, 
+            idPassenger: 2, 
+            name: 'Franco', 
+            lastName: 'Apostoli'
+          ),
+        ]
 
-      emit(
-        state.copyWith(
-          pickUpText: event.pickUpText,
-          pickUpLatLng: event.pickUpLatLng,
-          destinationText: event.destinationText,
-          destinationLatLng: event.destinationLatLng,
-          departureTime: event.departureTime,
-          controller: controller,
-        )
       );
 
+      emit(state.copyWith(
+        tripDetail: testTripDetail,
+        pickUpLatLng: LatLng(testTripDetail.pickupLat, testTripDetail.pickupLng),
+        destinationLatLng: LatLng(testTripDetail.destinationLat, testTripDetail.destinationLng)
+      ));
+    }
+
+    on<GetTripDetail>((event, emit) async {
+      // try {
+      //   // Realizar la consulta para traer el detalle de un viaje
+      //   AuthResponse authResponse = await authUseCases.getUserSession.run();
+
+      //   if (authResponse != null && authResponse.user != null) {
+      //     print('Datos del usuario obtenidos');
+      //     emit(
+      //       state.copyWith(
+      //         tripDetail: tripDetailContent,
+      //       )
+      //     );
+      //   } else {
+      //     print('AuthResponse es Null');
+      //     _setTestTripDetail(event, emit);
+      //   }
+      // } catch (error) {
+      //   print('Error GetTripDetail $error');
+      //   _setTestTripDetail(event, emit);
+      // }
+
+      print('Usando _setTestTripDetail');
+      _setTestTripDetail(event, emit);
+    }); 
+
+    on<InitializeMap>((event, emit) async {
+      print('InitializeMap -------------------------------------');
+      print(state.destinationLatLng);
+
+      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+      
       // Defino los Markers aca para que primero se inicialicen las posiciones
       // Trayendo las imagenes de los marker que coloco en el mapa al trazar la ruta
       BitmapDescriptor pickUpMarkerImg = await geolocationUseCases.createMarker.run('lib/assets/img/map-marker-small.png');
@@ -62,6 +125,7 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
 
       emit(
         state.copyWith(
+          controller: controller,
           markers: {
             markerPickUp.markerId: markerPickUp,
             markerDestination.markerId: markerDestination,
@@ -72,7 +136,8 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
 
     // Ajustando la posicion de la camara en el mapa segun la ruta elegida
     on<ChangeMapCameraPosition>((event, emit) async {
-      print('Entramos a ChangeMapCameraPosition');
+      print('Entramos a ChangeMapCameraPosition  -------------------------------------');
+      print(state.controller);
       print(event.pickUpLatLng);
       print(event.destinationLatLng);
 
@@ -91,6 +156,7 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
 
     // Agregando la ruta al mapa
     on<AddPolyline>((event, emit) async {
+      print('Entrando a AddPolyline  -------------------------------------');
       // Obteniendo las coordenadas del origen y destino
       List<LatLng> polylineCoordinates = await geolocationUseCases.getPolyline.run(state.pickUpLatLng!, state.destinationLatLng!);
 
@@ -108,44 +174,10 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
           }
         )
       );
+
+      // Modificando la posicion de la camara en el mapa
+      add(ChangeMapCameraPosition(pickUpLatLng: state.pickUpLatLng!, destinationLatLng: state.destinationLatLng!));
     });
-
-    // Trayendo los datos: Teimpo estimado del trayecto y Distancia del punto de origen al punto de destino
-    on<GetTimeAndDistanceValues>((event, emit) async {
-      emit(
-        state.copyWith(
-          responseTimeAndDistance: Loading()
-        )
-      );
-      Resource<TimeAndDistanceValues> response = await driverTripRequestsUseCases.getTimeAndDistance.run(
-        state.pickUpLatLng!.latitude,
-        state.pickUpLatLng!.longitude,
-        state.destinationLatLng!.latitude,
-        state.destinationLatLng!.longitude,
-      );
-      emit(
-        state.copyWith(
-          responseTimeAndDistance: response
-        )
-      );
-    });
-
-    // on<FareOfferedChanged>((event, emit) {
-    //   emit(
-    //     state.copyWith(fareOffered: BlocFormItem(
-    //       value: event.fareOffered.value,
-    //       error: event.fareOffered.value.isEmpty ? 'Ingresa la tarifa' : null
-    //     ))
-    //   );
-    // });
-
-    // on<EmitNewPassengerRequestSocketIO>((event, emit) {
-    //   if (blocSocketIO.state.socket != null) {
-    //     blocSocketIO.state.socket?.emit('new_client_request', {
-    //         'id_client_request': event.idClientRequest
-    //     });
-    //   }
-    // });
   }
 
   // Funcion para calcular los limites de la ruta, y poder realizar el movimiento de la camara

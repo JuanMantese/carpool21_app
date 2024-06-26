@@ -10,10 +10,11 @@ class DriverMapBookingInfoState extends Equatable {
   final Position? position;
   final CameraPosition cameraPosition;
   final Map<MarkerId, Marker> markers;
-  final LatLng? pickUpLatLng;
   final String pickUpText;
-  final LatLng? destinationLatLng;
+  final LatLng? pickUpLatLng;
   final String destinationText;
+  final LatLng? destinationLatLng;
+  final String? departureTime;
   final Map<PolylineId, Polyline> polylines; // Permite trazar la ruta origen/destino
   final LatLngBounds? routeBounds; // Recuadro que se crea para envolver los limites de la ruta (Polyline)
   final Resource? responseTimeAndDistance;
@@ -26,10 +27,11 @@ class DriverMapBookingInfoState extends Equatable {
     this.position,
     this.cameraPosition = const CameraPosition(target: LatLng(-31.3992803, -64.2766129), zoom: 13.0),
     this.markers = const <MarkerId, Marker>{},
-    this.pickUpLatLng,
     this.pickUpText = '',
-    this.destinationLatLng,
+    this.pickUpLatLng,
     this.destinationText = '',
+    this.destinationLatLng,
+    this.departureTime,
     this.polylines = const <PolylineId, Polyline>{},
     this.routeBounds,
     this.responseTimeAndDistance,
@@ -42,10 +44,11 @@ class DriverMapBookingInfoState extends Equatable {
     Position? position,
     CameraPosition? cameraPosition,
     Map<MarkerId, Marker>? markers,
-    LatLng? pickUpLatLng,
-    LatLng? destinationLatLng,
     String? pickUpText,
+    LatLng? pickUpLatLng,
     String? destinationText,
+    LatLng? destinationLatLng,
+    String? departureTime,
     Map<PolylineId, Polyline>? polylines,
     LatLngBounds? routeBounds,
     Resource? responseTimeAndDistance,
@@ -57,10 +60,11 @@ class DriverMapBookingInfoState extends Equatable {
       position: position ?? this.position,
       cameraPosition: cameraPosition ?? this.cameraPosition,
       markers: markers ?? this.markers,
-      pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
-      destinationLatLng: destinationLatLng ?? this.destinationLatLng,
       pickUpText: pickUpText ?? this.pickUpText,
+      pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
       destinationText: destinationText ?? this.destinationText,
+      destinationLatLng: destinationLatLng ?? this.destinationLatLng,
+      departureTime: departureTime ?? this.departureTime,
       polylines: polylines ?? this.polylines,
       routeBounds: routeBounds ?? this.routeBounds,
       responseTimeAndDistance: responseTimeAndDistance ?? this.responseTimeAndDistance,
@@ -72,6 +76,6 @@ class DriverMapBookingInfoState extends Equatable {
 
   @override
   // DESCOMENTAR List<Object?> get props => [position, markers, polylines, controller, cameraPosition, pickUpLatLng, destinationLatLng, pickUpText, destinationText, responseTimeAndDistance, responseClientRequest, fareOffered];
-  List<Object?> get props => [position, markers, polylines, controller, cameraPosition, pickUpLatLng, destinationLatLng, pickUpText, destinationText, responseTimeAndDistance, routeBounds];
+  List<Object?> get props => [position, markers, polylines, controller, cameraPosition, pickUpLatLng, destinationLatLng, pickUpText, destinationText, departureTime, responseTimeAndDistance, routeBounds];
 
 }

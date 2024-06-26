@@ -60,7 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             error: event.passwordInput.value.isEmpty 
               ? 'Ingresa tu contrasena'
               : event.passwordInput.value.length < 6
-                ? 'Minimo 6 caracteres' : null 
+                ? 'Minimo 8 caracteres' : null 
           ),
           formKey: formKey
         )

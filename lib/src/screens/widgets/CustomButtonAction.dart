@@ -18,7 +18,7 @@ class CustomButtonAction extends StatelessWidget {
     required this.onTapFunction,
     this.colorTop = const Color.fromARGB(255, 0, 64, 52),
     this.colorBottom = const Color(0xFF00A48B),
-    this.margin = const EdgeInsets.only(left: 20, right: 20, top: 15),
+    this.margin = const EdgeInsets.only(left: 40, right: 40, top: 15),
     this.padding = const EdgeInsets.all(0),
   });
 

@@ -1,5 +1,4 @@
 
-import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
@@ -80,7 +79,7 @@ class CarListBloc extends Bloc<CarListEvent, CarListState> {
     }
 
     on<GetCarList>((event, emit) async {
-      print('Entrando a GetCarList');
+      print('GetCarList');
 
       emit(
         state.copyWith(
@@ -89,7 +88,7 @@ class CarListBloc extends Bloc<CarListEvent, CarListState> {
       );
       // Recuperando los vehiculos del Driver
       Resource<List<CarInfo>> response = await carInfoUseCases.getCarList.run();
-      print(response);
+      print('Response - $response');
       emit(
         state.copyWith(
           response: response,

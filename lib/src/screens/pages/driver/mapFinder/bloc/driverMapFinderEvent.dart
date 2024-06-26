@@ -1,9 +1,22 @@
 
+import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-abstract class DriverMapFinderEvent {}
+abstract class DriverMapFinderEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class DriverMapFinderInitEvent extends DriverMapFinderEvent {}
+
+class UpdateDepartureTime extends DriverMapFinderEvent {
+  final String time;
+
+  UpdateDepartureTime({required this.time});
+
+  @override
+  List<Object?> get props => [time];
+}
 
 class FindPosition extends DriverMapFinderEvent {}
 

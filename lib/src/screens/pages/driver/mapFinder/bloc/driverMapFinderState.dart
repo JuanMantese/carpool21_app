@@ -51,6 +51,7 @@ class DriverMapFinderState extends Equatable {
     LatLng? pickUpLatLng,
     String? destinationText,
     LatLng? destinationLatLng,
+    String? departureTime,
     bool? isLocationSelected,
     Socket? socket,
   }) {
@@ -62,10 +63,11 @@ class DriverMapFinderState extends Equatable {
       polylines: polylines ?? this.polylines,
       cameraPosition: cameraPosition ?? this.cameraPosition,
       placemarkData: placemarkData ?? this.placemarkData,
-      pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
-      destinationLatLng: destinationLatLng ?? this.destinationLatLng,
       pickUpText: pickUpText ?? this.pickUpText,
+      pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
       destinationText: destinationText ?? this.destinationText,
+      destinationLatLng: destinationLatLng ?? this.destinationLatLng,
+      departureTime: departureTime ?? this.departureTime,
       isLocationSelected: isLocationSelected ?? this.isLocationSelected,
       socket: socket ?? this.socket
     );
@@ -73,6 +75,6 @@ class DriverMapFinderState extends Equatable {
 
 
   @override
-  List<Object?> get props => [controller, position, markers, polylines, cameraPosition, placemarkData, pickUpLatLng, destinationLatLng, pickUpText, destinationText, isLocationSelected, socket];
+  List<Object?> get props => [controller, position, markers, polylines, cameraPosition, placemarkData, pickUpText, pickUpLatLng, destinationText, destinationLatLng, departureTime, isLocationSelected, socket];
 
 }

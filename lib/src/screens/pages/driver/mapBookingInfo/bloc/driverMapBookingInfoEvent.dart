@@ -5,16 +5,18 @@ abstract class DriverMapBookingInfoEvent {}
 
 class DriverMapBookingInfoInitEvent extends DriverMapBookingInfoEvent {
   // Cambiando los valores a las variables
-  final LatLng pickUpLatLng;
   final String pickUpText;
-  final LatLng destinationLatLng;
+  final LatLng pickUpLatLng;
   final String destinationText;
+  final LatLng destinationLatLng;
+  final String departureTime;
   
   DriverMapBookingInfoInitEvent({
-    required this.pickUpLatLng,
-    required this.destinationLatLng,
     required this.pickUpText,
+    required this.pickUpLatLng,
     required this.destinationText,
+    required this.destinationLatLng,
+    required this.departureTime,
   });
 }
 

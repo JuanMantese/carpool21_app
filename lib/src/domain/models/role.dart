@@ -1,13 +1,13 @@
 
 class Role {
-  String idRole;
-  String name;
-  String route;
+  String? idRole;
+  String? name;
+  String? route;
 
   Role({
-    required this.idRole, 
-    required this.name, 
-    required this.route
+    this.idRole, 
+    this.name, 
+    this.route
   });
 
   factory Role.fromJson(Map<String, dynamic> json) => Role(

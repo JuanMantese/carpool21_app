@@ -1,9 +1,12 @@
-import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
+import 'package:carpool_21_app/src/screens/pages/carInfo/list/carItem.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomDialogTrip.dart';
 import 'package:flutter/material.dart';
 
 class DriverHomeContent extends StatelessWidget {
-  const DriverHomeContent({super.key});
+  final DriverHomeState state;
+
+  const DriverHomeContent(this.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,8 @@ class DriverHomeContent extends StatelessWidget {
                   const SizedBox(height: 16),
                   Center(
                     child: Text(
-                      'Bienvenido nuevamente Juan!',
-                      style: TextStyle(
+                      'Bienvenido nuevamente ${state.user?.name}!',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
@@ -46,7 +49,14 @@ class DriverHomeContent extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  _vehicleCard(context),
+
+                  (state.carList != null ? 
+                    CarItem(
+                      car: state.carList![0]
+                    )
+                  :
+                    _vehicleCard(context)
+                  ),
 
                   const SizedBox(height: 22),
                   const Text(
@@ -230,24 +240,9 @@ class DriverHomeContent extends StatelessWidget {
                   print("Nuevo viaje");
 
                   // Verificamos que el usuario tenga al menos 1 vehiculo registrado
-                  { 1 > 0 ? 
-                    CustomDialog(
-                      context: context,
-                      title: '¡No puedes crear un viaje!',
-                      content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
-                      icon: Icons.warning_rounded,
-                      onPressedSend: () {
-                        Navigator.of(context).pop();
-                        Navigator.pushNamed(context, '/car/register');
-                      },
-                      textSendBtn: 'Registrar',
-                      textCancelBtn: 'Cancelar',
-                    )
-                  :
-                    CustomDialogTrip(
-                      context: context,
-                    );
-                  }
+                  CustomDialogTrip(
+                    context: context,
+                  );
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: const Color(0xFFF9F9F9),

@@ -1,11 +1,10 @@
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
-import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
-import 'package:carpool_21_app/src/screens/widgets/navigation/Navigation.dart';
 import 'package:flutter/material.dart';
 
 class PassengerHomeContent extends StatelessWidget {
+  final PassengerHomeState state;
 
-  const PassengerHomeContent({super.key});
+  const PassengerHomeContent(this.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +28,8 @@ class PassengerHomeContent extends StatelessWidget {
                   const SizedBox(height: 16),
                   Center(
                     child: Text(
-                      'Bienvenido nuevamente Juan!',
-                      style: TextStyle(
+                      'Bienvenido nuevamente ${state.currentUser?.name}!',
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontStyle: FontStyle.italic,
@@ -207,7 +206,7 @@ class PassengerHomeContent extends StatelessWidget {
                     color: Color(0xFF00A48B)
                   ),
                   const SizedBox(width: 16),
-                  Container(
+                  SizedBox(
                     width: 250,
                     child: Text(
                       'No tenes reservas registradas. Encontrá tu próximo viaje',

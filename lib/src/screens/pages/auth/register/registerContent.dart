@@ -327,8 +327,7 @@ class RegisterContentState extends State<RegisterContent> {
                     ),
                   ),
                   
-                  // const Spacer(),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Container(
                     margin: EdgeInsets.only(
                       bottom: MediaQuery.of(context).padding.bottom

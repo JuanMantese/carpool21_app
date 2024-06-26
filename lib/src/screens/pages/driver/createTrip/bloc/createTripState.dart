@@ -5,18 +5,22 @@ import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CreateTripState extends Equatable {
+  final String? neighborhood; // Barrio
+  final String? tripDescription; // Descripción opcional del viaje  
   final String? selectedVehicle;
   final int? availableSeats;
-  final String? departureTime;
   final String pickUpText;
   final LatLng? pickUpLatLng;
   final String destinationText;
   final LatLng? destinationLatLng;
+  final String? departureTime;
   final TimeAndDistanceValues timeAndDistanceValues;
   final Resource? responseDriverTripRequest;
   final DriverMapBookingInfoState state;
 
   CreateTripState({
+    this.neighborhood,
+    this.tripDescription,
     this.selectedVehicle,
     this.availableSeats,
     this.departureTime,
@@ -30,6 +34,8 @@ class CreateTripState extends Equatable {
   });
 
   CreateTripState copyWith({
+    String? neighborhood,
+    String? tripDescription,
     String? selectedVehicle,
     int? availableSeats,
     String? departureTime,
@@ -42,6 +48,8 @@ class CreateTripState extends Equatable {
     DriverMapBookingInfoState? state,
   }) {
     return CreateTripState(
+      neighborhood: neighborhood ?? this.neighborhood,
+      tripDescription: tripDescription ?? this.tripDescription,
       selectedVehicle: selectedVehicle ?? this.selectedVehicle,
       availableSeats: availableSeats ?? this.availableSeats,
       departureTime: departureTime ?? this.departureTime,
@@ -57,6 +65,8 @@ class CreateTripState extends Equatable {
 
   @override
   List<Object?> get props => [
+    neighborhood,
+    tripDescription,
     selectedVehicle,
     availableSeats,
     departureTime,

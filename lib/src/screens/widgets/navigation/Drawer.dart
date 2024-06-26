@@ -25,7 +25,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
-
+    print(roles);
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return Drawer(
@@ -52,7 +52,7 @@ class CustomDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            currentUser.name ?? 'Juan Mantese',
+                            '${currentUser.name} ${currentUser.lastName}' ?? 'Juan Mantese Test',
                             style: const TextStyle(
                               color: Color(0xFF006D59),
                               fontWeight: FontWeight.bold,
@@ -101,8 +101,24 @@ class CustomDrawer extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false);
-                          globals.currentRole = 'driver';
+                          (roles.length == 1 ?
+                            // Verificamos que el usuario tenga al menos 1 vehiculo registrado
+                            CustomDialog(
+                              context: context,
+                              title: '¡No puedes crear un viaje!',
+                              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
+                              icon: Icons.warning_rounded,
+                              onPressedSend: () {
+                                Navigator.of(context).pop();
+                                Navigator.pushNamed(context, '/car/register');
+                              },
+                              textSendBtn: 'Registrar',
+                              textCancelBtn: 'Cancelar',
+                            )
+                          :
+                            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false),
+                            globals.currentRole = 'driver',
+                          );
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: globals.currentRole == 'driver'? const Color(0xFF00A98F) : null,
@@ -201,33 +217,17 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Métodos de pago'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/metodos-pago');
+            // Navigator.pushNamed(context, '/metodos-pago');
           },
         ),
         ListTile(
           leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
-          title: const Text('Vehículos'),
+          title: const Text('Registrar Vehículo'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/car/list');
+            Navigator.pushNamed(context, '/car/register');
           },
         ),
-        // ListTile(
-        //   leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
-        //   title: const Text('Detail Vehículo'),
-        //   onTap: () {
-        //     Navigator.pop(context);
-        //     Navigator.pushNamed(context, '/car/info');
-        //   },
-        // ),
-        // ListTile(
-        //   leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
-        //   title: const Text('Crear Vehículos'),
-        //   onTap: () {
-        //     Navigator.pop(context);
-        //     Navigator.pushNamed(context, '/car/register');
-        //   },
-        // ),
         ListTile(
           leading: const Icon(Icons.perm_phone_msg, color: Color(0xFF006D59)),
           title: const Text('Contacto'),
@@ -248,7 +248,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Maps'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/finder');
+            Navigator.pushNamed(context, '/driver/finder');
           },
         ),
         ListTile(
@@ -280,6 +280,13 @@ class CustomDrawer extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
             Navigator.pushNamed(context, '/passenger/request/trips');
+          },
+        ),
+        ListTile(
+          title: const Text('Trip Detail'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/driver/trip/detail');
           },
         ),
         ListTile(
@@ -338,7 +345,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Maps'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/finder');
+            Navigator.pushNamed(context, '/driver/finder');
           },
         ),
         ListTile(

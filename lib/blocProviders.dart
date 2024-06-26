@@ -18,6 +18,8 @@ import 'package:carpool_21_app/src/screens/pages/carInfo/update/bloc/carUpdateBl
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapLocation/bloc/driverMapLocationBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderBloc.dart';
@@ -36,11 +38,12 @@ List<BlocProvider> blocProviders = [
   
   BlocProvider<PassengerHomeBloc>(create: (context) => PassengerHomeBloc(locator<AuthUseCases>())),  
 
+  BlocProvider<DriverHomeBloc>(create: (context) => DriverHomeBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
   BlocProvider<DriverMapFinderBloc>(create: (context) => DriverMapFinderBloc(locator<GeolocationUseCases>(), locator<SocketUseCases>())..add(DriverMapFinderInitEvent())),
   BlocProvider<DriverMapBookingInfoBloc>(create: (context) => DriverMapBookingInfoBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())),
-  BlocProvider<DriverHomeBloc>(create: (context) => DriverHomeBloc(locator<AuthUseCases>())),
-  BlocProvider<DriverMapLocationBloc>(create: (context) => DriverMapLocationBloc(locator<AuthUseCases>(), locator<GeolocationUseCases>(), locator<SocketUseCases>(), locator<DriversPositionUseCases>())),
   BlocProvider<CreateTripBloc>(create: (context) => CreateTripBloc(locator<AuthUseCases>(), locator<DriverTripRequestsUseCases>())),
+  BlocProvider<TripDetailBloc>(create: (context) => TripDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())..add(GetTripDetail())),
+  BlocProvider<DriverMapLocationBloc>(create: (context) => DriverMapLocationBloc(locator<AuthUseCases>(), locator<GeolocationUseCases>(), locator<SocketUseCases>(), locator<DriversPositionUseCases>())),
   
   BlocProvider<ProfileInfoBloc>(create: (context) => ProfileInfoBloc(locator<AuthUseCases>())..add(GetUserInfo())),
   BlocProvider<ProfileUpdateBloc>(create: (context) => ProfileUpdateBloc(locator<AuthUseCases>(), locator<UserUseCases>())),

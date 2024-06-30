@@ -57,6 +57,7 @@ import 'package:carpool_21_app/src/domain/useCases/geolocation/getPositionStream
 import 'package:carpool_21_app/src/domain/useCases/passenger-request/getNerbyTripRequestUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/passenger-request/passengerRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/createReserveUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/getAllReservesUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/connectSocketUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/disconnectSocketUseCase.dart';
@@ -104,7 +105,7 @@ abstract class AppModule {
   PassengerRequestsService get passengerRequestsService => PassengerRequestsService(token); // Passenger Requests Service - Remote Storage
 
   @injectable
-  ReserveService get reserveService => ReserveService(); // Reserve Service - Remote Storage
+  ReserveService get reserveService => ReserveService(token); // Reserve Service - Remote Storage
 
   // Socket IO - Inicializando Socket IO
   Socket get socket => io('http://${ApiConfig.API_CARPOOL21}', 
@@ -190,6 +191,7 @@ abstract class AppModule {
     getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository)
   );
 
+
   // Passenger Request Repository
   @injectable
   PassengerRequestRepository get passengerRequestRepository => PassengerRequestRepositoryImpl(passengerRequestsService);
@@ -199,6 +201,7 @@ abstract class AppModule {
     getNearbyTripRequestUseCase: GetNearbyTripRequestUseCase(passengerRequestRepository)
   );
 
+
   // Reserve Repository
   @injectable
   ReserveRepository get reserveRepository => ReserveRepositoryImpl(reserveService);
@@ -206,6 +209,7 @@ abstract class AppModule {
   @injectable
   ReserveUseCases get reserveUseCases => ReserveUseCases(
     createReserve: CreateReserveUseCase(reserveRepository),
+    getAllReservesUseCase: GetAllReservesUseCase(reserveRepository)
   );
 
 

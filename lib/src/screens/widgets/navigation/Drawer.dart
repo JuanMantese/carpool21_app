@@ -45,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
                     children: [
                       const CircleAvatar(
                         radius: 30.0,
-                        backgroundImage: AssetImage('lib/assets/img/profile-icon.png'), // Asegúrate de tener esta imagen en tu proyecto
+                        backgroundImage: AssetImage('lib/assets/img/profile-icon.png'),
                       ),
                       const SizedBox(width: 16.0),
                       Column(
@@ -172,7 +172,7 @@ class CustomDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset(
-                        'lib/assets/img/footer-logo-carpool21.png', // Asegúrate de tener esta imagen en tu proyecto
+                        'lib/assets/img/footer-logo-carpool21.png',
                         height: 50,
                       ),
                       const SizedBox(width: 16),

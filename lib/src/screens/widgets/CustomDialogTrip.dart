@@ -78,6 +78,7 @@ class CustomDialogTrip extends StatelessWidget {
                 ),
               ),
             ),
+            
             ElevatedButton(
               onPressed: () {
                 _setPredefinedLocation(
@@ -102,6 +103,7 @@ class CustomDialogTrip extends StatelessWidget {
                 ),
               ),
             ),
+
             ElevatedButton(
               onPressed: () {
                 _setPredefinedLocation(
@@ -126,6 +128,7 @@ class CustomDialogTrip extends StatelessWidget {
                 ),
               ),
             ),
+            
             ElevatedButton(
               onPressed: () {
                 _setPredefinedLocation(

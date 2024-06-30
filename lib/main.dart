@@ -1,4 +1,5 @@
 import 'package:carpool_21_app/blocProviders.dart';
+import 'package:carpool_21_app/config/constants/enviroment.dart';
 import 'package:carpool_21_app/injection.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/login/login.dart';
 import 'package:carpool_21_app/src/screens/pages/auth/register/register.dart';
@@ -13,15 +14,22 @@ import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/tripDetail.da
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHome.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/driverMapBookingInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/driverMapFinder.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/reserveDetail.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserves/reserves.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/tripAvailableDetail.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/tripsAvailable.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/info/profileInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/update/profileUpdate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+    
+  await Environment.initEnviroment(); 
+
   await configureDependencies();
   runApp(const CarPool21());
 }
@@ -57,6 +65,10 @@ class CarPool21 extends StatelessWidget {
           
           '/passenger/home': (context) => const PassengerHomePage(),
           '/passenger/request/trips': (context) => const TripsAvailablePage(),
+          '/passenger/request/trips/detail': (context) => const TripAvailableDetailPage(),
+          '/passenger/reserve/detail': (context) => const ReserveDetailPage(),
+          '/passenger/reserves': (context) => const ReservesPage(),
+
 
           '/driver/home': (context) => const DriverHomePage(),
           '/driver/finder': (context) => const DriverMapFinder(),

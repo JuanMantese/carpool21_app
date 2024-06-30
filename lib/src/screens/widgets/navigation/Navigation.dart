@@ -8,6 +8,9 @@ import 'package:carpool_21_app/src/screens/pages/driver/home/driverHomeContent.d
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHomeContent.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesState.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserves/reservesContent.dart';
 import 'package:carpool_21_app/src/screens/widgets/navigation/Drawer.dart';
 import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationBloc.dart';
 import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationEvent.dart';
@@ -177,7 +180,11 @@ class CustomNavigation extends StatelessWidget {
           },
         );
       case NavigationType.reservas:
-        return const Text('Reservas Page');
+        return BlocBuilder<ReservesBloc, ReservesState>(
+          builder: (context, reservesState) {
+            return ReservesContent(reservesState);
+          },
+        );
       case NavigationType.viaje:
         return const Text('Viaje Page');
       default:

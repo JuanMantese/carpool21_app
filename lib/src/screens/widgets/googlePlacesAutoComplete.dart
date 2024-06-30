@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 
+// ignore: must_be_immutable
 class GooglePlacesAutoComplete extends StatelessWidget {
   TextEditingController controller;
   String hintText;
@@ -14,6 +15,7 @@ class GooglePlacesAutoComplete extends StatelessWidget {
   Widget build(BuildContext context) {
     print('Entro enabled -----------------');
     print(enabled);
+    
     if (enabled) {
       // Si enabled es true, muestra un TextField deshabilitado
       return Container(

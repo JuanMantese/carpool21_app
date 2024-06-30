@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AdvancedFiltersModal extends StatefulWidget {
   final Function(String, String, TimeOfDay, TimeOfDay) onFilter;
 
-  AdvancedFiltersModal({required this.onFilter});
+  const AdvancedFiltersModal({required this.onFilter, super.key});
 
   @override
   _AdvancedFiltersModalState createState() => _AdvancedFiltersModalState();
@@ -22,12 +21,12 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('¡Filtros para buscar tu viaje!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          SizedBox(height: 20),
+          const Text('¡Filtros para buscar tu viaje!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 20),
           DropdownButtonFormField(
             value: originDestination,
             items: originDestinationOptions.map((String option) {
@@ -46,7 +45,7 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
               labelText: 'Origen/Destino',
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           DropdownButtonFormField(
             value: campus,
             items: campusOptions.map((String option) {
@@ -65,7 +64,7 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
               labelText: 'Sedes',
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
@@ -74,7 +73,7 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                     labelText: 'Horario mínimo',
-                    prefixIcon: Icon(Icons.access_time),
+                    prefixIcon: const Icon(Icons.access_time),
                   ),
                   onTap: () async {
                     final time = await showTimePicker(
@@ -92,14 +91,14 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
                   ),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: TextFormField(
                   readOnly: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                     labelText: 'Horario máximo',
-                    prefixIcon: Icon(Icons.access_time),
+                    prefixIcon: const Icon(Icons.access_time),
                   ),
                   onTap: () async {
                     final time = await showTimePicker(
@@ -119,22 +118,25 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
                 onPressed: () {
-                  widget.onFilter(originDestination, campus, startTime ?? TimeOfDay(hour: 0, minute: 0), endTime ?? TimeOfDay(hour: 23, minute: 59));
+                  widget.onFilter(
+                    originDestination, campus, startTime ?? const TimeOfDay(hour: 0, minute: 0), 
+                    endTime ?? const TimeOfDay(hour: 23, minute: 59)
+                  );
                   Navigator.pop(context);
                 },
-                child: Text('Filtrar'),
+                child: const Text('Filtrar'),
               ),
               OutlinedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancelar'),
+                child: const Text('Cancelar'),
               ),
             ],
           ),

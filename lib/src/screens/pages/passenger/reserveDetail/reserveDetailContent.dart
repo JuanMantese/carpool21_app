@@ -1,21 +1,20 @@
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailState.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/tripDetailReservesItem.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class TripDetailContent extends StatelessWidget {
+class ReserveDetailContent extends StatelessWidget {
+
+  TripDetail? reserveDetail;
+  ReserveDetailState state;
   
-  TripDetail? tripDetail;
-  TripDetailState state;
-  
-  TripDetailContent(this.tripDetail, this.state, {super.key});
+  ReserveDetailContent(this.reserveDetail, this.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    print('TripDetailContent');
-    print(tripDetail?.reserves?[0].name);
+    print('ReserveDetailContent');
+    print(reserveDetail?.reserves?[0].name);
 
     return Stack(
       children: [
@@ -31,19 +30,18 @@ class TripDetailContent extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildTripCard(context),
+                  _driverInfo(context),
                   const SizedBox(height: 16),
                   _buildTripInfoMap(context),
                   const SizedBox(height: 16),
                   _buildObservationsSection(context),
                   const SizedBox(height: 16),
                   _buildVehicleInfo(context),
-                  const SizedBox(height: 16),
-                  _buildReservesList(context),
-                  const SizedBox(height: 16),            
+                  _buildTripCard(context),
+                  const SizedBox(height: 28),
+
                   const Spacer(),
-                  _buttonsAction(context)
-                  
+                  _buttonsAction(context)                  
                 ],
               ),
             ),
@@ -54,7 +52,7 @@ class TripDetailContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (Route<dynamic> route) => false,);
+            Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (Route<dynamic> route) => false,);
           },
         ),
       ],
@@ -82,7 +80,7 @@ class TripDetailContent extends StatelessWidget {
         ),
       ),
       child: const Text(
-        'DETALLE DEL VIAJE',
+        'DETALLE DE RESERVA',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -92,55 +90,48 @@ class TripDetailContent extends StatelessWidget {
     );
   }
 
-  Widget _buildTripCard(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(
-        top: 80,
-        right: 5,
-        left: 5
-      ),
-      elevation: 4.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      color: Colors.white,
-      surfaceTintColor: Colors.white,
+  Widget _driverInfo(BuildContext context) {
+    return Container(
+      color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top + 30,
+          right: 16, 
+          left: 30,
+        ), 
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ListTile(
-              leading: const Icon(
-                Icons.my_location,
-                color: Color(0xFF3b82f6),
-              ),
-              title: Text(
-                tripDetail != null ? tripDetail!.pickupNeighborhood : '',
-              ),
-              titleTextStyle: const TextStyle(
-                fontSize: 14,
-                color: Colors.black
-              ),
-              subtitle: Text(
-                tripDetail != null ? tripDetail!.pickupText : '',
+            const Text(
+              'Conductor',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+                color: Color(0xFF00A48B),
               ),
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.location_on,
-                color: Color(0xFFdc2627),
-              ),
-              title: Text(
-                tripDetail != null ? tripDetail!.destinationNeighborhood : ''
-              ),
-              titleTextStyle: const TextStyle(
-                fontSize: 14,
-                color: Colors.black
-              ),
-              subtitle: Text(
-                tripDetail != null ? tripDetail!.destinationText : ''
-              ),
+            const SizedBox(height: 10,),
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 26.0,
+                  backgroundImage: AssetImage('lib/assets/img/profile-icon.png'),
+                ),
+                const SizedBox(width: 16.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${reserveDetail?.driver?.name} ${reserveDetail?.driver?.lastName}' ?? 'Juan Mantese Test',
+                      style: const TextStyle(
+                        color: Color(0xFF006D59),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -160,11 +151,11 @@ class TripDetailContent extends StatelessWidget {
               children: [
                 ListTile(
                   leading: const Icon(
-                    Icons.timer,
+                    Icons.schedule_rounded,
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    tripDetail != null ? tripDetail!.departureTime : '',
+                    reserveDetail != null ? reserveDetail!.departureTime : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -177,7 +168,7 @@ class TripDetailContent extends StatelessWidget {
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    tripDetail != null ? tripDetail!.timeDifference! : '',
+                    reserveDetail != null ? reserveDetail!.timeDifference! : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -190,14 +181,13 @@ class TripDetailContent extends StatelessWidget {
                     // color: Color(0xFFdc2627),
                   ),
                   title: Text(
-                    tripDetail != null ? tripDetail!.compensation.toString() : ''
+                    reserveDetail != null ? reserveDetail!.compensation.toString() : ''
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
                     color: Colors.black
                   ),
                 ),
-            
               ],
             ),
           ),
@@ -321,17 +311,17 @@ class TripDetailContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        tripDetail?.vehicle?.brand ?? '',
+                        reserveDetail?.vehicle?.brand ?? '',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text('Patente: ${tripDetail?.vehicle?.patent ?? ''}'),
-                      Text('Año: ${tripDetail?.vehicle?.year ?? ''}'),
-                      Text('Color: ${tripDetail?.vehicle?.color ?? ''}'),
-                      Text('Cédula Verde: ${tripDetail?.vehicle?.nroGreenCard ?? ''}'),
+                      Text('Patente: ${reserveDetail?.vehicle?.patent ?? ''}'),
+                      Text('Año: ${reserveDetail?.vehicle?.year ?? ''}'),
+                      Text('Color: ${reserveDetail?.vehicle?.color ?? ''}'),
+                      Text('Cédula Verde: ${reserveDetail?.vehicle?.nroGreenCard ?? ''}'),
                     ],
                   ),
                 ),
@@ -343,33 +333,59 @@ class TripDetailContent extends StatelessWidget {
     );
   }
 
-  Widget _buildReservesList(BuildContext context) {  
-    // Permite listar la informacion que viene dentro de una Lista
-    return (tripDetail?.reserves != null && tripDetail!.reserves!.isNotEmpty) ? 
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Pasajeros',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-              color: Color(0xFF00A48B),
+  Widget _buildTripCard(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(
+        right: 5,
+        left: 5
+      ),
+      elevation: 2.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              leading: const Icon(
+                Icons.my_location,
+                color: Color(0xFF3b82f6),
+              ),
+              title: Text(
+                reserveDetail != null ? reserveDetail!.pickupNeighborhood : '',
+              ),
+              titleTextStyle: const TextStyle(
+                fontSize: 14,
+                color: Colors.black
+              ),
+              subtitle: Text(
+                reserveDetail != null ? reserveDetail!.pickupText : '',
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          ...tripDetail!.reserves!.map((reserve) {
-            return TripDetailReservesItem(reserve: reserve);
-          }).toList(),
-        ],
-      )
-      : 
-      Container(
-        margin: const EdgeInsets.only(top: 16, bottom: 40),
-        padding: const EdgeInsets.only(right: 20, left: 20),
-        child: const Text("No hay reservas disponibles."),
-      );
+            ListTile(
+              leading: const Icon(
+                Icons.location_on,
+                color: Color(0xFFdc2627),
+              ),
+              title: Text(
+                reserveDetail != null ? reserveDetail!.destinationNeighborhood : ''
+              ),
+              titleTextStyle: const TextStyle(
+                fontSize: 14,
+                color: Colors.black
+              ),
+              subtitle: Text(
+                reserveDetail != null ? reserveDetail!.destinationText : ''
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buttonsAction(BuildContext context) {

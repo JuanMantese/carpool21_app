@@ -1,1 +1,1 @@
-final String API_KEY_GOOGLE = 'My_API_KEY';
+final String API_KEY_GOOGLE = 'AIzaSyBwylGszcGHB5poVVHIDBUaTj9oNqwYk3Y';

@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/reserve.dart';
 
@@ -11,6 +9,7 @@ String passengerRequestToJson(TripDetail data) => json.encode(data.toJson());
 class TripDetail {
   int id;
   int idDriver;
+  Driver? driver;
   String pickupNeighborhood;
   String pickupText;
   double pickupLat;
@@ -36,6 +35,7 @@ class TripDetail {
   TripDetail({
     required this.id,
     required this.idDriver,
+    this.driver,
     required this.pickupNeighborhood,
     required this.pickupText,
     required this.pickupLat,
@@ -73,6 +73,7 @@ class TripDetail {
   factory TripDetail.fromJson(Map<String, dynamic> json) => TripDetail(
     id: json["id"],
     idDriver: json["idDriver"],
+    driver: json["driver"] != null ? Driver.fromJson(json["driver"]) : null,
     pickupNeighborhood: json["pickupNeighborhood"],
     pickupText: json["pickupText"],
     pickupLat: json["pickupLat"]?.toDouble(),
@@ -99,6 +100,7 @@ class TripDetail {
   Map<String, dynamic> toJson() => {
     "id": id,
     "idDriver": idDriver,
+    "driver": driver?.toJson(),
     "pickupNeighborhood": pickupNeighborhood,
     "pickupText": pickupText,
     "pickuplat": pickupLat,
@@ -120,6 +122,34 @@ class TripDetail {
     "google_distance_matrix": googleDistanceMatrix?.toJson(),
     // "pickup_position": pickupPosition.toJson(),
     // "destination_position": destinationPosition.toJson(),
+  };
+}
+
+class Driver {
+  String name;
+  String lastName;
+  String phone;
+  String? photoUser;
+
+  Driver({
+    required this.name,
+    required this.lastName,
+    required this.phone,
+    this.photoUser,
+  });
+
+  factory Driver.fromJson(Map<String, dynamic> json) => Driver(
+    name: json["name"],
+    lastName: json["lastName"],
+    phone: json["phone"],
+    photoUser: json["photoUser"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "lastName": lastName,
+    "phone": phone,
+    "photoUser": photoUser,
   };
 }
 

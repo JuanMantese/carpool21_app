@@ -47,13 +47,15 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             Fluttertoast.showToast(msg: response.message, toastLength: Toast.LENGTH_LONG); 
             print('Error Data: ${response.message}');
           } else if (response is Success) {
-            Fluttertoast.showToast(msg: 'Actualizacion exitosa', toastLength: Toast.LENGTH_LONG); 
+            Fluttertoast.showToast(msg: 'Registro exitoso', toastLength: Toast.LENGTH_LONG); 
             print('Success Data: ${response.data}');
 
             // Updating carInfoData on screen - I wait 1s for the in-session update to finish
-            Future.delayed(const Duration(seconds: 1), () {
-              context.read<CarInfoBloc>().add(GetCarInfo());
-            });
+            // Future.delayed(const Duration(seconds: 1), () {
+            //   context.read<CarInfoBloc>().add(GetCarInfo());
+            // });
+
+            Navigator.pushNamedAndRemoveUntil(context, '/car/info', (route) => false);
 
             // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);   // REVISAR o ELIMINAR
             // Navigator.pop(context);

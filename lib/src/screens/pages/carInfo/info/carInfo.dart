@@ -14,11 +14,20 @@ class CarInfoPage extends StatefulWidget {
 }
 
 class _CarInfoPageState extends State<CarInfoPage> {
+  late int idVehicle;
+
   @override
   void initState() {
     super.initState();
-    // Dispara el evento para obtener la información del vehiculo
-    context.read<CarInfoBloc>().add(GetCarInfo());
+
+     // Espera que todos los elementos del build sean construidos antes de ejecutarse
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      idVehicle = args['idVehicle'];
+
+      // Dispara el evento para obtener la información del vehiculo
+      context.read<CarInfoBloc>().add(GetCarInfo(idVehicle: idVehicle));
+    });
   }
 
   @override

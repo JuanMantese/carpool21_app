@@ -19,35 +19,29 @@ class ReserveDetailContent extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 26,
+          padding: const EdgeInsets.only(
+            top: 26,
             // bottom: MediaQuery.of(context).padding.bottom + 26,
             right: 26,
             left: 26
           ),
-          child: SingleChildScrollView(
-            child: IntrinsicHeight(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _driverInfo(context),
-                  const SizedBox(height: 16),
-                  _buildTripInfoMap(context),
-                  const SizedBox(height: 16),
-                  _buildObservationsSection(context),
-                  const SizedBox(height: 16),
-                  _buildVehicleInfo(context),
-                  _buildTripCard(context),
-                  const SizedBox(height: 28),
-
-                  const Spacer(),
-                  _buttonsAction(context)                  
-                ],
-              ),
-            ),
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _driverInfo(context),
+              const SizedBox(height: 16),
+              _buildTripInfoMap(context),
+              const SizedBox(height: 16),
+              _buildObservationsSection(context),
+              const SizedBox(height: 16),
+              _buildVehicleInfo(context),
+              _buildTripCard(context),
+              const SizedBox(height: 28),
+              _buttonsAction(context)                  
+            ],
           ),
         ),
-        
+
         _headerTripDetail(context),
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
@@ -168,7 +162,7 @@ class ReserveDetailContent extends StatelessWidget {
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    reserveDetail != null ? reserveDetail!.timeDifference! : '',
+                    reserveDetail != null ? reserveDetail!.timeDifference.toString() : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -389,94 +383,49 @@ class ReserveDetailContent extends StatelessWidget {
   }
 
   Widget _buttonsAction(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 26,),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {
-                // Navigator.pushNamed(context, '/car/register');
-              },
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                ),
-                backgroundColor: const Color(0xFFF9F9F9),
-                elevation: 0,
-                side: const BorderSide(
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom,),
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            // Navigator.pushNamed(context, '/car/register');
+          },
+          style: OutlinedButton.styleFrom(
+            fixedSize: Size(180, 50),
+            padding: const EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+            ),
+            backgroundColor: const Color(0xFFF9F9F9),
+            elevation: 0,
+            side: const BorderSide(
+              color: Color(0xFFdc2627),
+              width: 2.0
+            ),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+          ),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.close_rounded,
+                color: Color(0xFFdc2627),
+              ),
+              SizedBox(width: 16),
+              Text(
+                'Cancelar',
+                style: TextStyle(
                   color: Color(0xFFdc2627),
-                  width: 2.0
-                ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
                 ),
               ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.close_rounded,
-                    color: Color(0xFFdc2627),
-                  ),
-                  SizedBox(width: 16),
-                  Text(
-                    'Cancelar',
-                    style: TextStyle(
-                      color: Color(0xFFdc2627),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/car/register');
-              },
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                ),
-                backgroundColor: const Color(0xFFF9F9F9),
-                elevation: 0,
-                side: const BorderSide(
-                  color: Color(0xFF00A98F),
-                  width: 2.0
-                ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.edit_outlined,
-                    color: Color(0xFF00A98F),
-                  ),
-                  SizedBox(width: 16),
-                  Text(
-                    'Editar',
-                    style: TextStyle(
-                      color: Color(0xFF00A98F),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ]
-      ),
+        ),
+      )
     );
   }
 }

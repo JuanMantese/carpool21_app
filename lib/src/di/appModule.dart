@@ -29,11 +29,13 @@ import 'package:carpool_21_app/src/domain/repository/reserveRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/socketRepository.dart';
 import 'package:carpool_21_app/src/domain/repository/usersRepository.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/auth/changeRolUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/getUserSessionUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/loginUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/logoutUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/registerUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/saveUserSessionUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/auth/updateUserSessionUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/createCarInfoUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/getCarInfoUseCase.dart';
@@ -41,6 +43,7 @@ import 'package:carpool_21_app/src/domain/useCases/car-info/getCarListUseCase.da
 import 'package:carpool_21_app/src/domain/useCases/car-info/updateCarInfoUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/createTripRequestUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getAllTripsUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTimeAndDistanceUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/createDriverPositionUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/deleteDriverPositionUseCase.dart';
@@ -87,7 +90,7 @@ abstract class AppModule {
   }
 
   @injectable
-  AuthService get authService => AuthService(); // Auth Service - Remote Storage
+  AuthService get authService => AuthService(token); // Auth Service - Remote Storage
 
   @injectable
   UsersService get usersService => UsersService(token); // User Service - Remote Storage
@@ -125,7 +128,9 @@ abstract class AppModule {
     login: LoginUseCase(authRepository),
     logout: LogoutUseCase(authRepository),
     register: RegisterUseCase(authRepository),
+    changeRolUseCase: ChangeRolUseCase(authRepository),
     saveUserSession: SaveUserSessionUseCase(authRepository),
+    updateUserSession: UpdateUserSessionUseCase(authRepository),
     getUserSession: GetUserSessionUseCase(authRepository),
   );
 
@@ -188,7 +193,8 @@ abstract class AppModule {
   @injectable
   DriverTripRequestsUseCases get driverTripRequestsUseCases => DriverTripRequestsUseCases(
     createTripRequestUseCase: CreateTripRequestUseCase(driverTripRequestsRepository),
-    getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository)
+    getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository),
+    getAllTripsUseCase: GetAllTripsUseCase(driverTripRequestsRepository)
   );
 
 

@@ -15,3 +15,5 @@ class GetUserInfo extends PassengerHomeEvent {
 
   GetUserInfo(this.userService);
 }
+
+class GetCurrentReserve extends PassengerHomeEvent {} 

@@ -27,13 +27,15 @@ class _PassengerHomeState extends State<PassengerHomePage> {
     // Obtén la instancia de UsersService
     UsersService userService = GetIt.instance<UsersService>();
 
-    // Dispara el evento para obtener la información del usuario
+    // Dispara el evento para obtener la información del pasajero
     context.read<PassengerHomeBloc>().add(GetUserInfo(userService));
+
+    // Dispara el evento para obtener la reserva del pasajero
+    context.read<PassengerHomeBloc>().add(GetCurrentReserve());
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: BlocBuilder<PassengerHomeBloc, PassengerHomeState>(
         builder: (context, state) {
@@ -48,7 +50,6 @@ class _PassengerHomeState extends State<PassengerHomePage> {
             CustomNavigation(
               roles: state.roles ?? [], 
               currentUser: state.currentUser!, 
-              userService: state.userService!,
             );
           }
           // return pageList[state.pageIndex];

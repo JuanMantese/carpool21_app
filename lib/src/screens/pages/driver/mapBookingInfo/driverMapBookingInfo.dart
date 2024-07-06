@@ -18,24 +18,52 @@ class DriverMapBookingInfo extends StatefulWidget {
 
 class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
   // Inicializando variables
-  LatLng? pickUpLatLng;
+  String? pickUpNeighborhood;
   String? pickUpText;
-  LatLng? destinationLatLng;
+  LatLng? pickUpLatLng;
+  String? destinationNeighborhood;
   String? destinationText;
+  LatLng? destinationLatLng;
   String? departureTime;
 
   @override
   void initState() {
     super.initState();
+    
+    // Iniciando el Controller del Mapa cuando entro a la pantalla 
+    context.read<DriverMapBookingInfoBloc>().add(DriverMapBookingInfoInitMap());
 
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+      // Recibiendo los datos de Origen y Destino desde DriverMapFinder
+      Map<String, dynamic> arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+
+      // Seteando valores
+      pickUpNeighborhood = arguments['pickUpNeighborhood'];
+      pickUpText = arguments['pickUpText'];
+      pickUpLatLng = arguments['pickUpLatLng'];
+      destinationNeighborhood = arguments['destinationNeighborhood'];
+      destinationText = arguments['destinationText'];
+      destinationLatLng = arguments['destinationLatLng'];
+      departureTime = arguments['departureTime'];
+      print('pickUpNeighborhood: ${pickUpNeighborhood}');
+      print('pickUpText: ${pickUpText}');
+      print('pickUpLatLng: ${pickUpLatLng}');
+      print('destinationNeighborhood: ${destinationNeighborhood}');
+      print('destinationText: ${destinationText}');
+      print('destinationLatLng: ${destinationLatLng}');
+      print('departureTime: ${departureTime}');
+      
+
       context
         .read<DriverMapBookingInfoBloc>()
         .add(DriverMapBookingInfoInitEvent(
+          pickUpNeighborhood: pickUpNeighborhood!,
           pickUpLatLng: pickUpLatLng!,
-          destinationLatLng: destinationLatLng!,
+          destinationNeighborhood: destinationNeighborhood!,
           pickUpText: pickUpText!,
+          destinationLatLng: destinationLatLng!,
           destinationText: destinationText!,
           departureTime: departureTime!
         ));
@@ -56,35 +84,24 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
 
   @override
   Widget build(BuildContext context) {
-    // Recibiendo los datos de Origen y Destino desde DriverMapFinder
-    Map<String, dynamic> arguments =
-      ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-
-    // Seteando valores
-    pickUpLatLng = arguments['pickUpLatLng'];
-    pickUpText = arguments['pickUpText'];
-    destinationLatLng = arguments['destinationLatLng'];
-    destinationText = arguments['destinationText'];
-    departureTime = arguments['departureTime'];
-    print('pickUpLatLng ${pickUpLatLng}');
-    print('pickUpText ${pickUpText}');
-    print('destinationLatLng ${destinationLatLng}');
-    print('destinationText ${destinationText}');
-    print('departureTime ${departureTime}');
-
     return Scaffold(
       body: BlocBuilder<DriverMapBookingInfoBloc, DriverMapBookingInfoState>(
         builder: (context, state) {
           final responseTimeAndDistance = state.responseTimeAndDistance;
 
-          if (responseTimeAndDistance is Loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          else if (responseTimeAndDistance is Success) {
-            TimeAndDistanceValues timeAndDistanceValues = responseTimeAndDistance.data as TimeAndDistanceValues;
-            return Scaffold(
-              body: DriverMapBookingInfoContent(state, timeAndDistanceValues)
-            );
+          // if (responseTimeAndDistance is Loading) {
+          //   return const Center(child: CircularProgressIndicator());
+          // }
+          // else if (responseTimeAndDistance is Success) {
+          //   TimeAndDistanceValues timeAndDistanceValues = responseTimeAndDistance.data as TimeAndDistanceValues;
+          //   return Scaffold(
+          //     body: DriverMapBookingInfoContent(state, timeAndDistanceValues)
+          //   );
+          // }
+
+          // Verifica si el Controller del Map se inicializo completamente antes de entrar
+          if (state.controller == null) {
+            return Center(child: CircularProgressIndicator());
           }
 
           // DELETE - Eliminar: Esta puesto para probar sin el back

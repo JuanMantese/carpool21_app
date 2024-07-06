@@ -11,13 +11,8 @@ class CarInfo {
     String model;
     String patent;
     String color;
-    int seats;
     int year;
-    String nroGreenCard;
-    String? createAt;
-    String? updateAT;
-    String? dateDelete;
- 
+    String? nroGreenCard;
 
     CarInfo({
       this.idDriver,
@@ -26,12 +21,8 @@ class CarInfo {
       required this.model,
       required this.patent,
       required this.color,
-      required this.seats,
       required this.year,
-      required this.nroGreenCard,
-      this.createAt,
-      this.updateAT,
-      this.dateDelete
+      this.nroGreenCard,
     });
 
   // Recibe una Lista con la informacion de todos los vehiculos del conductor y la convierte en JSON
@@ -46,23 +37,21 @@ class CarInfo {
   }
 
     factory CarInfo.fromJson(Map<String, dynamic> json) => CarInfo(
-      idDriver: json["idDriver"],
+      idVehicle: json["idVehicle"],
       brand: json["brand"],
       model: json["model"],
       patent: json["patent"],
       color: json["color"],
-      seats: json["seats"] is String ? int.parse(json["seats"]) : json["seats"],
       year: json["year"] is String ? int.parse(json["year"]) : json["year"],
       nroGreenCard: json["greenCard"],
     );
 
     Map<String, dynamic> toJson() => {
-      "idDriver": idDriver,
+      "idVehicle": idVehicle,
       "brand": brand,
       "model": model,
       "patent": patent,
       "color": color,
-      "seats": seats,
       "year": year,
       "greenCard": nroGreenCard,
     };

@@ -3,6 +3,7 @@ import 'package:carpool_21_app/src/data/dataSource/remote/services/driverTripReq
 import 'package:carpool_21_app/src/domain/models/driverTripRequest.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
+import 'package:carpool_21_app/src/domain/models/tripsAll.dart';
 import 'package:carpool_21_app/src/domain/repository/driverTripRequestsRepository.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 
@@ -28,12 +29,17 @@ class DriverTripRequestsRepositoryImpl implements DriverTripRequestsRepository {
   }
 
   @override
-  Future<Resource<int>> create(DriverTripRequest driverTripRequest) {
+  Future<Resource<TripDetail>> create(DriverTripRequest driverTripRequest) {
     return driverTripRequestsService.create(driverTripRequest);
   }
 
-   @override
+  @override
   Future<Resource<TripDetail>> getTripDetail() {
     return driverTripRequestsService.getTripDetail();
+  }
+
+  @override
+  Future<Resource<TripsAll>> getAllTrips() {
+    return driverTripRequestsService.getTripsAll();
   }
 }

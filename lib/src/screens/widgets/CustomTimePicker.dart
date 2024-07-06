@@ -37,7 +37,27 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
     if (picked != null && picked != selectedTime) {
       setState(() {
         selectedTime = picked;
-        widget.onTimeChanged(picked.format(context));
+
+        // Convert the selected TimeOfDay to DateTime / hora seleccionada con la fecha actual
+        final now = DateTime.now();
+        final selectedDateTime = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          picked.hour,
+          picked.minute,
+        );
+
+        // If selected time is greater than the current time, set the date to the next day
+        final adjustedDateTime = selectedDateTime.isAfter(now)
+            ? selectedDateTime
+            : selectedDateTime.add(const Duration(days: 1));
+
+        // Convert to UTC and then to ISO 8601 format
+        final utcDateTime = adjustedDateTime.toUtc();
+        final iso8601String = utcDateTime.toIso8601String();
+
+        widget.onTimeChanged(iso8601String);
       });
     }
   }

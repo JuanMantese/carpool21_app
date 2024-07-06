@@ -1,4 +1,6 @@
+
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripEvent.dart';
@@ -19,8 +21,11 @@ class CreateTripPage extends StatefulWidget {
 }
 
 class _CreateTripState extends State<CreateTripPage> {
+  late String pickUpNeighborhood;
   late String pickUpText;
+  late String destinationNeighborhood;
   late String destinationText;
+  late String departureTime;
   late TimeAndDistanceValues timeAndDistanceValues;
   late DriverMapBookingInfoState state;
 
@@ -31,19 +36,28 @@ class _CreateTripState extends State<CreateTripPage> {
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
+      pickUpNeighborhood = args['pickUpNeighborhood'];
       pickUpText = args['pickUpText'];
+      destinationNeighborhood = args['destinationNeighborhood'];
       destinationText = args['destinationText'];
+      departureTime = args['departureTime'];
       timeAndDistanceValues = args['timeAndDistanceValues'];
       state = args['state'];
-
+      
+      print(pickUpNeighborhood);
+      print(destinationNeighborhood);
+      
       context.read<CreateTripBloc>().add(InitializeTrip(
-            pickUpText: pickUpText,
-            pickUpLatLng: state.pickUpLatLng!,
-            destinationText: destinationText,
-            destinationLatLng: state.destinationLatLng!,
-            timeAndDistanceValues: timeAndDistanceValues,
-            state: state,
-          ));
+        pickUpNeighborhood: pickUpNeighborhood,
+        pickUpText: pickUpText,
+        pickUpLatLng: state.pickUpLatLng!,
+        destinationNeighborhood: destinationNeighborhood,
+        destinationText: destinationText,
+        destinationLatLng: state.destinationLatLng!,
+        departureTime: state.departureTime!,
+        timeAndDistanceValues: timeAndDistanceValues,
+        state: state,
+      ));
     });
   }
 
@@ -55,7 +69,9 @@ class _CreateTripState extends State<CreateTripPage> {
           final responseDriverTripRequest = state.responseDriverTripRequest;
           
           if (responseDriverTripRequest is Success) {
-            int idDriverRequest = responseDriverTripRequest.data;
+            print(responseDriverTripRequest.data);
+            TripDetail driverTripRequest = responseDriverTripRequest.data; 
+            int idDriverRequest = driverTripRequest.idTrip;
             
             // DESCOMENTAR
             // context.read<CreateTripBloc>().add(EmitNewClientRequestSocketIO(idDriverRequest: idDriverRequest));
@@ -78,10 +94,16 @@ class _CreateTripState extends State<CreateTripPage> {
               padding: const EdgeInsets.all(16.0),
               child: BlocBuilder<CreateTripBloc, CreateTripState>(
                 builder: (context, state) {
+                  if (state.vehicleList == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  } 
                   return CreateTripContent(
+                    neighborhoodPreSelected: state.neighborhoodPreSelected!,
                     pickUpText: state.pickUpText,
+                    destinationNeighborhood: state.destinationNeighborhood,
                     destinationText: state.destinationText,
                     timeAndDistanceValues: state.timeAndDistanceValues,
+                    vehicleList: state.vehicleList!,
                     state: state.state,
                     onNeighborhoodChanged: (value) {
                       context
@@ -101,7 +123,7 @@ class _CreateTripState extends State<CreateTripPage> {
                     onTripDescriptionChanged: (value) {
                       context
                         .read<CreateTripBloc>()
-                        .add(UpdateTripDescription(tripDescription: value!));
+                        .add(UpdateTripObservations(tripObservationsInput: value!));
                     },
                     onConfirm: () {
                       CustomDialog(
@@ -110,9 +132,9 @@ class _CreateTripState extends State<CreateTripPage> {
                         content: 'Podés cancelar o editar el detalle de tu viaje hasta 30 minutos antes de su comienzo.',
                         icon: Icons.check_circle_rounded,
                         onPressedSend: () {
-                          // context.read<CreateTripBloc>().add(CreateTripRequest());
+                          context.read<CreateTripBloc>().add(CreateTripRequest());
   
-                          Navigator.popAndPushNamed(context, '/driver/trip/detail');
+                          // Navigator.popAndPushNamed(context, '/driver/trip/detail');
                           // Lógica para redirigir a la home cuando se presione el botón de atrás
                         },
                         textSendBtn: 'Crear',

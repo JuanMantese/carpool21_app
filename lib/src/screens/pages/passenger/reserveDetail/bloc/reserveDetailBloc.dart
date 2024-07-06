@@ -20,34 +20,27 @@ class ReserveDetailBloc extends Bloc<ReserveDetailEvent, ReserveDetailState> {
     
     void _setTestReserveDetail(GetReserveDetail event, Emitter<ReserveDetailState> emit) {
       final TripDetail testTripDetail = TripDetail(
-        id: 1,
+        idTrip: 1,
         idDriver: 1,
         driver: Driver(
           name: 'Carlos',
           lastName: 'Perez',
           phone: '1234567890',
         ),
-        pickupNeighborhood: 'Centro',
-        pickupText: "789 Oak St",
-        pickupLat: 37.7749,
-        pickupLng: -122.4294,
+        pickupNeighborhood: 'Patio Olmos Shopping',
+        pickupText: "Av. Vélez Sarsfield 361, Córdoba",
+        pickupLat: -31.4198807,
+        pickupLng: -64.1908178,
         destinationNeighborhood: 'Campus Universitario',
-        destinationText: "123 Pine St",
-        destinationLat: 37.7949,
-        destinationLng: -122.4194,
+        destinationText: "Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina",
+        destinationLat: -31.322187,
+        destinationLng: -64.2219203,
         availableSeats: 2,
         departureTime: "18:30",
         distance: 12.0,
-        timeDifference: "20 mins",
-        vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', seats: 5, year: 2023),
-        createdAt: DateTime.parse("2024-06-14T12:00:00Z"),
-        updatedAt: DateTime.parse("2024-06-14T12:00:00Z"),
+        timeDifference: 20,
+        vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2023),
         compensation: 25.0,
-        googleDistanceMatrix: GoogleDistanceMatrix(
-          distance: Distance(text: "12 km", value: 12000),
-          duration: Distance(text: "20 mins", value: 1200),
-          status: "OK",
-        ),
         observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
         reserves: [
           Reserve(
@@ -151,7 +144,7 @@ class ReserveDetailBloc extends Bloc<ReserveDetailEvent, ReserveDetailState> {
         // Calcula los límites usando pickUpLatLng y destinationLatLng
         LatLngBounds bounds = calculateBounds(event.pickUpLatLng, event.destinationLatLng);
 
-        await googleMapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 100));
+        await googleMapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 16));
         print('Posicionamiento completado');
       } catch (e) {
         print('ERROR EN ChangeMapCameraPosition: $e');

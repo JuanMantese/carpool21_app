@@ -20,7 +20,7 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
     
     void _setTestTripDetail(GetTripDetail event, Emitter<TripDetailState> emit) {
       final TripDetail testTripDetail = TripDetail(
-        id: 1,
+        idTrip: 1,
         idDriver: 1,
         pickupNeighborhood: 'Centro',
         pickupText: "789 Oak St",
@@ -33,16 +33,9 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
         availableSeats: 2,
         departureTime: "18:30",
         distance: 12.0,
-        timeDifference: "20 mins",
-        vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', seats: 5, year: 2023),
-        createdAt: DateTime.parse("2024-06-14T12:00:00Z"),
-        updatedAt: DateTime.parse("2024-06-14T12:00:00Z"),
+        timeDifference: 20, // Devuelve en minutos
+        vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2023),
         compensation: 25.0,
-        googleDistanceMatrix: GoogleDistanceMatrix(
-          distance: Distance(text: "12 km", value: 12000),
-          duration: Distance(text: "20 mins", value: 1200),
-          status: "OK",
-        ),
         observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
         reserves: [
           Reserve(
@@ -137,7 +130,6 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
     // Ajustando la posicion de la camara en el mapa segun la ruta elegida
     on<ChangeMapCameraPosition>((event, emit) async {
       print('Entramos a ChangeMapCameraPosition  -------------------------------------');
-      print(state.controller);
       print(event.pickUpLatLng);
       print(event.destinationLatLng);
 
@@ -147,7 +139,7 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
         // Calcula los límites usando pickUpLatLng y destinationLatLng
         LatLngBounds bounds = calculateBounds(event.pickUpLatLng, event.destinationLatLng);
 
-        await googleMapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 100));
+        await googleMapController.animateCamera(CameraUpdate.newLatLngBounds(bounds, 16));
         print('Posicionamiento completado');
       } catch (e) {
         print('ERROR EN ChangeMapCameraPosition: $e');

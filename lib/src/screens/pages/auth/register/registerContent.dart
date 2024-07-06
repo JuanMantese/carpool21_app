@@ -78,7 +78,7 @@ class RegisterContentState extends State<RegisterContent> {
                   Container(
                     padding: const EdgeInsets.only(top: 20, bottom: 20, right: 30, left: 30),
                     child: Form(
-                      key: state.formKey,
+                      key: state.formKeyRegister,
                       child: Column(
                         children: [
                           const SizedBox(height: 10),
@@ -298,7 +298,7 @@ class RegisterContentState extends State<RegisterContent> {
                           const SizedBox(height: 24.0),
                           ElevatedButton(
                             onPressed: () {
-                              if (state.formKey!.currentState!.validate()) {                      
+                              if (state.formKeyRegister!.currentState!.validate()) {                      
                                 context.read<RegisterBloc>().add(FormSubmit());
                                 // context.read<RegisterBloc>().add(FormReset());
                               } else {

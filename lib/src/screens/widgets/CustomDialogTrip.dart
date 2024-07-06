@@ -59,6 +59,7 @@ class CustomDialogTrip extends StatelessWidget {
                 _setPredefinedLocation(
                   context,
                   LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  'Campus Siglo 21',
                   'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
                   'destination',
                 );
@@ -84,6 +85,7 @@ class CustomDialogTrip extends StatelessWidget {
                 _setPredefinedLocation(
                   context,
                   LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  'Cede Nueva Córdoba',
                   'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
                   'destination',
                 );
@@ -109,6 +111,7 @@ class CustomDialogTrip extends StatelessWidget {
                 _setPredefinedLocation(
                   context,
                   LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  'Campus Siglo 21',
                   'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
                   'pickUp',
                 );
@@ -134,6 +137,7 @@ class CustomDialogTrip extends StatelessWidget {
                 _setPredefinedLocation(
                   context,
                   LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  'Cede Nueva Córdoba',
                   'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
                   'pickUp',
                 );
@@ -183,13 +187,14 @@ class CustomDialogTrip extends StatelessWidget {
     );
   }
 
-  void _setPredefinedLocation(BuildContext context, LatLng location, String address, String locationType) {
+  void _setPredefinedLocation(BuildContext context, LatLng location, String neighborhood, String address, String locationType) {
     Navigator.pop(context); // Cerrar el diálogo
     Navigator.pushNamed(context, '/driver/finder'); // Navegar al mapa
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<DriverMapFinderBloc>().add(
         SelectPredefinedLocation(
-          location: location, 
+          location: location,
+          neighborhood: neighborhood,
           address: address,
           locationType: locationType
         )

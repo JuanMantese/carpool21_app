@@ -1,4 +1,5 @@
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
+import 'package:carpool_21_app/src/screens/pages/passenger/reserves/reservesItem.dart';
 import 'package:flutter/material.dart';
 
 class PassengerHomeContent extends StatelessWidget {
@@ -8,7 +9,7 @@ class PassengerHomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    print(state.currentReserve);
     return Stack(
       children: [
         Column(
@@ -59,6 +60,10 @@ class PassengerHomeContent extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
+                  
+                  if(state.currentReserve != null)
+                    ReservesItem(state.currentReserve, 'currentTrip')
+                  else
                   _reserveCard(context),
                 ],
               ),

@@ -7,6 +7,6 @@ abstract class ReserveRepository {
   // Creamos la reserva de un viaje
   Future<Resource<bool>> create(Reserve reserve);
 
-  // Creamos la reserva de un viaje
+  // Obtenemos todas las reservas registradas de un pasajero
   Future<Resource<ReservesAll>> getAllReserves();
 }

@@ -50,3 +50,5 @@ class NroGreenCardChanged extends CarRegisterEvent {
 // Submit Form Event
 class FormSubmit extends CarRegisterEvent {}
 
+class UpdateUserSession extends CarRegisterEvent {}
+

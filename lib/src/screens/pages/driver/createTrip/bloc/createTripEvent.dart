@@ -1,3 +1,4 @@
+
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
 import 'package:equatable/equatable.dart';
@@ -9,24 +10,38 @@ abstract class CreateTripEvent extends Equatable {
 }
 
 class InitializeTrip extends CreateTripEvent {
+  final String pickUpNeighborhood;
   final String pickUpText;
   late LatLng pickUpLatLng;
+  final String destinationNeighborhood;
   final String destinationText;
   late LatLng destinationLatLng;
+  final String departureTime;
   final TimeAndDistanceValues timeAndDistanceValues;
   final DriverMapBookingInfoState state;
 
   InitializeTrip({
+    required this.pickUpNeighborhood,
     required this.pickUpText,
     required this.pickUpLatLng,
+    required this.destinationNeighborhood,
     required this.destinationText,
     required this.destinationLatLng,
+    required this.departureTime,
     required this.timeAndDistanceValues,
     required this.state,
   });
 
   @override
-  List<Object?> get props => [pickUpText, pickUpLatLng, destinationText, destinationLatLng, timeAndDistanceValues, state];
+  List<Object?> get props => [
+    pickUpText, 
+    pickUpLatLng, 
+    destinationText, 
+    destinationLatLng,
+    departureTime, 
+    timeAndDistanceValues, 
+    state
+  ];
 }
 
 class UpdateNeighborhood extends CreateTripEvent {
@@ -39,7 +54,7 @@ class UpdateNeighborhood extends CreateTripEvent {
 }
 
 class UpdateVehicle extends CreateTripEvent {
-  final String vehicle;
+  final int vehicle;
 
   UpdateVehicle({required this.vehicle});
 
@@ -56,13 +71,13 @@ class UpdateAvailableSeats extends CreateTripEvent {
   List<Object?> get props => [seats];
 }
 
-class UpdateTripDescription extends CreateTripEvent {
-  final String tripDescription;
+class UpdateTripObservations extends CreateTripEvent {
+  final String tripObservationsInput;
 
-  UpdateTripDescription({required this.tripDescription});
+  UpdateTripObservations({required this.tripObservationsInput});
 
   @override
-  List<Object?> get props => [tripDescription];
+  List<Object?> get props => [tripObservationsInput];
 }
 
 class CreateTripRequest extends CreateTripEvent {}

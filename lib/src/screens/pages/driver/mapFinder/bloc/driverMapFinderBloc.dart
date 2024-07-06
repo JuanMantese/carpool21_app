@@ -29,8 +29,8 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
     });
 
     on<UpdateDepartureTime>((event, emit) {
-      print('Entramos');
-      print(' ${event.time}');
+      print('Departure Time');
+      print('${event.time}');
       emit(state.copyWith(departureTime: event.time));
     });
 
@@ -121,7 +121,7 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
     // });
 
     on<SelectPredefinedLocation>((event, emit) async {
-      print('SelectPredefinedLocation');
+      print('SelectPredefinedLocation ---------------------------------');
       print(event.location.latitude);
       print(event.location.longitude);
 
@@ -146,16 +146,18 @@ class DriverMapFinderBloc extends Bloc<DriverMapFinderEvent, DriverMapFinderStat
       if (event.locationType == 'pickUp') {
         print('pickUp entramos');
         emit(state.copyWith(
-          pickUpLatLng: event.location,
+          pickUpNeighborhood: event.neighborhood,
           pickUpText: event.address,
+          pickUpLatLng: event.location,
           markers: updatedMarkers,
           isLocationSelected: true
         ));
       } else {
         print('destination entramos');
         emit(state.copyWith(
-          destinationLatLng: event.location,
+          destinationNeighborhood: event.neighborhood,
           destinationText: event.address,
+          destinationLatLng: event.location,
           markers: updatedMarkers,
           isLocationSelected: true
         ));

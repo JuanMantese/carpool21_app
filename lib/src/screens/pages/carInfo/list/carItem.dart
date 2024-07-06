@@ -10,9 +10,12 @@ class CarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Car Info Item: ${car.toJson()}');
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/car/info');
+        Navigator.pushNamed(context, '/car/info', arguments: {
+          'idVehicle': car.idVehicle,
+        });
       },
       child: Card(
         margin: const EdgeInsets.all(10.0),
@@ -44,7 +47,6 @@ class CarItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text('Año: ${car.year ?? ''}'),
-                        Text('Plazas: ${car.seats ?? ''}'),
                         Text('Color: ${car.color ?? ''}'),
                         Text('Cédula Verde: ${car.nroGreenCard ?? ''}'),
                       ],

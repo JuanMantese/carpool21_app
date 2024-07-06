@@ -13,8 +13,7 @@ class CarInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('CarInfo');
-    print(car);
+    print('CarInfo: ${car?.toJson()}');
 
     return Stack(
       children: [
@@ -152,13 +151,13 @@ class CarInfoContent extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'Asientos: ${car?.seats.toString()}' ?? 'Asientos',
-                  style: TextStyle(
-                    color: Colors.grey[900],
-                    fontSize: 16
-                  ),
-                ),
+                // Text(
+                //   'Asientos: ${car?.seats.toString()}' ?? 'Asientos',
+                //   style: TextStyle(
+                //     color: Colors.grey[900],
+                //     fontSize: 16
+                //   ),
+                // ),
                 const SizedBox(height: 8),
                 Text(
                   'Color: ${car?.color}' ?? 'color',

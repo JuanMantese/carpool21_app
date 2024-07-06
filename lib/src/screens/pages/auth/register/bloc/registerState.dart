@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class RegisterState extends Equatable {
 
   // Register Form - Use GlobalKey
-  final GlobalKey<FormState>? formKey;
+  final GlobalKey<FormState>? formKeyRegister;
   final BlocFormItem name;
   final BlocFormItem lastName;
   final BlocFormItem studentFile;
@@ -24,7 +24,7 @@ class RegisterState extends Equatable {
   final Resource? response;
 
   const RegisterState({
-    this.formKey,
+    this.formKeyRegister,
     this.name = const BlocFormItem(error: 'Ingresa tu nommbre'),
     this.lastName = const BlocFormItem(error: 'Ingresa tu apellido'),
     this.studentFile = const BlocFormItem(error: 'Ingresa tu legajo de Sigo 21'),
@@ -41,7 +41,7 @@ class RegisterState extends Equatable {
   });
 
   RegisterState copyWith({
-    GlobalKey<FormState>? formKey,
+    GlobalKey<FormState>? formKeyRegister,
     BlocFormItem? name,
     BlocFormItem? lastName,
     BlocFormItem? studentFile,
@@ -57,7 +57,7 @@ class RegisterState extends Equatable {
     Resource? response,
   }) {
     return RegisterState(
-      formKey: formKey,
+      formKeyRegister: formKeyRegister,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
       studentFile: studentFile ?? this.studentFile,

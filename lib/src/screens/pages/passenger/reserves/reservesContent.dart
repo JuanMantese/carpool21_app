@@ -49,7 +49,6 @@ class ReservesContent extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: ReservesItem(
-                              state,
                               state.testingReservesAll!.currentReserve,
                               'currentTrip'
                             ),
@@ -83,7 +82,7 @@ class ReservesContent extends StatelessWidget {
                           ...state.testingReservesAll!.futureReserves.map((reserve) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: ReservesItem(state, reserve, 'futureTrips'),
+                              child: ReservesItem(reserve, 'futureTrips'),
                             );
                           }).toList(),
                         ],
@@ -115,7 +114,7 @@ class ReservesContent extends StatelessWidget {
                           ...state.testingReservesAll!.historicalReserves.map((reserve) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: ReservesItem(state, reserve, 'historicalTrips'),
+                              child: ReservesItem(reserve, 'historicalTrips'),
                             );
                           }).toList(),
                         ],

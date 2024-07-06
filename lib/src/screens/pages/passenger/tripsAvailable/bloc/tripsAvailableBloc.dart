@@ -27,7 +27,7 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
     void _setTestPassengerRequests(GetNearbyTripRequest event, Emitter<TripsAvailableState> emit) {
       List<TripDetail> toTripsAvailable = [
         TripDetail(
-          id: 1,
+          idTrip: 1,
           idDriver: 101,
           pickupNeighborhood: 'Centro',
           pickupText: "Patio Olmos Shopping, Córdoba, Córdoba Capital, Argentina",
@@ -42,19 +42,12 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
           // pickupPosition: Position(x: 37.7749, y: -122.4194),
           // destinationPosition: Position(x: 37.7849, y: -122.4094),
           distance: 10.0,
-          timeDifference: "15 mins",
-          vehicle: CarInfo(brand: "Toyota", model: "Corolla", patent: '123456', color: 'red', nroGreenCard: '1234', seats: 5, year: 2024),
-          createdAt: DateTime.parse("2024-06-14T12:00:00Z"),
-          updatedAt: DateTime.parse("2024-06-14T12:00:00Z"),
+          timeDifference: 15,
+          vehicle: CarInfo(brand: "Toyota", model: "Corolla", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2024),
           compensation: 1000.0,
-          googleDistanceMatrix: GoogleDistanceMatrix(
-            distance: Distance(text: "10 km", value: 10000),
-            duration: Distance(text: "15 mins", value: 900),
-            status: "OK",
-          ),
         ),
         TripDetail(
-          id: 2,
+          idTrip: 2,
           idDriver: 102,
           pickupNeighborhood: 'Centro',
           pickupText: "789 Oak St",
@@ -69,19 +62,12 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
           // pickupPosition: Position(x: 37.7749, y: -122.4294),
           // destinationPosition: Position(x: 37.7949, y: -122.4194),
           distance: 12.0,
-          timeDifference: "20 mins",
-          vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', seats: 5, year: 2023),
-          createdAt: DateTime.parse("2024-06-14T12:00:00Z"),
-          updatedAt: DateTime.parse("2024-06-14T12:00:00Z"),
+          timeDifference: 20,
+          vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2023),
           compensation: 1000.0,
-          googleDistanceMatrix: GoogleDistanceMatrix(
-            distance: Distance(text: "12 km", value: 12000),
-            duration: Distance(text: "20 mins", value: 1200),
-            status: "OK",
-          ),
         ),
         TripDetail(
-          id: 3,
+          idTrip: 3,
           idDriver: 103,
           pickupNeighborhood: 'Centro',
           pickupText: "321 Maple St",
@@ -96,16 +82,9 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
           // pickupPosition: Position(x: 37.7649, y: -122.4094),
           // destinationPosition: Position(x: 37.7749, y: -122.3994),
           distance: 8.0,
-          timeDifference: "10 mins",
-          vehicle: CarInfo(brand: "Ford", model: "Focus", patent: '123456', color: 'red', nroGreenCard: '1234', seats: 5, year: 2025),
-          createdAt: DateTime.parse("2024-06-14T12:00:00Z"),
-          updatedAt: DateTime.parse("2024-06-14T12:00:00Z"),
+          timeDifference: 10,
+          vehicle: CarInfo(brand: "Ford", model: "Focus", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2025),
           compensation: 1000.0,
-          googleDistanceMatrix: GoogleDistanceMatrix(
-            distance: Distance(text: "8 km", value: 8000),
-            duration: Distance(text: "10 mins", value: 600),
-            status: "OK",
-          ),
         ),
       ];
 

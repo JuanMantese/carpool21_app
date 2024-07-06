@@ -177,7 +177,7 @@ class TripDetailContent extends StatelessWidget {
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    tripDetail != null ? tripDetail!.timeDifference! : '',
+                    tripDetail != null ? tripDetail!.timeDifference.toString() : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -227,9 +227,11 @@ class TripDetailContent extends StatelessWidget {
                   onMapCreated: (GoogleMapController controller) {
                     if (state.controller != null) {
                       if (!state.controller!.isCompleted) {
+                        print('Aca entra');
                         state.controller?.complete(controller);
                       }
                     }
+                    print('No entro ');
                   },
                 ),
               ),

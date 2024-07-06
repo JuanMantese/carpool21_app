@@ -1,3 +1,4 @@
+import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
@@ -6,20 +7,26 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CreateTripContent extends StatelessWidget {
   
+  final String neighborhoodPreSelected;
   final String pickUpText;
+  final String destinationNeighborhood;
   final String destinationText;
   final TimeAndDistanceValues timeAndDistanceValues;
+  final List<CarInfo> vehicleList;
   final DriverMapBookingInfoState state;
   final ValueChanged<String?> onNeighborhoodChanged;
-  final ValueChanged<String?> onVehicleChanged;
+  final ValueChanged<int?> onVehicleChanged;
   final ValueChanged<String?> onAvailableSeatsChanged;
   final ValueChanged<String?> onTripDescriptionChanged;
   final VoidCallback onConfirm;
 
   CreateTripContent({
+    required this.neighborhoodPreSelected,
     required this.pickUpText,
+    required this.destinationNeighborhood,
     required this.destinationText,
     required this.timeAndDistanceValues,
+    required this.vehicleList,
     required this.state,
     required this.onNeighborhoodChanged,
     required this.onVehicleChanged,
@@ -113,7 +120,7 @@ class CreateTripContent extends StatelessWidget {
           onChanged: onNeighborhoodChanged,
           // validator: validator,
           decoration: InputDecoration(
-            labelText: 'Barrio de origen',
+            labelText: neighborhoodPreSelected == 'pickUpNeighborhood' ? 'Barrio de Destino' : 'Barrio de Origen',
             labelStyle: const TextStyle(color: Color(0xFF006D59)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
@@ -126,24 +133,26 @@ class CreateTripContent extends StatelessWidget {
           keyboardType: TextInputType.text,
         ),
         const SizedBox(height: 16.0),
-        DropdownButtonFormField<String>(
+
+        DropdownButtonFormField<int>(
           decoration: InputDecoration(
             labelText: 'Vehículo',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
+          value: null,
           items: 
-            <String>['Vehículo 1', 'Vehículo 2', 'Vehículo 3']
-              .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            vehicleList.map<DropdownMenuItem<int>>((CarInfo vehicle) {
+              return DropdownMenuItem<int>(
+                value: vehicle.idVehicle,
+                child: Text('${vehicle.brand} - ${vehicle.model} - (${vehicle.patent})'),
+              );
+            }).toList(),
           onChanged: onVehicleChanged,
         ),
         const SizedBox(height: 16.0),
+
         DropdownButtonFormField<String>(
           decoration: InputDecoration(
             labelText: 'Plazas disponibles',
@@ -151,7 +160,7 @@ class CreateTripContent extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
-          items: <String>['1', '2', '3', '4']
+          items: <String>['1', '2', '3', '4', '5', '6']
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,

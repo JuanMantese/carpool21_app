@@ -134,7 +134,6 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
           brand: state.brand.value, 
           model: state.model.value, 
           patent: state.patent.value,
-          seats: int.parse(state.seats.value),
           year: int.parse(state.year.value),
           nroGreenCard: state.nroGreenCard.value,
           color: state.color.value
@@ -148,6 +147,10 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
           formKey: formKey
         )
       );
+    });
+
+    on<UpdateUserSession>((event, emit) async {
+      // await authUseCases.saveUserSession.run(event.authResponse);
     });
   }
 }

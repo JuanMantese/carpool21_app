@@ -5,6 +5,9 @@ import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeState.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/driverHomeContent.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsBloc.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsState.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/trips/tripsContent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/passengerHomeContent.dart';
@@ -26,12 +29,12 @@ class CustomNavigation extends StatelessWidget {
 
   final List<Role> roles;
   final User currentUser;
-  final UsersService userService;
 
-  CustomNavigation(
-      {required this.roles,
-      required this.currentUser,
-      required this.userService});
+  CustomNavigation({
+    super.key, 
+    required this.roles,
+    required this.currentUser,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +42,13 @@ class CustomNavigation extends StatelessWidget {
       create: (_) => NavigationBloc(GetIt.instance<AuthUseCases>()),
       child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
-          final currentIndex =
-              _getCurrentIndex(globals.currentRole, state.navigationType);
+          final currentIndex = _getCurrentIndex(globals.currentRole, state.navigationType);
 
           return Scaffold(
             key: _scaffoldKey,
             endDrawer: CustomDrawer(
               roles: roles,
               currentUser: currentUser,
-              userService: userService,
             ), // Add Drawer to the Scaffold
             body: Center(
               child: _buildPage(state),
@@ -186,7 +187,11 @@ class CustomNavigation extends StatelessWidget {
           },
         );
       case NavigationType.viaje:
-        return const Text('Viaje Page');
+        return BlocBuilder<TripsBloc, TripsState>(
+          builder: (context, tripsState) {
+            return TripsContent(tripsState);
+          },
+        );
       default:
         return const Text('Page not found');
     }

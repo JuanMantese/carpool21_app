@@ -12,7 +12,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   AuthUseCases authUseCases;
 
-  final formKey = GlobalKey<FormState>();
+  final formKeyLogin = GlobalKey<FormState>();
 
   // constructor
   LoginBloc(
@@ -26,14 +26,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       AuthResponse? authResponse = await authUseCases.getUserSession.run();
       print('Auth Response: ${authResponse?.toJson()}');
 
-      emit(state.copyWith(formKey: formKey));
+      emit(state.copyWith(formKeyLogin: formKeyLogin));
 
       // If the user closes and reopens the app, I check if they are logged in so as not to request access again
       if (authResponse != null) {
         emit(
           state.copyWith(
             response: Success(authResponse),
-            formKey: formKey
+            // formKeyLogin: formKeyLogin
           )
         );
       }
@@ -47,7 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             value: event.emailInput.value,
             error: event.emailInput.value.isEmpty ? 'Ingresa su email' : null
           ),
-          formKey: formKey
+          formKeyLogin: formKeyLogin
         )
       );
     });
@@ -62,7 +62,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               : event.passwordInput.value.length < 6
                 ? 'Minimo 8 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyLogin: formKeyLogin
         )
       );
     });
@@ -75,7 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(
         state.copyWith(
           response: Loading(),
-          formKey: formKey
+          formKeyLogin: formKeyLogin
         )
       );
 
@@ -86,7 +86,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(
         state.copyWith(
           response: response,
-          formKey: formKey
+          formKeyLogin: formKeyLogin
         )
       );
 

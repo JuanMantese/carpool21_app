@@ -23,7 +23,6 @@ class CarInfoBloc extends Bloc<CarInfoEvent, CarInfoState> {
         model: 'Mustang',
         patent: 'AA001AA',
         color: 'red',
-        seats: 5,
         year: 2024,
         nroGreenCard: '12345678',
       );
@@ -35,10 +34,9 @@ class CarInfoBloc extends Bloc<CarInfoEvent, CarInfoState> {
 
     on<GetCarInfo>((event, emit) async {
       try {
-        print('Entrando a GetCarInfo');
-        // Debo pasarle el idDriver para obtener el vehiculo
-        AuthResponse authResponse = await authUseCases.getUserSession.run();
-        Resource response = await carInfoUseCases.getCarInfo.run(authResponse.user.id!);
+        print('Entrando a GetCarInfo ----------------------------------------------------');
+        // Debo pasarle el idVehicle para obtener el vehiculo
+        Resource response = await carInfoUseCases.getCarInfo.run(event.idVehicle);
         
         if (response is Success) {
           final carInfo = response.data as CarInfo;
@@ -48,11 +46,11 @@ class CarInfoBloc extends Bloc<CarInfoEvent, CarInfoState> {
             )
           );
         } else {
-          print('Sin Respuesta - Uso TestCarInfo');
+          print('============================ Sin Respuesta - Uso TestCarInfo ============================');
           _setTestCarInfo(event, emit);
         }
       } catch (error) {
-        print('Falla el Try Catch - Uso TestCarInfo');
+        print('============================ Falla el Try Catch - Uso TestCarInfo ============================');
         _setTestCarInfo(event, emit);
       }
     }); 

@@ -42,10 +42,16 @@ class ChangeMapCameraPosition extends DriverMapFinderEvent {
 // Seteando el lugar de origen o destino de acuerdo a lo elegido en el modal
 class SelectPredefinedLocation extends DriverMapFinderEvent {
   final LatLng location;
+  final String neighborhood;
   final String address;
   final String locationType; // 'pickup' or 'destination'
 
-  SelectPredefinedLocation({required this.location, required this.address, required this.locationType});
+  SelectPredefinedLocation({
+    required this.location, 
+    required this.neighborhood, 
+    required this.address, 
+    required this.locationType
+  });
 }
 
 // El evento se dispara cuando el usuario elije un lugar de Origen

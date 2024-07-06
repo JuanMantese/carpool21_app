@@ -25,7 +25,7 @@ class LoginContentState extends State<LoginContent> {
     final state = widget.state;
 
     return Form(
-      key: state.formKey,
+      key: state.formKeyLogin,
       child: Scaffold(
         body: Column(
           children: <Widget>[
@@ -126,7 +126,7 @@ class LoginContentState extends State<LoginContent> {
                   CustomButton(
                     text: 'Ingresar', 
                     onPressed: () {
-                      if (state.formKey!.currentState!.validate()) {                      
+                      if (state.formKeyLogin!.currentState!.validate()) {                      
                         context.read<LoginBloc>().add(FormSubmit());
                       } else {
                         print('El formulario no es valido');

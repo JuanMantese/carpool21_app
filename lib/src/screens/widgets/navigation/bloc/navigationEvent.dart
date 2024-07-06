@@ -15,6 +15,10 @@ class Logout extends NavigationEvent {}
 
 class GetUserInfo extends NavigationEvent {
   final UsersService userService;
-
   GetUserInfo(this.userService);
+}
+
+class ChangeUserRol extends NavigationEvent {
+  final String idRole;
+  ChangeUserRol(this.idRole);
 }

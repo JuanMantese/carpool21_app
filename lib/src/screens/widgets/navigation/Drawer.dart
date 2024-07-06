@@ -1,6 +1,5 @@
-// profile_drawer.dart
+
 import 'package:carpool_21_app/main.dart';
-import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
@@ -15,17 +14,15 @@ import 'package:carpool_21_app/src/screens/utils/globals.dart' as globals;
 class CustomDrawer extends StatelessWidget {
 
   final List<Role> roles;
-
-  // New logic
   final User currentUser;
-  final UsersService userService;
 
-  CustomDrawer({required this.roles, required this.currentUser, required this.userService, super.key});
+  CustomDrawer({required this.roles, required this.currentUser, super.key});
 
   @override
   Widget build(BuildContext context) {
     // final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
-    print(roles);
+    print('Roles: ${roles}');
+
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
         return Drawer(
@@ -65,6 +62,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -73,6 +71,7 @@ class CustomDrawer extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          context.read<NavigationBloc>().add(ChangeUserRol('PASSENGER'));
                           Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
                           globals.currentRole = 'passenger';
                         },
@@ -101,7 +100,7 @@ class CustomDrawer extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          (roles.length == 1 ?
+                          if (roles.length == 1) {
                             // Verificamos que el usuario tenga al menos 1 vehiculo registrado
                             CustomDialog(
                               context: context,
@@ -114,11 +113,12 @@ class CustomDrawer extends StatelessWidget {
                               },
                               textSendBtn: 'Registrar',
                               textCancelBtn: 'Cancelar',
-                            )
-                          :
-                            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false),
-                            globals.currentRole = 'driver',
-                          );
+                            );
+                          } else {
+                            context.read<NavigationBloc>().add(ChangeUserRol('DRIVER'));
+                            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false);
+                            globals.currentRole = 'driver';
+                          }
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: globals.currentRole == 'driver'? const Color(0xFF00A98F) : null,
@@ -145,10 +145,12 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: globals.currentRole == 'passenger' ? _itemsPassenger(context) : _itemsDriver(context)
               ),
+
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
@@ -252,34 +254,11 @@ class CustomDrawer extends StatelessWidget {
           },
         ),
         ListTile(
-          title: const Text('Modal'),
-          onTap: () {
-            CustomDialog(
-              context: context,
-              title: '¡No puedes crear un viaje!',
-              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
-              icon: Icons.warning_rounded,
-              onPressedSend: () {
-                Navigator.of(context).pop();
-              },
-              textSendBtn: 'Registrar',
-              textCancelBtn: 'Cancelar',
-            );
-          },
-        ),
-        ListTile(
           title: const Text('Modal Trip'),
           onTap: () {
             CustomDialogTrip(
               context: context,
             );
-          },
-        ),
-        ListTile(
-          title: const Text('Trips Available'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/request/trips');
           },
         ),
         ListTile(

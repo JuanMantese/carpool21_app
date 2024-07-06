@@ -22,7 +22,6 @@ import 'package:carpool_21_app/src/screens/pages/profile/info/profileInfo.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/update/profileUpdate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void main() async {

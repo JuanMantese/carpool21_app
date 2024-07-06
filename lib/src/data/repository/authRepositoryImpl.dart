@@ -31,6 +31,12 @@ class AuthRepositoryImpl implements AuthRepository {
     return authService.register(user);
   }
 
+  // implementation user register
+  @override
+  Future<Resource<User>> changeRol(String idRole) {
+    return authService.changeRol(idRole);
+  }
+
   // implementation logout
   @override
   Future<bool> logout() async {
@@ -40,6 +46,16 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> saveUserSession(AuthResponse authResponse) async {
     sharedPref.save('user', authResponse.toJson());
+  }
+
+  @override
+  Future<void> updateUserSession(User userData) async {
+    AuthResponse? authResponse = await getUserSession();
+
+    if (authResponse != null) {
+      authResponse.user = userData;
+      await sharedPref.save('user', authResponse.toJson());
+    }
   }
 
   @override

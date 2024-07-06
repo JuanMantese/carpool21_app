@@ -55,7 +55,6 @@ class CarInfoService {
         'model': car.model, 
         'patent': car.patent,
         'color': car.color,
-        'seats': car.seats,
         'year': car.year,
         'greenCard': car.nroGreenCard,
       });
@@ -83,7 +82,7 @@ class CarInfoService {
   // Trayendo el vehiculo del conductor
   Future<Resource<CarInfo>> getCarInfo(int idDriver) async {
     try {
-      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/driver-car-info/$idDriver');
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/vehicles/getUserVehicle/$idDriver');
       Map<String, String> headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${await token}'
@@ -109,7 +108,7 @@ class CarInfoService {
   // Consultando todos los vehiculos del conductor - getCarList: Array con los vehiculos del conductor
   Future<Resource<List<CarInfo>>> getCarList() async {
     try {
-      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/vehicles');
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/vehicles/getUserAllVehicles');
       Map<String, String> headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${await token}'

@@ -85,9 +85,9 @@ class _LoginPageState extends State<LoginPage> {
   // Alert / Dialog / Custom Alert
   void showCustomFlushbar(BuildContext context) {
     Flushbar(
-      duration: Duration(seconds: 3),
-      margin: EdgeInsets.all(40),
-      padding: EdgeInsets.all(10),
+      duration: const Duration(seconds: 3),
+      margin: const EdgeInsets.all(40),
+      padding: const EdgeInsets.all(10),
  
       backgroundGradient: LinearGradient(
         colors: [
@@ -95,9 +95,9 @@ class _LoginPageState extends State<LoginPage> {
           Colors.pink.shade300,
           Colors.pink.shade100
         ],
-        stops: [0.4, 0.7, 1],
+        stops: const [0.4, 0.7, 1],
       ),
-      boxShadows: [
+      boxShadows: const [
         BoxShadow(
           color: Colors.black45,
           offset: Offset(3, 3),

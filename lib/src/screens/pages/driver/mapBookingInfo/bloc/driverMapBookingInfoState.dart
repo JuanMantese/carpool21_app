@@ -10,8 +10,10 @@ class DriverMapBookingInfoState extends Equatable {
   final Position? position;
   final CameraPosition cameraPosition;
   final Map<MarkerId, Marker> markers;
+  final String pickUpNeighborhood;
   final String pickUpText;
   final LatLng? pickUpLatLng;
+  final String destinationNeighborhood;
   final String destinationText;
   final LatLng? destinationLatLng;
   final String? departureTime;
@@ -27,8 +29,10 @@ class DriverMapBookingInfoState extends Equatable {
     this.position,
     this.cameraPosition = const CameraPosition(target: LatLng(-31.3992803, -64.2766129), zoom: 13.0),
     this.markers = const <MarkerId, Marker>{},
+    this.pickUpNeighborhood = '',
     this.pickUpText = '',
     this.pickUpLatLng,
+    this.destinationNeighborhood = '',
     this.destinationText = '',
     this.destinationLatLng,
     this.departureTime,
@@ -44,8 +48,10 @@ class DriverMapBookingInfoState extends Equatable {
     Position? position,
     CameraPosition? cameraPosition,
     Map<MarkerId, Marker>? markers,
+    String? pickUpNeighborhood,
     String? pickUpText,
     LatLng? pickUpLatLng,
+    String? destinationNeighborhood,
     String? destinationText,
     LatLng? destinationLatLng,
     String? departureTime,
@@ -60,8 +66,10 @@ class DriverMapBookingInfoState extends Equatable {
       position: position ?? this.position,
       cameraPosition: cameraPosition ?? this.cameraPosition,
       markers: markers ?? this.markers,
+      pickUpNeighborhood: pickUpNeighborhood ?? this.pickUpNeighborhood,
       pickUpText: pickUpText ?? this.pickUpText,
       pickUpLatLng: pickUpLatLng ?? this.pickUpLatLng,
+      destinationNeighborhood: destinationNeighborhood ?? this.destinationNeighborhood,
       destinationText: destinationText ?? this.destinationText,
       destinationLatLng: destinationLatLng ?? this.destinationLatLng,
       departureTime: departureTime ?? this.departureTime,
@@ -76,6 +84,21 @@ class DriverMapBookingInfoState extends Equatable {
 
   @override
   // DESCOMENTAR List<Object?> get props => [position, markers, polylines, controller, cameraPosition, pickUpLatLng, destinationLatLng, pickUpText, destinationText, responseTimeAndDistance, responseClientRequest, fareOffered];
-  List<Object?> get props => [position, markers, polylines, controller, cameraPosition, pickUpLatLng, destinationLatLng, pickUpText, destinationText, departureTime, responseTimeAndDistance, routeBounds];
+  List<Object?> get props => [
+    position, 
+    markers, 
+    polylines, 
+    controller, 
+    cameraPosition, 
+    pickUpNeighborhood,
+    pickUpText,
+    pickUpLatLng, 
+    destinationNeighborhood,
+    destinationText, 
+    destinationLatLng, 
+    departureTime, 
+    responseTimeAndDistance, 
+    routeBounds
+  ];
 
 }

@@ -7,7 +7,7 @@ TripDetail passengerRequestFromJson(String str) => TripDetail.fromJson(json.deco
 String passengerRequestToJson(TripDetail data) => json.encode(data.toJson());
 
 class TripDetail {
-  int id;
+  int idTrip;
   int idDriver;
   Driver? driver;
   String pickupNeighborhood;
@@ -19,21 +19,20 @@ class TripDetail {
   double destinationLat;
   double destinationLng;
   int availableSeats;
-  String departureTime;
-  double? distance;
-  String? timeDifference;
+  String departureTime; // Date Format
+  double? distance; // En kilometros
+  int? timeDifference; // En minutos
   double? compensation;
   CarInfo? vehicle;
   String? observations;
   List<Reserve>? reserves;
-  DateTime? createdAt;
-  DateTime updatedAt;
-  GoogleDistanceMatrix? googleDistanceMatrix;
+
+  // GoogleDistanceMatrix? googleDistanceMatrix;
   // Position pickupPosition;
   // Position destinationPosition;
 
   TripDetail({
-    required this.id,
+    required this.idTrip,
     required this.idDriver,
     this.driver,
     required this.pickupNeighborhood,
@@ -52,9 +51,7 @@ class TripDetail {
     this.vehicle,
     this.observations,
     this.reserves,
-    this.googleDistanceMatrix,
-    this.createdAt,
-    required this.updatedAt,
+    // this.googleDistanceMatrix,
     // required this.pickupPosition,
     // required this.destinationPosition,
   });
@@ -71,7 +68,7 @@ class TripDetail {
   }
 
   factory TripDetail.fromJson(Map<String, dynamic> json) => TripDetail(
-    id: json["id"],
+    idTrip: json["idTrip"],
     idDriver: json["idDriver"],
     driver: json["driver"] != null ? Driver.fromJson(json["driver"]) : null,
     pickupNeighborhood: json["pickupNeighborhood"],
@@ -85,20 +82,18 @@ class TripDetail {
     availableSeats: json["availableSeats"],
     departureTime: json["departureTime"],
     distance: json["distance"]?.toDouble(),
-    timeDifference: json["time_difference"],
+    timeDifference: json["timeDifference"],
     compensation: json["compensation"]?.toDouble(),
     vehicle: json["vehicle"] != null ? CarInfo.fromJson(json["vehicle"]) : null,
     observations: json["observations"],
     reserves: json["reserves"] != null ? List<Reserve>.from(json["reserves"].map((x) => Reserve.fromJson(x))) : null,
-    createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
-    updatedAt: DateTime.parse(json["updated_at"]),
-    googleDistanceMatrix: json["google_distance_matrix"] != null ? GoogleDistanceMatrix.fromJson(json["google_distance_matrix"]) : null, 
+    // googleDistanceMatrix: json["google_distance_matrix"] != null ? GoogleDistanceMatrix.fromJson(json["google_distance_matrix"]) : null, 
     // pickupPosition: Position.fromJson(json["pickup_position"]),
     // destinationPosition: Position.fromJson(json["destination_position"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+    "id": idTrip,
     "idDriver": idDriver,
     "driver": driver?.toJson(),
     "pickupNeighborhood": pickupNeighborhood,
@@ -112,14 +107,12 @@ class TripDetail {
     "availableSeats": availableSeats,
     "departureTime": departureTime,
     "distance": distance,
-    "time_difference": timeDifference,
+    "timeDifference": timeDifference,
     "compensation": compensation,
     "vehicle": vehicle?.toJson(),
     "observations": observations,
     "reserves": reserves != null ? List<dynamic>.from(reserves!.map((x) => x.toJson())) : null,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
-    "google_distance_matrix": googleDistanceMatrix?.toJson(),
+    // "google_distance_matrix": googleDistanceMatrix?.toJson(),
     // "pickup_position": pickupPosition.toJson(),
     // "destination_position": destinationPosition.toJson(),
   };
@@ -129,27 +122,27 @@ class Driver {
   String name;
   String lastName;
   String phone;
-  String? photoUser;
+  String? photo;
 
   Driver({
     required this.name,
     required this.lastName,
     required this.phone,
-    this.photoUser,
+    this.photo,
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => Driver(
     name: json["name"],
     lastName: json["lastName"],
     phone: json["phone"],
-    photoUser: json["photoUser"],
+    photo: json["photo"],
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
     "lastName": lastName,
     "phone": phone,
-    "photoUser": photoUser,
+    "photoUser": photo,
   };
 }
 

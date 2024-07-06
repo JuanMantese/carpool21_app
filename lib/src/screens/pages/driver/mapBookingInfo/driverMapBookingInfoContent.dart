@@ -48,9 +48,11 @@ class DriverMapBookingInfoContent extends StatelessWidget {
           // controller.setMapStyle('JSON');
           if (state.controller != null) {
             if (!state.controller!.isCompleted) {
+              print('ACA ENTRA');
               state.controller?.complete(controller);
             }
           }
+          print('NO ENTRO');
         },
       ),
     );
@@ -160,10 +162,13 @@ class DriverMapBookingInfoContent extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, '/driver/createTrip',
                 arguments: {
-                  'pickUpLatLng': state.pickUpLatLng,
+                  'pickUpNeighborhood': state.pickUpNeighborhood,
                   'pickUpText': state.pickUpText,
-                  'destinationLatLng': state.destinationLatLng,
+                  'pickUpLatLng': state.pickUpLatLng,
+                  'destinationNeighborhood': state.destinationNeighborhood,
                   'destinationText': state.destinationText,
+                  'destinationLatLng': state.destinationLatLng,
+                  'departureTime': state.departureTime,
                   'timeAndDistanceValues': timeAndDistanceValues,
                   'state': state,
                 }

@@ -30,11 +30,8 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
     super.initState();
 
     // Inicializo la hora de partida al momento actual
-    // let initialTime = TimeOfDay.now();
-    String formattedTime = DateFormat.Hm().format(DateTime.now());
-
     // Ejecutar la acción del BLoC para actualizar la hora de partida
-    context.read<DriverMapFinderBloc>().add(UpdateDepartureTime(time: formattedTime));
+    context.read<DriverMapFinderBloc>().add(UpdateDepartureTime(time: getCurrentIso8601Time()));
 
     // Añadir listeners a los TextEditingControllers - Escuchamos los cambios
     pickUpController.addListener(_onPickUpChanged);
@@ -86,6 +83,20 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
            state.pickUpText.isNotEmpty &&
            state.destinationLatLng != null &&
            state.destinationText.isNotEmpty;
+  }
+
+  String getCurrentIso8601Time() {
+    DateTime now = DateTime.now();
+    DateTime utcNow = DateTime.utc(
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+      0, // segundos
+      0, // milisegundos
+    );
+    return utcNow.toIso8601String();
   }
 
   @override
@@ -186,10 +197,12 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
                   onPressed: () {
                     if (_isButtonEnabled(state)) {
                       Navigator.pushNamed(context, '/driver/map/booking', arguments: {
-                        'pickUpLatLng': state.pickUpLatLng,
+                        'pickUpNeighborhood': state.pickUpNeighborhood,
                         'pickUpText': state.pickUpText,
-                        'destinationLatLng': state.destinationLatLng,
+                        'pickUpLatLng': state.pickUpLatLng,
+                        'destinationNeighborhood': state.destinationNeighborhood,
                         'destinationText': state.destinationText,
+                        'destinationLatLng': state.destinationLatLng,
                         'departureTime': state.departureTime,
                       });
                     }

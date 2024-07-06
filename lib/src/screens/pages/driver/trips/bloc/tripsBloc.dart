@@ -2,26 +2,26 @@
 
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/reserve.dart';
-import 'package:carpool_21_app/src/domain/models/reservesAll.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
-import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
+import 'package:carpool_21_app/src/domain/models/tripsAll.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesEvent.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesState.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsEvent.dart';
+import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ReservesBloc extends Bloc<ReservesEvent, ReservesState> {
+class TripsBloc extends Bloc<TripsEvent, TripsState> {
 
 
-  ReserveUseCases reserveUseCases;
+  DriverTripRequestsUseCases driverTripRequestsUseCases;
 
-  ReservesBloc(
-    this.reserveUseCases,
-  ): super(const ReservesState()) {
+  TripsBloc(
+    this.driverTripRequestsUseCases,
+  ): super(const TripsState()) {
 
-  void _setTestReserves(GetReservesAll event, Emitter<ReservesState> emit) {
-    final ReservesAll exampleReservesAll = ReservesAll(
-      currentReserve: TripDetail(
+  void _setTestTrips(GetTripsAll event, Emitter<TripsState> emit) {
+    final TripsAll exampleTripsAll = TripsAll(
+      currentTrip: TripDetail(
         idTrip: 1,
         idDriver: 1,
         driver: Driver(
@@ -67,7 +67,7 @@ class ReservesBloc extends Bloc<ReservesEvent, ReservesState> {
           ),
         ],
       ),
-      futureReserves: [
+      futureTrips: [
         TripDetail(
           idTrip: 2,
           idDriver: 2,
@@ -229,7 +229,7 @@ class ReservesBloc extends Bloc<ReservesEvent, ReservesState> {
           ],
         ),
       ],
-      historicalReserves: [
+      historicalTrips: [
         TripDetail(
           idTrip: 3,
           idDriver: 3,
@@ -274,14 +274,14 @@ class ReservesBloc extends Bloc<ReservesEvent, ReservesState> {
     );
 
     emit(state.copyWith(
-      testingReservesAll: exampleReservesAll,
+      testingTripsAll: exampleTripsAll,
     ));
 
  }
     
 
-    on<GetReservesAll>((event, emit) async {
-      print('GetReservesAll');
+    on<GetTripsAll>((event, emit) async {
+      print('GetTripsAll');
 
       emit(
         state.copyWith(
@@ -299,7 +299,7 @@ class ReservesBloc extends Bloc<ReservesEvent, ReservesState> {
 
       // DELETE - Testeando con un objeto de prueba
       print('Usando el Array de prueba');
-      _setTestReserves(event, emit);
+      _setTestTrips(event, emit);
     }); 
 
   }

@@ -3,18 +3,25 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class DriverMapBookingInfoEvent {}
 
+class DriverMapBookingInfoInitMap extends DriverMapBookingInfoEvent {}
 class DriverMapBookingInfoInitEvent extends DriverMapBookingInfoEvent {
   // Cambiando los valores a las variables
-  final LatLng pickUpLatLng;
+  final String pickUpNeighborhood;
   final String pickUpText;
-  final LatLng destinationLatLng;
+  final LatLng pickUpLatLng;
+  final String destinationNeighborhood;
   final String destinationText;
+  final LatLng destinationLatLng;
+  final String departureTime;
   
   DriverMapBookingInfoInitEvent({
-    required this.pickUpLatLng,
-    required this.destinationLatLng,
+    required this.pickUpNeighborhood,
     required this.pickUpText,
+    required this.pickUpLatLng,
+    required this.destinationNeighborhood,
     required this.destinationText,
+    required this.destinationLatLng,
+    required this.departureTime,
   });
 }
 

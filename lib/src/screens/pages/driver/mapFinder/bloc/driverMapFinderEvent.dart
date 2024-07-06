@@ -1,9 +1,22 @@
 
+import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-abstract class DriverMapFinderEvent {}
+abstract class DriverMapFinderEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class DriverMapFinderInitEvent extends DriverMapFinderEvent {}
+
+class UpdateDepartureTime extends DriverMapFinderEvent {
+  final String time;
+
+  UpdateDepartureTime({required this.time});
+
+  @override
+  List<Object?> get props => [time];
+}
 
 class FindPosition extends DriverMapFinderEvent {}
 
@@ -29,10 +42,16 @@ class ChangeMapCameraPosition extends DriverMapFinderEvent {
 // Seteando el lugar de origen o destino de acuerdo a lo elegido en el modal
 class SelectPredefinedLocation extends DriverMapFinderEvent {
   final LatLng location;
+  final String neighborhood;
   final String address;
   final String locationType; // 'pickup' or 'destination'
 
-  SelectPredefinedLocation({required this.location, required this.address, required this.locationType});
+  SelectPredefinedLocation({
+    required this.location, 
+    required this.neighborhood, 
+    required this.address, 
+    required this.locationType
+  });
 }
 
 // El evento se dispara cuando el usuario elije un lugar de Origen

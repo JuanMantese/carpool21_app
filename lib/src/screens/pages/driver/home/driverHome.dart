@@ -30,62 +30,22 @@ class _DriverHomeState extends State<DriverHomePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Menu de Opciones'),
-      // ),
       body: BlocBuilder<DriverHomeBloc, DriverHomeState>(
         builder: (context, state) {
           if (state.currentUser == null) {
             // Mostrar un indicador de carga mientras se obtiene la información del usuario
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
             return CustomNavigation(
               roles: state.roles ?? [], 
               currentUser: state.currentUser!, 
-              userService: state.userService!,
             );
           }
           // return pageList[state.pageIndex];
         },
       ),
-
-      // drawer: BlocBuilder<PassengerHomeBloc, PassengerHomeState>(
-      //   builder: (context, state) {
-      //     return Drawer(
-      //       child: ListView(
-      //         padding: EdgeInsets.zero,
-      //         children: [
-      //           const DrawerHeader(
-      //               decoration: BoxDecoration(
-      //                 gradient: LinearGradient(
-      //                   begin: Alignment.topRight,
-      //                   end: Alignment.bottomLeft,
-      //                   colors: [
-      //                     Color.fromARGB(255, 12, 38, 145),
-      //                     Color.fromARGB(255, 34, 156, 249),
-      //                   ]),
-      //               ),
-      //               child: Text(
-      //                 'Menu del cliente',
-      //                 style: TextStyle(color: Colors.white),
-      //               )),
-      //           ListTile(
-      //             title: const Text('Perfil'),
-      //             selected: state.pageIndex == 0,
-      //             onTap: () {
-      //               context
-      //                 .read<PassengerHomeBloc>()
-      //                 .add(ChangeDrawerPage(pageIndex: 0));
-      //               Navigator.pop(context);
-      //             },
-      //           )
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
     );
   }
 }

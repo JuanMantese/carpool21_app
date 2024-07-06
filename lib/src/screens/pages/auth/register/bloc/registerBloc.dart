@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   
   AuthUseCases authUseCases;
-  final formKey = GlobalKey<FormState>();
+  final formKeyRegister = GlobalKey<FormState>();
 
   // constructor
   RegisterBloc(
@@ -18,7 +18,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   super(const RegisterState()) {
     
     on<RegisterInitEvent>((event, emit) {
-      emit(state.copyWith(formKey: formKey));
+      emit(state.copyWith(formKeyRegister: formKeyRegister));
     });
 
     on<NameChanged>((event, emit) {
@@ -28,7 +28,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.nameInput.value,
             error: event.nameInput.value.isEmpty ? 'Ingresá tu nombre' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -40,7 +40,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.lastNameInput.value,
             error: event.lastNameInput.value.isEmpty ? 'Ingresá tu apellido' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -52,7 +52,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.studentFileInput.value,
             error: event.studentFileInput.value.isEmpty ? 'Ingresá tu legajo de Siglo 21' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -67,7 +67,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               : event.dniInput.value.length != 8
                 ? 'Ingresá tu D.N.I. con 8 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -82,7 +82,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               : event.phoneInput.value.length != 10 
                 ? 'Ingresá tu teléfono con 10 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -94,7 +94,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.addressInput.value,
             error: event.addressInput.value.isEmpty ? 'Ingresá tu direccion' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -106,7 +106,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.emailInput.value,
             error: event.emailInput.value.isEmpty ? 'Ingresá tu email' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -121,7 +121,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               : event.passwordInput.value.length < 8
                 ? 'Mínimo 8 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -140,7 +140,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
                   ? 'La contraseña no coincide'
                   : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -152,7 +152,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.contactNameInput.value,
             error: event.contactNameInput.value.isEmpty ? 'Ingresá el nombre de tu contacto' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -164,7 +164,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             value: event.contactLastNameInput.value,
             error: event.contactLastNameInput.value.isEmpty ? 'Ingresá el apellido de tu contacto' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -179,7 +179,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               : event.contactPhoneInput.value.length != 10 
                 ? 'Ingresá el teléfono con 10 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -206,7 +206,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(
         state.copyWith(
           response: Loading(),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
 
@@ -217,13 +217,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(
         state.copyWith(
           response: response,
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
 
     on<FormReset>((event, emit) {
-      state.formKey?.currentState?.reset();
+      state.formKeyRegister?.currentState?.reset();
     });
 
     on<SaveUserSession>((event, emit) async {

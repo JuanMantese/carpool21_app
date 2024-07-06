@@ -17,21 +17,31 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
   // AuthUseCases authUseCases;
   // BlocSocketIO blocSocketIO;
   
-
   // DESCOMENTAR
   // DriverMapBookingInfoBloc(this.blocSocketIO, this.geolocationUseCases, this.DriverRequestsUseCases, this.authUseCases): super(DriverMapBookingInfoState()) {
   DriverMapBookingInfoBloc(this.geolocationUseCases, this.driverTripRequestsUseCases): super(DriverMapBookingInfoState()) {
   
-    on<DriverMapBookingInfoInitEvent>((event, emit) async {
+    // Iniciando el Controller del Mapa antes de que cargue la pantalla
+    on<DriverMapBookingInfoInitMap>((event, emit) async {
       Completer<GoogleMapController> controller = Completer<GoogleMapController>();
 
+       emit(
+        state.copyWith(
+          controller: controller,
+        )
+      );
+    });
+
+    on<DriverMapBookingInfoInitEvent>((event, emit) async {
       emit(
         state.copyWith(
-          pickUpLatLng: event.pickUpLatLng,
+          pickUpNeighborhood: event.pickUpNeighborhood,
           pickUpText: event.pickUpText,
-          destinationLatLng: event.destinationLatLng,
+          pickUpLatLng: event.pickUpLatLng,
+          destinationNeighborhood: event.destinationNeighborhood,
           destinationText: event.destinationText,
-          controller: controller,
+          destinationLatLng: event.destinationLatLng,
+          departureTime: event.departureTime,
         )
       );
 
@@ -67,14 +77,15 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
           }
         )
       );
+
+      add(ChangeMapCameraPosition(pickUpLatLng: event.pickUpLatLng, destinationLatLng: event.destinationLatLng));
     });
 
     // Ajustando la posicion de la camara en el mapa segun la ruta elegida
     on<ChangeMapCameraPosition>((event, emit) async {
-      print('Entramos a ChangeMapCameraPosition');
+      print('Entramos a ChangeMapCameraPosition ------------------------------------');
       print(event.pickUpLatLng);
       print(event.destinationLatLng);
-
       try {
         GoogleMapController googleMapController = await state.controller!.future;
 
@@ -135,29 +146,6 @@ class DriverMapBookingInfoBloc extends Bloc<DriverMapBookingInfoEvent, DriverMap
     //       value: event.fareOffered.value,
     //       error: event.fareOffered.value.isEmpty ? 'Ingresa la tarifa' : null
     //     ))
-    //   );
-    // });
-
-    // on<CreatePassengerRequest>((event, emit) async {
-    //   AuthResponse authResponse = await authUseCases.getUserSession.run();
-
-    //   Resource<int> response = await passengerRequestsUseCases.createPassengerRequest.run(
-    //     PassengerRequest(
-    //       idClient: authResponse.user.id!, 
-    //       fareOffered: double.parse(state.fareOffered.value), 
-    //       pickupDescription: state.pickUpDescription, 
-    //       destinationDescription: state.destinationDescription, 
-    //       pickupLat: state.pickUpLatLng!.latitude, 
-    //       pickupLng: state.pickUpLatLng!.longitude, 
-    //       destinationLat: state.destinationLatLng!.latitude, 
-    //       destinationLng: state.destinationLatLng!.longitude
-    //     )
-    //   );
-
-    //   emit(
-    //     state.copyWith(
-    //       responsePassengerRequest: response
-    //     )
     //   );
     // });
 

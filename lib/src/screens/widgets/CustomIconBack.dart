@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomIconBack extends StatelessWidget {
 
   Function() onPressed;
@@ -7,6 +8,7 @@ class CustomIconBack extends StatelessWidget {
   EdgeInsetsGeometry? margin;
 
   CustomIconBack({
+    super.key, 
     required this.onPressed,
     this.color = Colors.white,
     this.margin

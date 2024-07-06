@@ -1,7 +1,10 @@
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
+import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DriverHomeBloc extends Bloc<DriverHomeEvent, DriverHomeState> {
 
   AuthUseCases authUseCases;
+  CarInfoUseCases carInfoUseCases;
 
-  DriverHomeBloc(this.authUseCases): super(DriverHomeState()) {
+  DriverHomeBloc(this.authUseCases, this.carInfoUseCases): super(DriverHomeState()) {
     on<ChangeDrawerPage>((event, emit) {
       emit(
         state.copyWith(
@@ -66,22 +70,40 @@ class DriverHomeBloc extends Bloc<DriverHomeEvent, DriverHomeState> {
     }
 
     on<GetUserInfo>((event, emit) async {
+      List<CarInfo>? carList;
+
+      // Obteniendo los vehiculos del Driver
+      Resource<dynamic> response = await carInfoUseCases.getCarList.run();
+
+      if (response is Success) {
+        print('Vehiculos obtenidos');
+        carList = response.data as List<CarInfo>;
+      } else {
+        print('No se lograron obtener los vehiculos');
+      }
+
+      // Obteniendo los datos del Driver
       AuthResponse? authResponse = await authUseCases.getUserSession.run();
+
       if (authResponse != null && authResponse.user != null) {
-        print('Entro en 1');
+        print('Datos del usuario obtenidos');
+        
+        User userData = authResponse.user;
         List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+
         emit(
           state.copyWith(
+            user: userData,
             roles: roles,
             currentUser: authResponse.user,
             userService: event.userService,
+            carList: carList
           )
         );
       } else {
-        print('Entro en 2');
+         print('Driver Home - AuthResponse es Null');
         _setTestUser(event, emit);
       }
     });
   }
-
 }

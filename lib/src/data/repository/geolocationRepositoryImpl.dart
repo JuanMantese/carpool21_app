@@ -168,4 +168,28 @@ class GeolocationRepositoryImpl implements GeolocationRepository {
     return Geolocator.getPositionStream(locationSettings: locationSettings);
   }
 
+  // Obtener el nombre del barrio
+  // Future<String?> _getNeighborhood(double lat, double lng) async {
+  //   final url = Uri.parse('https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$API_KEY_GOOGLE');
+  //   final response = await http.get(url);
+
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
+
+  //     if (data['results'] != null && data['results'].isNotEmpty) {
+  //       for (var result in data['results']) {
+  //         for (var component in result['address_components']) {
+  //           if (component['types'].contains('sublocality') || component['types'].contains('neighborhood')) {
+  //             return component['long_name'];
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     print('Error al obtener los datos del barrio: ${response.body}');
+  //   }
+
+  //   return null;
+  // }
+
 }

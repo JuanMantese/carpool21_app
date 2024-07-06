@@ -27,12 +27,16 @@ class _RegisterPageState extends State<RegisterPage> {
           if (response is ErrorData) {
             Fluttertoast.showToast(msg: response.message, toastLength: Toast.LENGTH_LONG); 
             print('Error Data: ${response.message}');
+            
           } else if (response is Success) {
-            final authResponse = response.data as AuthResponse;
-            context.read<RegisterBloc>().add(SaveUserSession(authResponse: authResponse));
+            // Inicio de sesion automatico - No pasa por el Login
+            // final authResponse = response.data as AuthResponse;
+            // context.read<RegisterBloc>().add(SaveUserSession(authResponse: authResponse));
+            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
 
-            Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
-
+            // Envio al Login
+            // Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+            Navigator.pop(context);
             Fluttertoast.showToast(msg: 'Registro exitoso', toastLength: Toast.LENGTH_LONG); 
             print('Success Data: ${response.data}');
 

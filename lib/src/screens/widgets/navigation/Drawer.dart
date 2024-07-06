@@ -1,6 +1,5 @@
-// profile_drawer.dart
+
 import 'package:carpool_21_app/main.dart';
-import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
@@ -15,16 +14,14 @@ import 'package:carpool_21_app/src/screens/utils/globals.dart' as globals;
 class CustomDrawer extends StatelessWidget {
 
   final List<Role> roles;
-
-  // New logic
   final User currentUser;
-  final UsersService userService;
 
-  CustomDrawer({required this.roles, required this.currentUser, required this.userService, super.key});
+  CustomDrawer({required this.roles, required this.currentUser, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
+    // final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
+    print('Roles: ${roles}');
 
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
@@ -45,14 +42,14 @@ class CustomDrawer extends StatelessWidget {
                     children: [
                       const CircleAvatar(
                         radius: 30.0,
-                        backgroundImage: AssetImage('lib/assets/img/profile-icon.png'), // Asegúrate de tener esta imagen en tu proyecto
+                        backgroundImage: AssetImage('lib/assets/img/profile-icon.png'),
                       ),
                       const SizedBox(width: 16.0),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            currentUser.name ?? 'Juan Mantese',
+                            '${currentUser.name} ${currentUser.lastName}' ?? 'Juan Mantese Test',
                             style: const TextStyle(
                               color: Color(0xFF006D59),
                               fontWeight: FontWeight.bold,
@@ -65,6 +62,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -73,6 +71,7 @@ class CustomDrawer extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          context.read<NavigationBloc>().add(ChangeUserRol('PASSENGER'));
                           Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
                           globals.currentRole = 'passenger';
                         },
@@ -101,8 +100,25 @@ class CustomDrawer extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false);
-                          globals.currentRole = 'driver';
+                          if (roles.length == 1) {
+                            // Verificamos que el usuario tenga al menos 1 vehiculo registrado
+                            CustomDialog(
+                              context: context,
+                              title: '¡No puedes crear un viaje!',
+                              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
+                              icon: Icons.warning_rounded,
+                              onPressedSend: () {
+                                Navigator.of(context).pop();
+                                Navigator.pushNamed(context, '/car/register');
+                              },
+                              textSendBtn: 'Registrar',
+                              textCancelBtn: 'Cancelar',
+                            );
+                          } else {
+                            context.read<NavigationBloc>().add(ChangeUserRol('DRIVER'));
+                            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false);
+                            globals.currentRole = 'driver';
+                          }
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: globals.currentRole == 'driver'? const Color(0xFF00A98F) : null,
@@ -129,10 +145,12 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: globals.currentRole == 'passenger' ? _itemsPassenger(context) : _itemsDriver(context)
               ),
+
               const Spacer(),
               Container(
                 decoration: BoxDecoration(
@@ -156,7 +174,7 @@ class CustomDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset(
-                        'lib/assets/img/footer-logo-carpool21.png', // Asegúrate de tener esta imagen en tu proyecto
+                        'lib/assets/img/footer-logo-carpool21.png',
                         height: 50,
                       ),
                       const SizedBox(width: 16),
@@ -201,7 +219,15 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Métodos de pago'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/metodos-pago');
+            // Navigator.pushNamed(context, '/metodos-pago');
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
+          title: const Text('Registrar Vehículo'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/car/register');
           },
         ),
         ListTile(
@@ -224,23 +250,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Maps'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/finder');
-          },
-        ),
-        ListTile(
-          title: const Text('Modal'),
-          onTap: () {
-            CustomDialog(
-              context: context,
-              title: '¡No puedes crear un viaje!',
-              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
-              icon: Icons.warning_rounded,
-              onPressedSend: () {
-                Navigator.of(context).pop();
-              },
-              textSendBtn: 'Registrar',
-              textCancelBtn: 'Cancelar',
-            );
+            Navigator.pushNamed(context, '/driver/finder');
           },
         ),
         ListTile(
@@ -249,6 +259,13 @@ class CustomDrawer extends StatelessWidget {
             CustomDialogTrip(
               context: context,
             );
+          },
+        ),
+        ListTile(
+          title: const Text('Trip Detail'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/driver/trip/detail');
           },
         ),
         ListTile(
@@ -284,7 +301,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Vehículos'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/vehículos');
+            Navigator.pushNamed(context, '/car/list');
           },
         ),
         ListTile(
@@ -307,14 +324,14 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Maps'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/finder');
+            Navigator.pushNamed(context, '/driver/finder');
           },
         ),
         ListTile(
           title: const Text('MapLocation'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/passenger/location');
+            Navigator.pushNamed(context, '/driver/location');
           },
         ),
         ListTile(

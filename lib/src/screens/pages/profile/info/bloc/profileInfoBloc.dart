@@ -52,34 +52,23 @@ class ProfileInfoBloc extends Bloc<ProfileInfoEvent, ProfileInfoState> {
     }
 
     on<GetUserInfo>((event, emit) async {
-      //DESCOMENTAR
-      // Obtaining session information
-      // AuthResponse authResponse = await authUseCases.getUserSession.run();
-
-      // Issuing the information to use it - DESCOMENTAR
-      // emit(
-      //   state.copyWith(
-      //     user: authResponse.user
-      //   )
-      // );
-      // HASTA ACA ---------
-
       try {
         AuthResponse authResponse = await authUseCases.getUserSession.run();
         
         if (authResponse != null && authResponse.user != null) {
+          print('Datos del usuario obtenidos');
           emit(
             state.copyWith(
               user: authResponse.user,
             )
           );
         } else {
-          print('Entro en 2');
+          print('AuthResponse es Null');
           _setTestUser(event, emit);
         }
-      } catch (e) {
+      } catch (error) {
+        print('Error GetUserInfo $error');
         _setTestUser(event, emit);
-    
       }
     }); 
   }

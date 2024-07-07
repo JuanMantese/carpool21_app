@@ -45,6 +45,7 @@ import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/createTri
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getAllTripsUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTimeAndDistanceUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTripDetailUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/createDriverPositionUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/deleteDriverPositionUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/driversPositionUseCases.dart';
@@ -196,6 +197,7 @@ abstract class AppModule {
   DriverTripRequestsUseCases get driverTripRequestsUseCases => DriverTripRequestsUseCases(
     createTripRequestUseCase: CreateTripRequestUseCase(driverTripRequestsRepository),
     getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository),
+    getTripDetailUseCase: GetTripDetailUseCase(driverTripRequestsRepository),
     getAllTripsUseCase: GetAllTripsUseCase(driverTripRequestsRepository)
   );
 

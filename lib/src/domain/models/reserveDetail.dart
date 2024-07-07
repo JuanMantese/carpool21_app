@@ -3,38 +3,40 @@ import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 class ReserveDetail {
   int idReservation;
   bool isPaid;
-  TripDetail tripDetail;
+  TripDetail tripRequest;
   Driver driver; 
 
   ReserveDetail({
     required this.idReservation,
     required this.isPaid,
-    required this.tripDetail,
+    required this.tripRequest,
     required this.driver,
   });
 
   factory ReserveDetail.fromJson(Map<String, dynamic> json) => ReserveDetail(
     idReservation: json["idReservation"],
     isPaid: json["isPaid"],
-    tripDetail: json["tripDetail"],
-    driver: json["driver"],
+    tripRequest: TripDetail.fromJson(json["tripRequest"]),
+    driver: Driver.fromJson(json["driver"]),
   );
 
   Map<String, dynamic> toJson() => {
     'idReservation': idReservation,
     'isPaid': isPaid,
-    'tripDetail': tripDetail,
+    'tripRequest': tripRequest.toJson(),
     'driver': driver,
   };
 }
 
 class Driver {
+  int idDriver;
   String name;
   String lastName;
   String phone;
   String? photo;
 
   Driver({
+    required this.idDriver,
     required this.name,
     required this.lastName,
     required this.phone,
@@ -42,6 +44,7 @@ class Driver {
   });
 
   factory Driver.fromJson(Map<String, dynamic> json) => Driver(
+    idDriver: json["idDriver"],
     name: json["name"],
     lastName: json["lastName"],
     phone: json["phone"],
@@ -49,6 +52,7 @@ class Driver {
   );
 
   Map<String, dynamic> toJson() => {
+    "idDriver": idDriver,
     "name": name,
     "lastName": lastName,
     "phone": phone,

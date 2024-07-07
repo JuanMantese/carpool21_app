@@ -52,7 +52,7 @@ class DriverTripRequestsService {
 
       final response = await http.post(url, headers: headers, body: body);
       final data = json.decode(response.body);
-      print('Data res: $data');
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         TripDetail driverTripResponse = TripDetail.fromJson(data);
         return Success(driverTripResponse);
@@ -70,9 +70,9 @@ class DriverTripRequestsService {
   }
 
   // Trayendo el vehiculo del conductor
-  Future<Resource<TripDetail>> getTripDetail() async {
+  Future<Resource<TripDetail>> getTripDetail(int idTrip) async {
     try {
-      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-detail');
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-request/findOne/$idTrip');
       Map<String, String> headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${await token}'

@@ -33,6 +33,8 @@ void main() async {
   runApp(const CarPool21());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class CarPool21 extends StatelessWidget {
   const CarPool21({super.key});
 
@@ -42,6 +44,8 @@ class CarPool21 extends StatelessWidget {
     return MultiBlocProvider(
       providers: blocProviders,
       child: MaterialApp(
+        key: const ValueKey('CarPool21_App'),
+        navigatorKey: navigatorKey,
         builder: FToastBuilder(),
         title: 'Carpool 21',
         debugShowCheckedModeBanner: false,

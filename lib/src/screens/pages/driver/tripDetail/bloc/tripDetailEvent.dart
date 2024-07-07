@@ -2,7 +2,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class TripDetailEvent {}
 
-class GetTripDetail extends TripDetailEvent {}
+class GetTripDetail extends TripDetailEvent {
+  final int idTrip;
+
+  GetTripDetail({
+    required this.idTrip
+  });
+}
 
 class InitializeMap extends TripDetailEvent {}
 

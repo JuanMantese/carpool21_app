@@ -20,12 +20,14 @@ class TripsAvailableItem extends StatelessWidget {
         LatLng destinationLatLng = LatLng(passengerRequest!.destinationLat, passengerRequest!.destinationLng);
 
         Navigator.pushNamed(context, '/passenger/request/trips/detail', arguments: {
-          // 'driver': passengerRequest.user,
+          'idTrip': passengerRequest?.idTrip,
           'pickUpLatLng': pickUpLatLng,
           'pickUpText': passengerRequest!.pickupText,
           'destinationLatLng': destinationLatLng,
           'destinationText': passengerRequest!.destinationText,
           'departureTime': passengerRequest!.departureTime,
+          'compensation': passengerRequest!.compensation,
+          'driver': passengerRequest!.driver
         });
       },
       child: Container(
@@ -102,7 +104,7 @@ class TripsAvailableItem extends StatelessWidget {
                   children: [
                     _startTripHour(passengerRequest!.departureTime),
                     const SizedBox(height: 10),
-                    _availableSeats(passengerRequest!.availableSeats),
+                    _availableSeats(passengerRequest!.availableSeats!),
                   ],
                 ),
               ),

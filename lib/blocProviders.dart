@@ -46,7 +46,7 @@ List<BlocProvider> blocProviders = [
   
   BlocProvider<PassengerHomeBloc>(create: (context) => PassengerHomeBloc(locator<AuthUseCases>())),  
   BlocProvider<TripsAvailableBloc>(create: (context) => TripsAvailableBloc(locator<AuthUseCases>(), locator<DriversPositionUseCases>(), locator<DriverTripRequestsUseCases>(),)),
-  BlocProvider<TripAvailableDetailBloc>(create: (context) => TripAvailableDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())),
+  BlocProvider<TripAvailableDetailBloc>(create: (context) => TripAvailableDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>(), locator<ReserveUseCases>())),
   BlocProvider<ReserveDetailBloc>(create: (context) => ReserveDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())..add(GetReserveDetail())),
   BlocProvider<ReservesBloc>(create: (context) => ReservesBloc(locator<ReserveUseCases>())..add(GetReservesAll())),
 
@@ -55,7 +55,7 @@ List<BlocProvider> blocProviders = [
   BlocProvider<DriverMapFinderBloc>(create: (context) => DriverMapFinderBloc(locator<GeolocationUseCases>(), locator<SocketUseCases>())..add(DriverMapFinderInitEvent())),
   BlocProvider<DriverMapBookingInfoBloc>(create: (context) => DriverMapBookingInfoBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())),
   BlocProvider<CreateTripBloc>(create: (context) => CreateTripBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>(), locator<DriverTripRequestsUseCases>())),
-  BlocProvider<TripDetailBloc>(create: (context) => TripDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())..add(GetTripDetail())),
+  BlocProvider<TripDetailBloc>(create: (context) => TripDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())),
   BlocProvider<TripsBloc>(create: (context) => TripsBloc(locator<DriverTripRequestsUseCases>())..add(GetTripsAll())),
   BlocProvider<DriverMapLocationBloc>(create: (context) => DriverMapLocationBloc(locator<AuthUseCases>(), locator<GeolocationUseCases>(), locator<SocketUseCases>(), locator<DriversPositionUseCases>())),
   

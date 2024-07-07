@@ -71,11 +71,15 @@ class _CreateTripState extends State<CreateTripPage> {
           if (responseDriverTripRequest is Success) {
             print(responseDriverTripRequest.data);
             TripDetail driverTripRequest = responseDriverTripRequest.data; 
-            int idDriverRequest = driverTripRequest.idTrip;
+            int? idDriverRequest = driverTripRequest.idTrip;
             
             // DESCOMENTAR
             // context.read<CreateTripBloc>().add(EmitNewClientRequestSocketIO(idDriverRequest: idDriverRequest));
-            Navigator.pushNamed(context, '/driver/trip/detail', arguments: idDriverRequest);
+            Navigator.pushNamed(context, '/driver/trip/detail', 
+              arguments:{
+                'idDriverRequest':  idDriverRequest,
+              }
+            );
             Fluttertoast.showToast(msg: 'Solicitud enviada', toastLength: Toast.LENGTH_LONG);
           }
         },
@@ -83,8 +87,7 @@ class _CreateTripState extends State<CreateTripPage> {
           children: [
             _headerProfile(context),
             CustomIconBack(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + 15, left: 30),
+              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
               onPressed: () {
                 Navigator.pop(context);
               },

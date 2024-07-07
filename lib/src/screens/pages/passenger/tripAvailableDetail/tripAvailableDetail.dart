@@ -1,4 +1,5 @@
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/bloc/tripAvailableDetailBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/bloc/tripAvailableDetailEvent.dart';
@@ -17,11 +18,14 @@ class TripAvailableDetailPage extends StatefulWidget {
 
 class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
   // Inicializando variables
+  int? idTrip;
   LatLng? pickUpLatLng;
   String? pickUpText;
   LatLng? destinationLatLng;
   String? destinationText;
   String? departureTime;
+  double? compensation;
+  Driver? driver;
 
   @override
   void initState() {
@@ -36,7 +40,9 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
           destinationLatLng: destinationLatLng!,
           pickUpText: pickUpText!,
           destinationText: destinationText!,
-          departureTime: departureTime!
+          departureTime: departureTime!,
+          compensation: compensation!,
+          driver: driver!,
         ));
       
       // Aca se ejecuta la funcion para agregar la ruta en el mapa origen/destino
@@ -56,15 +62,18 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
   @override
   Widget build(BuildContext context) {
     // Recibiendo los datos de Origen y Destino desde AvailableTrips
-    Map<String, dynamic> arguments =
-      ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    Map<String, dynamic> arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
     // Seteando valores
+    idTrip = arguments['idTrip'];
     pickUpLatLng = arguments['pickUpLatLng'];
     pickUpText = arguments['pickUpText'];
     destinationLatLng = arguments['destinationLatLng'];
     destinationText = arguments['destinationText'];
     departureTime = arguments['departureTime'];
+    driver = arguments['driver'];
+    compensation = arguments['compensation'];
+    print('idTrip ${idTrip}');
     print('pickUpLatLng ${pickUpLatLng}');
     print('pickUpText ${pickUpText}');
     print('destinationLatLng ${destinationLatLng}');
@@ -76,29 +85,39 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
         builder: (context, state) {
           final responseTimeAndDistance = state.responseTimeAndDistance;
 
+
           if (responseTimeAndDistance is Loading) {
             return const Center(child: CircularProgressIndicator());
           }
           else if (responseTimeAndDistance is Success) {
-            TimeAndDistanceValues timeAndDistanceValues = responseTimeAndDistance.data as TimeAndDistanceValues;
+            // TimeAndDistanceValues timeAndDistanceValues = responseTimeAndDistance.data as TimeAndDistanceValues;
             return Scaffold(
-              body: TripAvailableDetailContent(state, timeAndDistanceValues)
+              body: TripAvailableDetailContent(
+                state, 
+                onReserve: () {
+                  context.read<TripAvailableDetailBloc>().add(CreateReserve(tripRequestId: idTrip!));
+
+                  final responseReserve = state.responseReserve;
+
+                  if (responseReserve is Success) {
+                    // int idReserve = state.responseReserve;
+                    print(responseReserve.data);
+                  }
+                  // Navigator.pushNamed(context, '/passenger/reserve/detail');
+                }
+              )
             );
           }
 
-          // DELETE - Eliminar: Esta puesto para probar sin el back
-          TimeAndDistanceValues mockTimeAndDistanceValues = TimeAndDistanceValues(
-            tripPrice: 1000.0,
-            distance: Distance(text: "10 km", value: 10.0),
-            duration: Duration(text: "15 min", value: 15.0),
-          );
           return Scaffold(
-              body: TripAvailableDetailContent(
-                state, 
-                mockTimeAndDistanceValues
-              )
-            );
-          // DELETE - Eliminar: Esta puesto para probar sin el back
+            body: TripAvailableDetailContent(
+              state, 
+              onReserve: () {
+                context.read<TripAvailableDetailBloc>().add(CreateReserve(tripRequestId: idTrip!));
+                Navigator.pushNamed(context, '/passenger/reserve/detail');
+              }
+            )
+          );
            
           // DESCOMENTAR
           // return Container(); 

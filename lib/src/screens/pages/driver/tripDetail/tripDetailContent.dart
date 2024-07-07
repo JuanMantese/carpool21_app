@@ -4,6 +4,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/tripDetailRes
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class TripDetailContent extends StatelessWidget {
   
@@ -15,7 +16,7 @@ class TripDetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('TripDetailContent');
-    print(tripDetail?.reservations?[0].passenger?.name);
+    // print(tripDetail?.reservations?[0].passenger?.name);
 
     return Stack(
       children: [
@@ -26,27 +27,23 @@ class TripDetailContent extends StatelessWidget {
             right: 26,
             left: 26
           ),
-          child: SingleChildScrollView(
-            child: IntrinsicHeight(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTripCard(context),
-                  const SizedBox(height: 16),
-                  _buildTripInfoMap(context),
-                  const SizedBox(height: 16),
-                  _buildObservationsSection(context),
-                  const SizedBox(height: 16),
-                  _buildVehicleInfo(context),
-                  const SizedBox(height: 16),
-                  _buildReservesList(context),
-                  const SizedBox(height: 16),            
-                  const Spacer(),
-                  _buttonsAction(context)
-                  
-                ],
-              ),
-            ),
+          child: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTripCard(context),
+              const SizedBox(height: 16),
+              _buildTripInfoMap(context),
+              const SizedBox(height: 16),
+              _buildObservationsSection(context),
+              const SizedBox(height: 16),
+              _buildVehicleInfo(context),
+              const SizedBox(height: 16),
+              _buildReservesList(context),
+              const SizedBox(height: 16),            
+              const Spacer(),
+              _buttonsAction(context)
+              
+            ],
           ),
         ),
         
@@ -95,7 +92,7 @@ class TripDetailContent extends StatelessWidget {
   Widget _buildTripCard(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(
-        top: 80,
+        top: 20,
         right: 5,
         left: 5
       ),
@@ -149,8 +146,13 @@ class TripDetailContent extends StatelessWidget {
   }
 
   Widget _buildTripInfoMap(BuildContext context) {
+    final formattedTime = DateFormat.Hm().format(DateTime.parse(tripDetail!.departureTime));
+
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(
+        top: 10.0,
+        bottom: 10.0
+      ),
       child: Row(
         children: [
           Expanded(
@@ -164,7 +166,7 @@ class TripDetailContent extends StatelessWidget {
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    tripDetail != null ? tripDetail!.departureTime : '',
+                    tripDetail != null ? formattedTime : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -177,7 +179,7 @@ class TripDetailContent extends StatelessWidget {
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    tripDetail != null ? tripDetail!.timeDifference.toString() : '',
+                    tripDetail != null ? tripDetail!.availableSeats.toString() : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -243,55 +245,63 @@ class TripDetailContent extends StatelessWidget {
   }
 
   Widget _buildObservationsSection(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-        right: 5,
-        left: 5
-      ),
-      alignment: Alignment.centerLeft,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
+    return (tripDetail?.observations != null && tripDetail!.observations!.isNotEmpty) ? 
+      Container(
+        margin: const EdgeInsets.only(
+          right: 5,
+          left: 5
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6.0,
-            spreadRadius: 2.0,
-            offset: Offset(0.0, 2.0),
+        alignment: Alignment.centerLeft,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
           ),
-        ],
-      ),
-      child: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: IntrinsicHeight(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Observaciones',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                  color: Color(0xFF00A48B),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 6.0,
+              spreadRadius: 2.0,
+              offset: Offset(0.0, 2.0),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: IntrinsicHeight(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Observaciones',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    color: Color(0xFF00A48B),
+                  ),
                 ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Observaciones Description',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
+                const SizedBox(height: 8),
+                Text(
+                  // 'Observaciones Description',
+                  tripDetail != null ? tripDetail!.observations! : '',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      )
+      : 
+      Container(
+        margin: const EdgeInsets.only(top: 16, bottom: 40),
+        padding: const EdgeInsets.only(right: 20, left: 20),
+        child: const Text("No hay observaciones disponibles."),
+      );
   }
 
   Widget _buildVehicleInfo(BuildContext context) {
@@ -333,7 +343,7 @@ class TripDetailContent extends StatelessWidget {
                       Text('Patente: ${tripDetail?.vehicle?.patent ?? ''}'),
                       Text('Año: ${tripDetail?.vehicle?.year ?? ''}'),
                       Text('Color: ${tripDetail?.vehicle?.color ?? ''}'),
-                      Text('Cédula Verde: ${tripDetail?.vehicle?.nroGreenCard ?? ''}'),
+                      // Text('Cédula Verde: ${tripDetail?.vehicle?.nroGreenCard ?? ''}'),
                     ],
                   ),
                 ),
@@ -347,7 +357,7 @@ class TripDetailContent extends StatelessWidget {
 
   Widget _buildReservesList(BuildContext context) {  
     // Permite listar la informacion que viene dentro de una Lista
-    return (tripDetail?.reservations != null && tripDetail!.reservations!.isNotEmpty) ? 
+    return (tripDetail?.reservations != [] && tripDetail!.reservations!.isNotEmpty) ? 
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

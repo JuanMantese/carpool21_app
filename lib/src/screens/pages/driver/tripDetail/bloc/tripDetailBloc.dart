@@ -4,6 +4,7 @@ import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailState.dart';
 import 'package:flutter/material.dart';
@@ -70,28 +71,31 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
     }
 
     on<GetTripDetail>((event, emit) async {
-      // try {
-      //   // Realizar la consulta para traer el detalle de un viaje
-      //   AuthResponse authResponse = await authUseCases.getUserSession.run();
-
-      //   if (authResponse != null && authResponse.user != null) {
-      //     print('Datos del usuario obtenidos');
-      //     emit(
-      //       state.copyWith(
-      //         tripDetail: tripDetailContent,
-      //       )
-      //     );
-      //   } else {
-      //     print('AuthResponse es Null');
-      //     _setTestTripDetail(event, emit);
-      //   }
-      // } catch (error) {
-      //   print('Error GetTripDetail $error');
-      //   _setTestTripDetail(event, emit);
-      // }
+      try {
+        // Realizar la consulta para traer el detalle de un viaje
+        Success<TripDetail> tripDetailRes = await driverTripRequestsUseCases.getTripDetailUseCase.run(event.idTrip);
+        print('Aca entramos en GetTripDetail');
+        if (tripDetailRes is Success) {
+          TripDetail tripDetail = tripDetailRes.data;
+          print('ACA: ${tripDetail.toJson()}');
+          emit(
+            state.copyWith(
+              tripDetail: tripDetail,
+              pickUpLatLng: LatLng(tripDetail.pickupLat, tripDetail.pickupLng),
+              destinationLatLng: LatLng(tripDetail.destinationLat, tripDetail.destinationLng)
+            )
+          );
+        } else {
+          print('======================== GetTripDetail NO ENTRO ========================');
+          _setTestTripDetail(event, emit);
+        }
+      } catch (error) {
+        print('Error GetTripDetail $error');
+        _setTestTripDetail(event, emit);
+      }
 
       print('Usando _setTestTripDetail');
-      _setTestTripDetail(event, emit);
+      // _setTestTripDetail(event, emit);
     }); 
 
     on<InitializeMap>((event, emit) async {

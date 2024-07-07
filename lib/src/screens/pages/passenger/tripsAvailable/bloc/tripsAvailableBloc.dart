@@ -119,9 +119,9 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
     });
 
     on<GetTripsAvailable>((event, emit) async {
-      
+      print('GetTripsAvailable ---------------------');
       Success<List<TripDetail>> availableTripsRes = await driverTripRequestsUseCases.getAllTripsUseCase.run();
-
+      print(availableTripsRes);
       emit(
         state.copyWith(
           response: Loading(),
@@ -140,7 +140,7 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
 
       // DELETE - Testeando con un objeto de prueba
       print('Usando el Array de prueba');
-      _setTestPassengerRequests(event, emit);
+      // _setTestPassengerRequests(event, emit);
 
     });
 

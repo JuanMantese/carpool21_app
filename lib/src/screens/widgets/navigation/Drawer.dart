@@ -272,11 +272,12 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Cerrar Sesion'),
           onTap: () {
             context.read<NavigationBloc>().add(Logout());
-            Navigator.pushAndRemoveUntil(
-              context, 
-              MaterialPageRoute(builder: ((context) => const CarPool21())), 
-              (route) => false
-            );
+            // Navigator.pushAndRemoveUntil(
+            //   context, 
+            //   MaterialPageRoute(builder: ((context) => const CarPool21())), 
+            //   (route) => false
+            // );
+            navigatorKey.currentState!.pushNamedAndRemoveUntil('/login', (route) => false);
           },
         ),
       ],

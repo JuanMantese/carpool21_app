@@ -58,7 +58,8 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  // LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  LatLng(-31.322187171680053, -64.22192009394531),
                   'Campus Siglo 21',
                   'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
                   'destination',
@@ -84,7 +85,8 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  // LatLng(-31.4227129, -64.18551), // Coordenadas del Nva Cba 
+                  LatLng(-31.422511271602012, -64.18393187764372,),
                   'Cede Nueva Córdoba',
                   'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
                   'destination',
@@ -110,7 +112,8 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  // LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  LatLng(-31.322187171680053, -64.22192009394531),
                   'Campus Siglo 21',
                   'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
                   'pickUp',
@@ -136,7 +139,8 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  // LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  LatLng(-31.422511271602012, -64.18393187764372,),
                   'Cede Nueva Córdoba',
                   'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
                   'pickUp',

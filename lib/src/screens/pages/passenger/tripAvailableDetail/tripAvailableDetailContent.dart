@@ -4,16 +4,15 @@ import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 class TripAvailableDetailContent extends StatelessWidget {
   
   TripAvailableDetailState state;
-  TimeAndDistanceValues timeAndDistanceValues;
+  final VoidCallback onReserve;
   
-  TripAvailableDetailContent(this.state, this.timeAndDistanceValues, {super.key});
+  TripAvailableDetailContent(this.state, {required this.onReserve, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +184,8 @@ class TripAvailableDetailContent extends StatelessWidget {
                                 // color: Color(0xFFdc2627),
                               ),
                               title: Text(
-                                // state.compensation.toString(),
-                                '1000'
+                                state.compensation.toString(),
+                                // '1000'
                               ),
                               titleTextStyle: const TextStyle(
                                 fontSize: 14,
@@ -198,10 +197,11 @@ class TripAvailableDetailContent extends StatelessWidget {
                       ),
                     ),
                 
-                    const ListTile(
+                    ListTile(
                       title: Text(
-                        'Conductor: Testing Juan Mantese',
-                        style: TextStyle(
+                        // 'Conductor: Juan Mantese',
+                        'Conductor: ${state.driver?.name} ${state.driver?.lastName}',
+                        style: const TextStyle(
                           fontSize: 15
                         ),
                       ),
@@ -222,12 +222,7 @@ class TripAvailableDetailContent extends StatelessWidget {
                 title: 'Estás por reservar este Viaje. ¿Querés confirmarlo?',
                 content: 'Podés cancelar tu reserva hasta 30 minutos antes de su comienzo.',
                 icon: Icons.check_circle_rounded,
-                onPressedSend: () {
-                  // context.read<CreateTripBloc>().add(CreateTripRequest());
-
-                  Navigator.pushNamed(context, '/passenger/reserve/detail');
-                  // Lógica para redirigir a la home cuando se presione el botón de atrás
-                },
+                onPressedSend: onReserve,
                 textSendBtn: 'Reservar',
                 textCancelBtn: 'Cancelar',
               );

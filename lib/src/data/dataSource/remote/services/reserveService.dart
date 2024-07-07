@@ -18,11 +18,18 @@ class ReserveService {
   Future<Resource<ReserveDetail>> create(ReserveRequest reserveRequest) async {
     try {
       Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-reservation/reserve-seat');
-      Map<String, String> headers = { 'Content-Type': 'application/json' };
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await token}'
+      };
       String body = json.encode(reserveRequest.toJson());
 
       final response = await http.post(url, headers: headers, body: body);
       final data = json.decode(response.body);
+      print('Aca en el service');
+      
+      print(response);
+      print(data);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         ReserveDetail reserveDetail = ReserveDetail.fromJson(data);

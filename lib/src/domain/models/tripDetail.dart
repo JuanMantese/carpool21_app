@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 
 TripDetail passengerRequestFromJson(String str) => TripDetail.fromJson(json.decode(str));
 
@@ -18,7 +17,7 @@ class TripDetail {
   String destinationText;
   double destinationLat;
   double destinationLng;
-  int availableSeats;
+  int? availableSeats;
   String departureTime; // Date Format
   double? distance; // En kilometros
   int? timeDifference; // En minutos
@@ -43,7 +42,7 @@ class TripDetail {
     required this.destinationText,
     required this.destinationLat,
     required this.destinationLng,
-    required this.availableSeats,
+    this.availableSeats,
     required this.departureTime,
     this.distance,
     this.timeDifference,
@@ -93,7 +92,7 @@ class TripDetail {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": idTrip,
+    "idTrip": idTrip,
     "idDriver": idDriver,
     "driver": driver?.toJson(),
     "pickupNeighborhood": pickupNeighborhood,
@@ -111,7 +110,7 @@ class TripDetail {
     "compensation": compensation,
     "vehicle": vehicle?.toJson(),
     "observations": observations,
-    "reserves": Reservations != null ? List<dynamic>.from(reservations!.map((x) => x.toJson())) : null,
+    "reservations": Reservations != null ? List<dynamic>.from(reservations!.map((x) => x.toJson())) : null,
     // "google_distance_matrix": googleDistanceMatrix?.toJson(),
     // "pickup_position": pickupPosition.toJson(),
     // "destination_position": destinationPosition.toJson(),
@@ -203,16 +202,16 @@ class Reservations {
   };
 }
 
-class Position {
+class PositionTrip {
   double x;
   double y;
 
-  Position({
+  PositionTrip({
     required this.x,
     required this.y,
   });
 
-  factory Position.fromJson(Map<String, dynamic> json) => Position(
+  factory PositionTrip.fromJson(Map<String, dynamic> json) => PositionTrip(
     x: json["x"]?.toDouble(),
     y: json["y"]?.toDouble(),
   );
@@ -224,8 +223,8 @@ class Position {
 }
 
 class GoogleDistanceMatrix {
-  Distance distance;
-  Distance duration;
+  DistanceMatrix distance;
+  DistanceMatrix duration;
   String status;
 
   GoogleDistanceMatrix({
@@ -235,8 +234,8 @@ class GoogleDistanceMatrix {
   });
 
   factory GoogleDistanceMatrix.fromJson(Map<String, dynamic> json) => GoogleDistanceMatrix(
-    distance: Distance.fromJson(json["distance"]),
-    duration: Distance.fromJson(json["duration"]),
+    distance: DistanceMatrix.fromJson(json["distance"]),
+    duration: DistanceMatrix.fromJson(json["duration"]),
     status: json["status"],
   );
 
@@ -247,16 +246,16 @@ class GoogleDistanceMatrix {
   };
 }
 
-class Distance {
+class DistanceMatrix {
   String text;
   int value;
 
-  Distance({
+  DistanceMatrix({
     required this.text,
     required this.value,
   });
 
-  factory Distance.fromJson(Map<String, dynamic> json) => Distance(
+  factory DistanceMatrix.fromJson(Map<String, dynamic> json) => DistanceMatrix(
     text: json["text"],
     value: json["value"],
   );

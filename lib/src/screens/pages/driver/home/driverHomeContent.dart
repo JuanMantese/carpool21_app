@@ -173,7 +173,7 @@ class DriverHomeContent extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/car/register');
+                  Navigator.pushNamed(context, '/car/register', arguments: '/driver/home');
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: const Color(0xFFF9F9F9),

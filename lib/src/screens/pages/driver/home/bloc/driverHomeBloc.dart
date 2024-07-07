@@ -31,7 +31,7 @@ class DriverHomeBloc extends Bloc<DriverHomeEvent, DriverHomeState> {
     // Usuario de prueba - Logica para obtener todos los datos del usuario
     void _setTestUser(GetUserInfo event, Emitter<DriverHomeState> emit) {
       final User testUser = User(
-        id: 1,
+        idUser: 1,
         name: 'Juan',
         lastName: 'Mantese',
         studentFile: 'SOF01669',
@@ -46,8 +46,6 @@ class DriverHomeBloc extends Bloc<DriverHomeEvent, DriverHomeState> {
         contactPhone: 3513751312,
         photoUser: 'lib/assets/img/profile-icon.png',
         notificationToken: null,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
         roles: [
           Role(
             idRole: "ADMIN",

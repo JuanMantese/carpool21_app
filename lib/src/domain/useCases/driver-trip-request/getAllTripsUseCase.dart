@@ -6,5 +6,5 @@ class GetAllTripsUseCase {
 
   GetAllTripsUseCase(this.driverTripRequestRepository);
 
-  run() => driverTripRequestRepository.getAllTrips();
+  run() => driverTripRequestRepository.getAvailableTrips();
 }

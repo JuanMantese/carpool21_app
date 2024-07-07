@@ -14,7 +14,7 @@ class ReserveDetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('ReserveDetailContent');
-    print(reserveDetail?.reserves?[0].name);
+    print(reserveDetail?.reservations?[0].passenger?.name);
 
     return Stack(
       children: [
@@ -387,9 +387,7 @@ class ReserveDetailContent extends StatelessWidget {
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom,),
       child: Center(
         child: ElevatedButton(
-          onPressed: () {
-            // Navigator.pushNamed(context, '/car/register');
-          },
+          onPressed: () {},
           style: OutlinedButton.styleFrom(
             fixedSize: Size(180, 50),
             padding: const EdgeInsets.only(

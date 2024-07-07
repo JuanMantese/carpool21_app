@@ -1,11 +1,11 @@
 import 'package:carpool_21_app/src/domain/models/role.dart';
 
 class User {
-  int? id;
+  int? idUser;
   String name;
   String lastName;
   String? studentFile;
-  int dni;
+  int? dni;
   int phone;
   String address;
   String? email;
@@ -16,16 +16,14 @@ class User {
   int contactPhone;
   String? photoUser;
   String? notificationToken;
-  DateTime? createdAt;
-  DateTime? updatedAt;
   List<Role>? roles;
 
   User({
-    this.id,
+    this.idUser,
     required this.name,
     required this.lastName,
     this.studentFile,
-    required this.dni,
+    this.dni,
     required this.phone,
     required this.address,
     this.email,
@@ -36,13 +34,11 @@ class User {
     required this.contactPhone,
     this.photoUser,
     this.notificationToken,
-    this.createdAt,
-    this.updatedAt,
     this.roles,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["idUser"],
+    idUser: json["idUser"],
     name: json["name"],
     lastName: json["lastName"],
     studentFile: json["studentFile"],
@@ -59,7 +55,7 @@ class User {
   );
 
   Map<String, dynamic> toJson() => {
-    // 'idUser': id,
+    'idUser': idUser,
     'name': name,
     'lastName': lastName,
     'studentFile': studentFile,
@@ -73,8 +69,6 @@ class User {
     'contactPhone': contactPhone,
     // 'photoUser': photoUser,
     // 'notification_token': notificationToken,
-    // 'created_at': createdAt?.toIso8601String(),
-    // 'updated_at': updatedAt?.toIso8601String(),
     'roles': roles != null ? List<dynamic>.from(roles!.map((x) => x.toJson())) : [],
   };
 }

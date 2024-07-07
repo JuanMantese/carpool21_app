@@ -26,14 +26,17 @@ class _TripsAvailablePageState extends State<TripsAvailablePage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<TripsAvailableBloc>().add(GetNearbyTripRequest(driverLat: -31.322187, driverLng: -64.2219203));
+      // context.read<TripsAvailableBloc>().add(GetNearbyTripRequest(driverLat: -31.322187, driverLng: -64.2219203));
+      context.read<TripsAvailableBloc>().add(GetTripsAvailable());
     });
   }
 
   void _filterTrips(String query, List<TripDetail> requests) {
     setState(() {
       filteredRequests = requests.where((request) {
-        return request.pickupText.toLowerCase().contains(query.toLowerCase()) ||
+        return request.pickupNeighborhood.toLowerCase().contains(query.toLowerCase()) ||
+               request.pickupText.toLowerCase().contains(query.toLowerCase()) ||
+               request.destinationNeighborhood.toLowerCase().contains(query.toLowerCase()) ||
                request.destinationText.toLowerCase().contains(query.toLowerCase());
       }).toList();
     });
@@ -103,42 +106,61 @@ class _TripsAvailablePageState extends State<TripsAvailablePage> {
           if (response is Loading) {
             return const Center(child: CircularProgressIndicator());
           } 
-          else if (response is Success) {
-            List<TripDetail> passengerRequests = response.data as List<TripDetail>;
+          // MEJORAR ESTA LOGICA - Debo cambiar como recibo los datos, para que en ves de recibir Success reciba Resource y ahi trabajarlo
+          // else if (response is Success) {
+          //   List<TripDetail> passengerRequests = response.data as List<TripDetail>;
             
+          //   if (filteredRequests.isEmpty && searchController.text.isEmpty) {
+          //     filteredRequests = passengerRequests;
+          //   }
+            
+          //   return TripsAvailableContent(
+          //     state, 
+          //     passengerRequests: passengerRequests,
+          //     filteredRequests: filteredRequests,
+          //     searchController: searchController,
+          //     onSearch: (query) => _filterTrips(query, passengerRequests),
+          //     // onSearch: _filterTrips,
+          //     onShowAdvancedOptions: () => _showAdvancedOptionsModal(context),
+          //   );
+          // }
+          // NO SE ELIMINA ESTO
+
+          else if (state.availableTrips?.length != null) {
             if (filteredRequests.isEmpty && searchController.text.isEmpty) {
-              filteredRequests = passengerRequests;
+              filteredRequests = state.availableTrips!;
             }
             
             return TripsAvailableContent(
               state, 
-              passengerRequests: passengerRequests,
+              passengerRequests: state.availableTrips!,
               filteredRequests: filteredRequests,
               searchController: searchController,
-              onSearch: (query) => _filterTrips(query, passengerRequests),
+              onSearch: (query) => _filterTrips(query, state.availableTrips!),
               // onSearch: _filterTrips,
               onShowAdvancedOptions: () => _showAdvancedOptionsModal(context),
             );
           }
 
-          // DELETE - Utilizamos un Array de prueba
-          if (state.testingArrayTrips != null) {
-            List<TripDetail> passengerRequestTest = state.testingArrayTrips!;
+          // DELETE - Utilizamos este ARRAY de prueba
+          // if (state.availableTrips != null) {
+          //   List<TripDetail> passengerRequestTest = state.availableTrips!;
 
-            if (filteredRequests.isEmpty && searchController.text.isEmpty) {
-              filteredRequests = passengerRequestTest;
-            }
+          //   if (filteredRequests.isEmpty && searchController.text.isEmpty) {
+          //     filteredRequests = passengerRequestTest;
+          //   }
 
-            return TripsAvailableContent(
-              state, 
-              passengerRequests: passengerRequestTest,
-              filteredRequests: filteredRequests,
-              searchController: searchController,
-              onSearch: (query) => _filterTrips(query, passengerRequestTest),
-              // onSearch: _filterTrips,
-              onShowAdvancedOptions: () => _showAdvancedOptionsModal(context),
-            );
-          } else {
+          //   return TripsAvailableContent(
+          //     state, 
+          //     passengerRequests: passengerRequestTest,
+          //     filteredRequests: filteredRequests,
+          //     searchController: searchController,
+          //     onSearch: (query) => _filterTrips(query, passengerRequestTest),
+          //     // onSearch: _filterTrips,
+          //     onShowAdvancedOptions: () => _showAdvancedOptionsModal(context),
+          //   );
+
+          else {
             return Container(
               child: Text('No logramos entrar')
             );

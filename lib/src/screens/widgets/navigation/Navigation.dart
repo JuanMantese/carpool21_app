@@ -1,4 +1,4 @@
-import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
+
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
@@ -101,7 +101,8 @@ class CustomNavigation extends StatelessWidget {
 
   // List of Navigation Bar Items - Rol validation
   List<BottomNavigationBarItem> _buildBottomNavigationBarItems(
-      String currentRole, NavigationState state) {
+    String currentRole, NavigationState state
+  ) {
     if (currentRole == 'passenger') {
       return [
         _buildBottomNavigationBarItem(
@@ -145,19 +146,20 @@ class CustomNavigation extends StatelessWidget {
 
   // Single Bottom Navigation Bar Item
   BottomNavigationBarItem _buildBottomNavigationBarItem(
-      {required IconData icon, required String label, required bool isActive}) {
+    {required IconData icon, required String label, required bool isActive}
+  ) {
     return BottomNavigationBarItem(
       icon: Container(
         width: isActive ? 42 : 24,
         height: isActive ? 42 : 24,
         decoration: BoxDecoration(
-            color: isActive ? const Color(0xFF00A98F) : Colors.transparent,
-            shape: BoxShape.circle),
+          color: isActive ? const Color(0xFF00A98F) : Colors.transparent,
+          shape: BoxShape.circle),
         child: Icon(
           icon,
           color: isActive
-              ? Colors.white
-              : const Color.fromARGB(255, 111, 111, 111),
+            ? Colors.white
+            : const Color.fromARGB(255, 111, 111, 111),
           size: isActive ? 30 : 24,
         ),
       ),

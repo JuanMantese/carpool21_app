@@ -32,7 +32,7 @@ class DriverMapLocationBloc extends Bloc<DriverMapLocationEvent, DriverMapLocati
       emit(
         state.copyWith(
           controller: controller,
-          idDriver: authResponse?.user.id ?? 1
+          idDriver: authResponse?.user.idUser ?? 1
         )
       );
     });

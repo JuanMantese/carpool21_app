@@ -3,7 +3,6 @@ import 'package:carpool_21_app/src/data/api/apiConfig.dart';
 import 'package:carpool_21_app/src/domain/models/driverTripRequest.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
-import 'package:carpool_21_app/src/domain/models/tripsAll.dart';
 import 'package:carpool_21_app/src/domain/utils/listToString.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:http/http.dart' as http;
@@ -87,6 +86,8 @@ class DriverTripRequestsService {
         return Success(tripDetail);
       }
       else {
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
         return ErrorData(listToString(data['message']));
       }
     } catch (error) {
@@ -96,9 +97,9 @@ class DriverTripRequestsService {
   }
 
   // Trayendo todas las reservas de un pasajero
-  Future<Resource<TripsAll>> getTripsAll() async {
+  Future<Resource<List<TripDetail>>> getAvailableTrips() async {
     try {
-      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trips');
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-request/findAll');
       Map<String, String> headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${await token}'
@@ -108,10 +109,12 @@ class DriverTripRequestsService {
       final data = json.decode(response.body);
       
       if (response.statusCode == 200 || response.statusCode == 201) {
-        TripsAll tripsAll = TripsAll.fromJson(data);
-        return Success(tripsAll);
+        List<TripDetail> availableTripsAll = TripDetail.fromJsonList(data); 
+        return Success(availableTripsAll);
       }
       else {
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
         return ErrorData(listToString(data['message']));
       }
     } catch (error) {

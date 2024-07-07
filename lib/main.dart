@@ -49,6 +49,7 @@ class CarPool21 extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
+        navigatorObservers: [routeObserver],
         initialRoute: '/login',
         routes: {
           '/login': (context) => const LoginPage(),

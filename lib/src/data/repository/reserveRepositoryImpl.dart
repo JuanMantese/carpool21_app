@@ -1,6 +1,7 @@
 
 import 'package:carpool_21_app/src/data/dataSource/remote/services/reserveService.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/reservesAll.dart';
 import 'package:carpool_21_app/src/domain/repository/reserveRepository.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
@@ -12,8 +13,8 @@ class ReserveRepositoryImpl implements ReserveRepository {
   ReserveRepositoryImpl(this.reserveService);
 
   @override
-  Future<Resource<bool>> create(Reserve reserve) {
-    return reserveService.create(reserve);
+  Future<Resource<ReserveDetail>> create(ReserveRequest reserveRequest) {
+    return reserveService.create(reserveRequest);
   }
 
   @override

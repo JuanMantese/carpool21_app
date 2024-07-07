@@ -15,8 +15,6 @@ class ProfileUpdateState extends Equatable {
   final int id;
   final BlocFormItem name;
   final BlocFormItem lastName;
-  final BlocFormItem studentFile;
-  final BlocFormItem dni;
   final BlocFormItem phone;
   final BlocFormItem address;
   final BlocFormItem contactName;
@@ -30,8 +28,6 @@ class ProfileUpdateState extends Equatable {
     this.id = 0,
     this.name = const BlocFormItem(error: 'Ingresa tu nommbre'),
     this.lastName = const BlocFormItem(error: 'Ingresa tu apellido'),
-    this.studentFile = const BlocFormItem(error: 'Ingresa tu legajo de Sigo 21'),
-    this.dni = const BlocFormItem(error: 'Ingresa tu D.N.I.'),
     this.phone = const BlocFormItem(error: 'Ingresa tu teléfono'),
     this.address = const BlocFormItem(error: 'Ingresa tu dirección'),
     this.contactName = const BlocFormItem(error: 'Ingresa el nombre de tu contacto'),
@@ -46,8 +42,6 @@ class ProfileUpdateState extends Equatable {
     int? id,
     BlocFormItem? name,
     BlocFormItem? lastName,
-    BlocFormItem? studentFile,
-    BlocFormItem? dni,
     BlocFormItem? phone,
     BlocFormItem? address,
     BlocFormItem? contactName,
@@ -61,8 +55,6 @@ class ProfileUpdateState extends Equatable {
       id: id ?? this.id,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
-      studentFile: studentFile ?? this.studentFile,
-      dni: dni ?? this.dni,
       phone: phone ?? this.phone,
       address: address ?? this.address,
       contactName: contactName ?? this.contactName,
@@ -77,8 +69,6 @@ class ProfileUpdateState extends Equatable {
   toUser() => User(
     name: name.value, 
     lastName: lastName.value, 
-    studentFile: studentFile.value, 
-    dni: int.tryParse(dni.value) ?? 0, 
     phone: int.tryParse(phone.value) ?? 0, 
     address: address.value,  
     contactName: contactName.value, 
@@ -87,5 +77,5 @@ class ProfileUpdateState extends Equatable {
   );
 
   @override
-  List<Object?> get props => [name, lastName, studentFile, dni, phone, address, contactName, contactLastName, contactPhone, image, response];
+  List<Object?> get props => [name, lastName, phone, address, contactName, contactLastName, contactPhone, image, response];
 }

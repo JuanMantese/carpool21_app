@@ -175,28 +175,6 @@ class ProfileUpdateContent extends StatelessWidget {
               ),
               CustomTextField(
                 onChanged: (text) {
-                  context.read<ProfileUpdateBloc>().add(StudentFileChanged(studentFileInput: BlocFormItem(value: text)));
-                },
-                validator: (value) {
-                  return state.studentFile.error;
-                },
-                text: 'Legajo', 
-                initialValue: user?.studentFile,
-                inputType: TextInputType.text
-              ),
-              CustomTextField(
-                onChanged: (text) {
-                  context.read<ProfileUpdateBloc>().add(DniChanged(dniInput: BlocFormItem(value: text)));
-                },
-                validator: (value) {
-                  return state.dni.error;
-                },
-                text: 'DNI', 
-                initialValue: user?.dni.toString(),
-                inputType: TextInputType.number
-              ),
-              CustomTextField(
-                onChanged: (text) {
                   context.read<ProfileUpdateBloc>().add(PhoneChanged(phoneInput: BlocFormItem(value: text)));
                 },
                 validator: (value) {

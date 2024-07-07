@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
@@ -37,18 +37,26 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
         vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2023),
         compensation: 25.0,
         observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
-        reserves: [
-          Reserve(
-            idTrip: 1, 
-            idPassenger: 1, 
-            name: 'Franco Jose', 
-            lastName: 'Jara'
+        reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            ),
           ),
-          Reserve(
-            idTrip: 1, 
-            idPassenger: 2, 
-            name: 'Franco', 
-            lastName: 'Apostoli'
+          Reservations(
+            idReservation: 2, 
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 2,
+              name: 'Franco', 
+              lastName: 'Apostoli',
+              phone: '3517872662'
+            )
           ),
         ]
 

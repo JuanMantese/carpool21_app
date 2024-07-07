@@ -8,24 +8,24 @@ class TripsAvailableState extends Equatable {
   // Resource para traer la información
   final Resource? response;
 
-  final List<TripDetail>? testingArrayTrips;
+  final List<TripDetail>? availableTrips;
 
   TripsAvailableState({
     this.response,
-    this.testingArrayTrips
+    this.availableTrips
   });
 
   TripsAvailableState copyWith({
     Resource? response,
-    List<TripDetail>? testingArrayTrips
+    List<TripDetail>? availableTrips
   }) {
     return TripsAvailableState(
       response: response,
-      testingArrayTrips: testingArrayTrips
+      availableTrips: availableTrips
     );
   }
   
   @override
-  List<Object?> get props => [response, testingArrayTrips];
+  List<Object?> get props => [response, availableTrips];
 
 }

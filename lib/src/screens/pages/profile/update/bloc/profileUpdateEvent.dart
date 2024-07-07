@@ -25,18 +25,6 @@ class LastNameChanged extends ProfileUpdateEvent {
   LastNameChanged({ required this.lastNameInput }); 
 }
 
-// Input UserId Event
-class StudentFileChanged extends ProfileUpdateEvent {
-  final BlocFormItem studentFileInput;
-  StudentFileChanged({ required this.studentFileInput }); 
-}
-
-// Input DNI Event
-class DniChanged extends ProfileUpdateEvent {
-  final BlocFormItem dniInput;
-  DniChanged({ required this.dniInput }); 
-}
-
 // Input Phone Event
 class PhoneChanged extends ProfileUpdateEvent {
   final BlocFormItem phoneInput;

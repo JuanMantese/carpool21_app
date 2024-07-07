@@ -38,6 +38,11 @@ class ProfileInfoContent extends StatelessWidget {
                   Navigator.pushNamed(context, '/profile/update', arguments: user);
                 }
               ),
+              CustomButtonAction(text: 'CAMBIAR CONTRASEÑA', icon: Icons.lock_rounded, 
+                onTapFunction: () {
+                  // Navigator.pushNamed(context, '/profile/update', arguments: user);
+                }
+              ),
               CustomButtonAction(text: 'ELIMINAR CUENTA', icon: Icons.delete_outline_rounded, 
                 onTapFunction: () {},
                 colorTop: const Color(0xFF6D0000),

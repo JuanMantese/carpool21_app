@@ -15,6 +15,7 @@ class CarInfoPage extends StatefulWidget {
 
 class _CarInfoPageState extends State<CarInfoPage> {
   late int idVehicle;
+  late String originPage = '';
 
   @override
   void initState() {
@@ -24,6 +25,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       idVehicle = args['idVehicle'];
+      originPage = args['originPage'];
 
       // Dispara el evento para obtener la información del vehiculo
       context.read<CarInfoBloc>().add(GetCarInfo(idVehicle: idVehicle));
@@ -36,7 +38,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
       body: Center(
         child: BlocBuilder<CarInfoBloc, CarInfoState>(
           builder: (context, state) {
-            return CarInfoContent(state.car);
+            return CarInfoContent(state.car, originPage);
           },
         ),
       ),

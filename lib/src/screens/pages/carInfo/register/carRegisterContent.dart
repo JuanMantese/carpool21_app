@@ -192,16 +192,6 @@ class CarRegisterContent extends StatelessWidget {
                   ),
                   CustomTextField(
                     onChanged: (text) {
-                      context.read<CarRegisterBloc>().add(SeatsChanged(seatsInput: BlocFormItem(value: text)));
-                    },
-                    validator: (value) {
-                      return state.seats.error;
-                    },
-                    text: 'Cantidad de asientos', 
-                    inputType: TextInputType.text
-                  ),
-                  CustomTextField(
-                    onChanged: (text) {
                       context.read<CarRegisterBloc>().add(ColorChanged(colorInput: BlocFormItem(value: text)));
                     },
                     validator: (value) {

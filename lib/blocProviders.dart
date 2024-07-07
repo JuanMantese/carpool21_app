@@ -18,7 +18,6 @@ import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegist
 import 'package:carpool_21_app/src/screens/pages/carInfo/update/bloc/carUpdateBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTripBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeBloc.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapLocation/bloc/driverMapLocationBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailEvent.dart';
@@ -46,7 +45,7 @@ List<BlocProvider> blocProviders = [
   // BlocProvider<RolesBloc>(create: (context) => RolesBloc(locator<AuthUseCases>())..add(GetRolesList())),
   
   BlocProvider<PassengerHomeBloc>(create: (context) => PassengerHomeBloc(locator<AuthUseCases>())),  
-  BlocProvider<TripsAvailableBloc>(create: (context) => TripsAvailableBloc(locator<AuthUseCases>(), locator<DriversPositionUseCases>(), locator<PassengerRequestsUseCases>())),
+  BlocProvider<TripsAvailableBloc>(create: (context) => TripsAvailableBloc(locator<AuthUseCases>(), locator<DriversPositionUseCases>(), locator<DriverTripRequestsUseCases>(),)),
   BlocProvider<TripAvailableDetailBloc>(create: (context) => TripAvailableDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())),
   BlocProvider<ReserveDetailBloc>(create: (context) => ReserveDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())..add(GetReserveDetail())),
   BlocProvider<ReservesBloc>(create: (context) => ReservesBloc(locator<ReserveUseCases>())..add(GetReservesAll())),
@@ -65,7 +64,7 @@ List<BlocProvider> blocProviders = [
   
   BlocProvider<CarListBloc>(create: (context) => CarListBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
   BlocProvider<CarInfoBloc>(create: (context) => CarInfoBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
-  BlocProvider<CarRegisterBloc>(create: (context) => CarRegisterBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
+  BlocProvider<CarRegisterBloc>(create: (context) => CarRegisterBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>(), locator<UserUseCases>(),)),
   BlocProvider<CarUpdateBloc>(create: (context) => CarUpdateBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
 
   BlocProvider<NavigationBloc>(create: (context) => NavigationBloc(locator<AuthUseCases>())),

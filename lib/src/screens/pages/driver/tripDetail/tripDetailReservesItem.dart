@@ -1,11 +1,12 @@
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:flutter/material.dart';
 
 class TripDetailReservesItem extends StatelessWidget {
 
-  Reserve reserve;
+  Reservations reserveDetail;
 
-  TripDetailReservesItem({required this.reserve, super.key});
+  TripDetailReservesItem({required this.reserveDetail, super.key});
 
   // Card para mostrar la informacion de los pasajeros que reservaron un viaje
   @override
@@ -51,7 +52,7 @@ class TripDetailReservesItem extends StatelessWidget {
                 child: ListTile(
                   leading: _imageUser(),
                   title: Text(
-                    '${reserve.name} ${reserve.lastName}',
+                    '${reserveDetail.passenger?.name} ${reserveDetail.passenger?.lastName}',
                     style: const TextStyle(
                       color: Color(0xFF006D59),
                       fontWeight: FontWeight.bold

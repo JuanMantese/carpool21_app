@@ -15,6 +15,7 @@ class CarItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(context, '/car/info', arguments: {
           'idVehicle': car.idVehicle,
+          'originPage': '/car/list',
         });
       },
       child: Card(
@@ -46,9 +47,10 @@ class CarItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
+                        Text('Modelo: ${car.model ?? ''}'),
                         Text('Año: ${car.year ?? ''}'),
                         Text('Color: ${car.color ?? ''}'),
-                        Text('Cédula Verde: ${car.nroGreenCard ?? ''}'),
+                        // Text('Cédula Verde: ${car.nroGreenCard ?? ''}'),
                       ],
                     ),
                   ),

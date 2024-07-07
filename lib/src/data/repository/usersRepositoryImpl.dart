@@ -21,4 +21,9 @@ class UsersRepositoryImpl extends UsersRepository {
     }
   }
 
+  @override
+  Future<Resource<User>> getUserDetail() {
+    return usersService.getUserDetail();
+  }
+
 }

@@ -2,14 +2,14 @@ import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButtonAction.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 
 class CarInfoContent extends StatelessWidget {
 
   CarInfo? car;
+  String? originPage;
 
-  CarInfoContent(this.car, {super.key});
+  CarInfoContent(this.car, this.originPage, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,17 @@ class CarInfoContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pop(context);
+            if (originPage == '/driver/home') {
+              Navigator.pushReplacementNamed(context, '/driver/home');
+            } else if (originPage == '/car/list') {
+              Navigator.pop(context, '/car/list');
+            } else if (originPage == '/passenger/home') {
+              Navigator.pushReplacementNamed(context, '/passenger/home');
+            } else {
+              Navigator.pop(context);
+            }
           },
-        ),
+        ),        
 
         Padding(
           padding: EdgeInsets.only(
@@ -35,12 +43,12 @@ class CarInfoContent extends StatelessWidget {
               _cardCarData(context),
 
               const Spacer(),
-              CustomButtonAction(text: 'EDITAR VEHICULO', icon: Icons.edit, 
+              CustomButtonAction(text: 'EDITAR VEHÍCULO', icon: Icons.edit, 
                 onTapFunction: () {
                   Navigator.pushNamed(context, '/car/update', arguments: car);
                 }
               ),
-              CustomButtonAction(text: 'ELIMINAR VEHICULO', icon: Icons.settings_power, 
+              CustomButtonAction(text: 'ELIMINAR VEHÍCULO', icon: Icons.delete_outline_rounded, 
                 onTapFunction: () {},
                 colorTop: const Color(0xFF6D0000),
                 colorBottom: const Color(0xFFD20000),

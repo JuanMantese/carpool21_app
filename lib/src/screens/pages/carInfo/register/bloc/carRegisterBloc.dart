@@ -1,7 +1,9 @@
 
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
+import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/users/userUseCases.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterState.dart';
@@ -13,12 +15,14 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
 
   AuthUseCases authUseCases;
   CarInfoUseCases carInfoUseCases;
+  UserUseCases userUseCases;
   final formKey = GlobalKey<FormState>();
 
   // Constructor
   CarRegisterBloc(
     this.authUseCases,
     this.carInfoUseCases,
+    this.userUseCases,
   ): super(CarRegisterState()) {
     
     // We initialize the form with the values ​​of the current User
@@ -74,18 +78,6 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
       );
     });
 
-    on<SeatsChanged>((event, emit) {
-      emit(
-        state.copyWith(
-          seats: BlocFormItem(
-            value: event.seatsInput.value,
-            error: event.seatsInput.value.isEmpty ? 'Seleccioná la cantidad de asientos' : null
-          ),
-          formKey: formKey
-        )
-      );
-    });
-
     on<ColorChanged>((event, emit) {
       emit(
         state.copyWith(
@@ -115,7 +107,6 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
       print('Modelo: ${ state.model.value }');
       print('Patente: ${ state.patent.value }');
       print('Año del Vehículo: ${ state.year.value }');
-      print('Cantidad de Asientos: ${ state.seats.value }');
       print('Color: ${ state.color.value }');      
       print('Cedula Verde: ${ state.nroGreenCard.value }');
 
@@ -150,7 +141,13 @@ class CarRegisterBloc extends Bloc<CarRegisterEvent, CarRegisterState> {
     });
 
     on<UpdateUserSession>((event, emit) async {
-      // await authUseCases.saveUserSession.run(event.authResponse);
+      Success<User> userDetailRes = await userUseCases.getUserDetailUseCase.run();
+      print('Succes User Res: $userDetailRes');
+      
+      if (userDetailRes is Success) {
+        User userDetail = userDetailRes.data;
+        await authUseCases.updateUserSession.run(userDetail);
+      }
     });
   }
 }

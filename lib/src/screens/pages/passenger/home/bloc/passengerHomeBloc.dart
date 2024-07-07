@@ -1,6 +1,6 @@
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
@@ -30,7 +30,7 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
     // Usuario de prueba - Logica para obtener todos los datos del usuario
     void _setTestUser(GetUserInfo event, Emitter<PassengerHomeState> emit) {
       final User testUser = User(
-        id: 1,
+        idUser: 1,
         name: 'Juan',
         lastName: 'Mantese',
         studentFile: 'SOF01669',
@@ -45,8 +45,6 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         contactPhone: 3513751312,
         photoUser: 'lib/assets/img/profile-icon.png',
         notificationToken: null,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
         roles: [
           Role(
             idRole: "ADMIN",
@@ -100,20 +98,28 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
           year: 2023,
         ),
         observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
-        reserves: [
-          Reserve(
-            idTrip: 1,
-            idPassenger: 1,
-            name: 'Franco Jose',
-            lastName: 'Jara',
+        reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
           ),
-          Reserve(
-            idTrip: 1,
-            idPassenger: 2,
-            name: 'Franco',
-            lastName: 'Apostoli',
+          Reservations(
+            idReservation: 2, 
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 2,
+              name: 'Franco', 
+              lastName: 'Apostoli',
+              phone: '3517872662'
+            )
           ),
-        ],
+        ]
       );
 
       print('Cambiando los datos de la reserva');

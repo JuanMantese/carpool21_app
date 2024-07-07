@@ -65,6 +65,7 @@ import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart
 import 'package:carpool_21_app/src/domain/useCases/socket/connectSocketUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/disconnectSocketUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/socketUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/users/getUserDetailUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/updateUserUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/userUseCases.dart';
 import 'package:injectable/injectable.dart';
@@ -142,6 +143,7 @@ abstract class AppModule {
   @injectable
   UserUseCases get userUseCases => UserUseCases(
     update: UpdateUserUseCase(usersRepository),
+    getUserDetailUseCase: GetUserDetailUseCase(usersRepository)
   );
 
 

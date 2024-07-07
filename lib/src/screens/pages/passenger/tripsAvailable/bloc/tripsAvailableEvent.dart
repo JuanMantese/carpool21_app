@@ -8,4 +8,6 @@ class GetNearbyTripRequest extends TripsAvailableEvent {
     required this.driverLat,
     required this.driverLng
   });
-} 
+}
+
+class GetTripsAvailable extends TripsAvailableEvent {}

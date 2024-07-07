@@ -64,7 +64,10 @@ class CustomDialog extends StatelessWidget {
           children: [
             Expanded(
               child: ElevatedButton(
-                onPressed: onPressedSend,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onPressedSend();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF00A98F),
                   side: const BorderSide(color: Color(0xFF00A98F)),

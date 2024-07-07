@@ -13,7 +13,7 @@ class CarInfoService {
   CarInfoService(this.token);
 
   // Registrando un nuevo vehiculo
-  Future<Resource<bool>> create(CarInfo carInfo) async {
+  Future<Resource<CarInfo>> create(CarInfo carInfo) async {
     try {
       Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/vehicles/create');
 
@@ -28,8 +28,12 @@ class CarInfoService {
       final data = json.decode(response.body);
       
       print('Create Vehicle: ${data}');
+      
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return Success(true);
+        CarInfo carInfoResponse = CarInfo.fromJson(data);
+        print('Data Remote: ${carInfoResponse.toJson()}');
+
+        return Success(carInfoResponse);
       }
       else {
         return ErrorData(listToString(data['message']));

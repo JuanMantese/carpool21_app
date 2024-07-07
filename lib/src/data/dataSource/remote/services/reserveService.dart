@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:carpool_21_app/src/data/api/apiConfig.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/reservesAll.dart';
 import 'package:carpool_21_app/src/domain/utils/listToString.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
@@ -14,23 +15,26 @@ class ReserveService {
   // Constructor
   ReserveService(this.token);
 
-  Future<Resource<bool>> create(Reserve reserve) async {
+  Future<Resource<ReserveDetail>> create(ReserveRequest reserveRequest) async {
     try {
-      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/reserve');
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-reservation/reserve-seat');
       Map<String, String> headers = { 'Content-Type': 'application/json' };
-      String body = json.encode(reserve.toJson());
+      String body = json.encode(reserveRequest.toJson());
 
       final response = await http.post(url, headers: headers, body: body);
       final data = json.decode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return Success(true);
+        ReserveDetail reserveDetail = ReserveDetail.fromJson(data);
+        return Success(reserveDetail);
       } else {
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
         return ErrorData(listToString(data['message']));
       }
-    } catch (e) {
-      print('Error: $e');
-      return ErrorData(e.toString());
+    } catch (error) {
+      print('Error CreateReserve: $error');
+      return ErrorData(error.toString());
     }
   }
 

@@ -19,6 +19,6 @@ abstract class DriverTripRequestsRepository {
   Future<Resource<TripDetail>> getTripDetail();
 
   // Obtenemos todos los viajes registrados de un conductor
-  Future<Resource<TripsAll>> getAllTrips();
+  Future<Resource<List<TripDetail>>> getAvailableTrips();
 
 }

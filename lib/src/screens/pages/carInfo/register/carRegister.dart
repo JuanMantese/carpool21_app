@@ -1,7 +1,6 @@
+import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
-import 'package:carpool_21_app/src/screens/pages/carInfo/info/bloc/carInfoBloc.dart';
-import 'package:carpool_21_app/src/screens/pages/carInfo/info/bloc/carInfoEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/carInfo/register/bloc/carRegisterState.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class CarRegisterPage extends StatefulWidget {
   const CarRegisterPage({super.key});
 
@@ -17,8 +18,7 @@ class CarRegisterPage extends StatefulWidget {
   State<CarRegisterPage> createState() => _CarRegisterPageState();
 }
 
-class _CarRegisterPageState extends State<CarRegisterPage> {
-  User? user;
+class _CarRegisterPageState extends State<CarRegisterPage> with RouteAware {
 
   // Initial execution - First event to fire when the screen first appears - Runs only once
   @override
@@ -32,12 +32,35 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
     });
   }
 
+  // Observamos cual es la ruta anterior
+  String previousRoute = '';
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPush() {
+    super.didPush();
+    // This method is called when the current route has been pushed.
+    // You can get the previous route here.
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      previousRoute = ModalRoute.of(context)!.settings.arguments as String;
+    }
+  }
+
   // Secondary execution: Triggered every time we make a state change in a widget on that screen
   @override
   Widget build(BuildContext context) {
-    // ELIMINAR - PERMITO EL VALOR NULL - Eliminar esto cuando tengamos el Back
-    user = ModalRoute.of(context)?.settings.arguments as User?;
-    // user = ModalRoute.of(context)?.settings.arguments as User; DESCOMENTAR
+    print('Previous Route: $previousRoute');
 
     return Scaffold(
       body: BlocListener<CarRegisterBloc, CarRegisterState>(
@@ -47,18 +70,20 @@ class _CarRegisterPageState extends State<CarRegisterPage> {
             Fluttertoast.showToast(msg: response.message, toastLength: Toast.LENGTH_LONG); 
             print('Error Data: ${response.message}');
           } else if (response is Success) {
-            Fluttertoast.showToast(msg: 'Registro exitoso', toastLength: Toast.LENGTH_LONG); 
             print('Success Data: ${response.data}');
 
-            // Updating carInfoData on screen - I wait 1s for the in-session update to finish
-            // Future.delayed(const Duration(seconds: 1), () {
-            //   context.read<CarInfoBloc>().add(GetCarInfo());
-            // });
+            Fluttertoast.showToast(msg: 'Registro exitoso', toastLength: Toast.LENGTH_LONG); 
+            CarInfo carInfo = response.data;
+            
+            // Actualizamos la información local del usuario
+            context.read<CarRegisterBloc>().add(UpdateUserSession());
 
-            Navigator.pushNamedAndRemoveUntil(context, '/car/info', (route) => false);
-
-            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);   // REVISAR o ELIMINAR
-            // Navigator.pop(context);
+            Navigator.pushNamedAndRemoveUntil(context, '/car/info', (route) => false,
+              arguments: {
+                'idVehicle': carInfo.idVehicle,
+                'originPage': previousRoute
+              }
+            );
           }
         },
         child: BlocBuilder<CarRegisterBloc, CarRegisterState>(

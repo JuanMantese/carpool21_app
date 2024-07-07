@@ -105,4 +105,34 @@ class UsersService {
     }
   }
 
+  Future<Resource<User>> getUserDetail() async {
+    try {
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/users/details'); // Creation of the URL path
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await token}'
+      }; // We specify that the information sent is of type JSON
+
+      // Making the request. I specify the URL, the headers and the body
+      final response = await http.get(url, headers: headers);
+
+      // Decoding the information to be able to interpret it in Dart
+      final data = json.decode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        User userResponse = User.fromJson(data);
+        print('Data getUserDetail: ${userResponse.toJson()}');
+
+        return Success(userResponse);
+      } else {
+        print('Response status getUserDetail: ${response.statusCode}');
+        print('Response body getUserDetail: ${response.body}');
+        return ErrorData(listToString(data['message']));
+      }
+    } catch (error) {
+      print('Error changeRol Service: $error');
+      return ErrorData(error.toString());
+    }
+  }
+
 }

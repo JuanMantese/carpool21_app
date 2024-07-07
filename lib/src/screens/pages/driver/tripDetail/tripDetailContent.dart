@@ -15,7 +15,7 @@ class TripDetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('TripDetailContent');
-    print(tripDetail?.reserves?[0].name);
+    print(tripDetail?.reservations?[0].passenger?.name);
 
     return Stack(
       children: [
@@ -347,7 +347,7 @@ class TripDetailContent extends StatelessWidget {
 
   Widget _buildReservesList(BuildContext context) {  
     // Permite listar la informacion que viene dentro de una Lista
-    return (tripDetail?.reserves != null && tripDetail!.reserves!.isNotEmpty) ? 
+    return (tripDetail?.reservations != null && tripDetail!.reservations!.isNotEmpty) ? 
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -361,8 +361,8 @@ class TripDetailContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          ...tripDetail!.reserves!.map((reserve) {
-            return TripDetailReservesItem(reserve: reserve);
+          ...tripDetail!.reservations!.map((reserve) {
+            return TripDetailReservesItem(reserveDetail: reserve);
           }).toList(),
         ],
       )
@@ -382,9 +382,7 @@ class TripDetailContent extends StatelessWidget {
         children: [
           Expanded(
             child: ElevatedButton(
-              onPressed: () {
-                // Navigator.pushNamed(context, '/car/register');
-              },
+              onPressed: () {},
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.only(
                   top: 10,
@@ -423,9 +421,7 @@ class TripDetailContent extends StatelessWidget {
           const SizedBox(width: 16),
           Expanded(
             child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/car/register');
-              },
+              onPressed: () {},
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.only(
                   top: 10,

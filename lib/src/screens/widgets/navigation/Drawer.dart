@@ -108,8 +108,7 @@ class CustomDrawer extends StatelessWidget {
                               content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
                               icon: Icons.warning_rounded,
                               onPressedSend: () {
-                                Navigator.of(context).pop();
-                                Navigator.pushNamed(context, '/car/register');
+                                Navigator.pushNamed(context, '/car/register', arguments: '/passenger/home');
                               },
                               textSendBtn: 'Registrar',
                               textCancelBtn: 'Cancelar',
@@ -227,7 +226,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Registrar Vehículo'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/car/register');
+            Navigator.pushNamed(context, '/car/register', arguments: '/passenger/home');
           },
         ),
         ListTile(

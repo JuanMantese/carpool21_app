@@ -70,7 +70,7 @@ class CarListContent extends StatelessWidget {
         offset: const Offset(-16, 0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/car/register');
+            Navigator.pushNamed(context, '/car/register', arguments: '/car/list');
           },
           backgroundColor: Color(0xFF00A48B),
           child: const Icon(

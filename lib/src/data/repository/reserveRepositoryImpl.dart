@@ -18,8 +18,13 @@ class ReserveRepositoryImpl implements ReserveRepository {
   }
 
   @override
-  Future<Resource<ReservesAll>> getAllReserves() {
-    return reserveService.getReservesAll();
+  Future<Resource<ReserveDetail>> getReserveDetail(int idReserve) {
+    return reserveService.getReserveDetail(idReserve);
+  }
+
+  @override
+  Future<Resource<ReservesAll>> getMyAllReserves() {
+    return reserveService.getMyReservesAll();
   }
 
 }

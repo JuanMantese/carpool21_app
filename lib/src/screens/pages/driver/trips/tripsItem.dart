@@ -1,23 +1,26 @@
 
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsState.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class TripsItem extends StatelessWidget {
   
-  TripsState state;
   TripDetail? reserveDetail;
   String tripType;
 
-  TripsItem(this.state, this.reserveDetail, this.tripType, {super.key});
+  TripsItem(this.reserveDetail, this.tripType, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/driver/trip/detail');
+        int? idDriverRequest = reserveDetail?.idTrip;
+        Navigator.pushNamed(context, '/driver/trip/detail', 
+          arguments:{
+            'idDriverRequest':  idDriverRequest,
+          }
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),

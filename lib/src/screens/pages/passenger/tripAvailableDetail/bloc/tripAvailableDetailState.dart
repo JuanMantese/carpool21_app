@@ -62,7 +62,6 @@ class TripAvailableDetailState extends Equatable {
     Driver? driver,
     Map<PolylineId, Polyline>? polylines,
     LatLngBounds? routeBounds,
-    Resource? responseTimeAndDistance,
     // Resource? responseClientRequest,
     // BlocFormItem? fareOffered
     Resource? responseReserve,
@@ -104,7 +103,8 @@ class TripAvailableDetailState extends Equatable {
     departureTime, 
     compensation,
     responseTimeAndDistance, 
-    routeBounds
+    routeBounds,
+    responseReserve
   ];
 
 }

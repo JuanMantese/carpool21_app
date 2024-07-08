@@ -2,7 +2,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class ReserveDetailEvent {}
 
-class GetReserveDetail extends ReserveDetailEvent {}
+class GetReserveDetail extends ReserveDetailEvent {
+  final int idReserve;
+
+  GetReserveDetail({
+    required this.idReserve
+  });
+}
+
+class ReserveDetailInitMap extends ReserveDetailEvent {}
 
 class InitializeMap extends ReserveDetailEvent {}
 

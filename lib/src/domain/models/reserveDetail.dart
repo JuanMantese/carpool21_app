@@ -24,18 +24,18 @@ class ReserveDetail {
     'idReservation': idReservation,
     'isPaid': isPaid,
     'tripRequest': tripRequest.toJson(),
-    'driver': driver,
+    'driver': driver.toJson(),
   };
 }
 
-class Driver {
+class DriverRes {
   int idDriver;
   String name;
   String lastName;
   String phone;
   String? photo;
 
-  Driver({
+  DriverRes({
     required this.idDriver,
     required this.name,
     required this.lastName,
@@ -43,7 +43,7 @@ class Driver {
     this.photo,
   });
 
-  factory Driver.fromJson(Map<String, dynamic> json) => Driver(
+  factory DriverRes.fromJson(Map<String, dynamic> json) => DriverRes(
     idDriver: json["idDriver"],
     name: json["name"],
     lastName: json["lastName"],

@@ -54,8 +54,9 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             : selectedDateTime.add(const Duration(days: 1));
 
         // Convert to UTC and then to ISO 8601 format
-        final utcDateTime = adjustedDateTime.toUtc();
-        final iso8601String = utcDateTime.toIso8601String();
+        // final utcDateTime = adjustedDateTime.toUtc(); // UTC
+        final utcMinus3DateTime = adjustedDateTime.subtract(const Duration(hours: 0)); // UTC-3
+        final iso8601String = utcMinus3DateTime.toIso8601String();
 
         widget.onTimeChanged(iso8601String);
       });

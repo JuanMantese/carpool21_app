@@ -113,24 +113,24 @@ class TripAvailableDetailBloc extends Bloc<TripAvailableDetailEvent, TripAvailab
     });
 
     // Trayendo los datos: Teimpo estimado del trayecto y Distancia del punto de origen al punto de destino
-    on<GetTimeAndDistanceValues>((event, emit) async {
-      emit(
-        state.copyWith(
-          responseTimeAndDistance: Loading()
-        )
-      );
-      Resource<TimeAndDistanceValues> response = await driverTripRequestsUseCases.getTimeAndDistance.run(
-        state.pickUpLatLng!.latitude,
-        state.pickUpLatLng!.longitude,
-        state.destinationLatLng!.latitude,
-        state.destinationLatLng!.longitude,
-      );
-      emit(
-        state.copyWith(
-          responseTimeAndDistance: response
-        )
-      );
-    });
+    // on<GetTimeAndDistanceValues>((event, emit) async {
+    //   emit(
+    //     state.copyWith(
+    //       responseTimeAndDistance: Loading()
+    //     )
+    //   );
+    //   Resource<TimeAndDistanceValues> response = await driverTripRequestsUseCases.getTimeAndDistance.run(
+    //     state.pickUpLatLng!.latitude,
+    //     state.pickUpLatLng!.longitude,
+    //     state.destinationLatLng!.latitude,
+    //     state.destinationLatLng!.longitude,
+    //   );
+    //   emit(
+    //     state.copyWith(
+    //       responseTimeAndDistance: response
+    //     )
+    //   );
+    // });
 
     on<CreateReserve>((event, emit) async {
       ReserveRequest reserveRequest = ReserveRequest(
@@ -138,8 +138,16 @@ class TripAvailableDetailBloc extends Bloc<TripAvailableDetailEvent, TripAvailab
         isPaid: true
       );
 
-      Success<ReserveDetail> reserveDetailRes = await reserveUseCases.createReserve.run(reserveRequest);
-      
+      emit(
+        state.copyWith(
+          responseReserve: Loading()
+        )
+      );
+
+      Resource<ReserveDetail> reserveDetailRes = await reserveUseCases.createReserve.run(reserveRequest);
+      print('reserveDetailRes');
+      print(reserveDetailRes);
+
       emit(
         state.copyWith(
           responseReserve: reserveDetailRes

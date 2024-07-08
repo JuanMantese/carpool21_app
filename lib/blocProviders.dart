@@ -44,14 +44,14 @@ List<BlocProvider> blocProviders = [
   BlocProvider<RegisterBloc>(create: (context) => RegisterBloc(locator<AuthUseCases>())..add(RegisterInitEvent())),
   // BlocProvider<RolesBloc>(create: (context) => RolesBloc(locator<AuthUseCases>())..add(GetRolesList())),
   
-  BlocProvider<PassengerHomeBloc>(create: (context) => PassengerHomeBloc(locator<AuthUseCases>())),  
+  BlocProvider<PassengerHomeBloc>(create: (context) => PassengerHomeBloc(locator<AuthUseCases>(), locator<ReserveUseCases>())),  
   BlocProvider<TripsAvailableBloc>(create: (context) => TripsAvailableBloc(locator<AuthUseCases>(), locator<DriversPositionUseCases>(), locator<DriverTripRequestsUseCases>(),)),
   BlocProvider<TripAvailableDetailBloc>(create: (context) => TripAvailableDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>(), locator<ReserveUseCases>())),
-  BlocProvider<ReserveDetailBloc>(create: (context) => ReserveDetailBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())..add(GetReserveDetail())),
+  BlocProvider<ReserveDetailBloc>(create: (context) => ReserveDetailBloc(locator<GeolocationUseCases>(), locator<ReserveUseCases>(), locator<DriverTripRequestsUseCases>())),
   BlocProvider<ReservesBloc>(create: (context) => ReservesBloc(locator<ReserveUseCases>())..add(GetReservesAll())),
 
 
-  BlocProvider<DriverHomeBloc>(create: (context) => DriverHomeBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
+  BlocProvider<DriverHomeBloc>(create: (context) => DriverHomeBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>(), locator<DriverTripRequestsUseCases>())),
   BlocProvider<DriverMapFinderBloc>(create: (context) => DriverMapFinderBloc(locator<GeolocationUseCases>(), locator<SocketUseCases>())..add(DriverMapFinderInitEvent())),
   BlocProvider<DriverMapBookingInfoBloc>(create: (context) => DriverMapBookingInfoBloc(locator<GeolocationUseCases>(), locator<DriverTripRequestsUseCases>())),
   BlocProvider<CreateTripBloc>(create: (context) => CreateTripBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>(), locator<DriverTripRequestsUseCases>())),

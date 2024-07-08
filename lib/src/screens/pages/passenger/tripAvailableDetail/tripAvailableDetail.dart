@@ -1,4 +1,4 @@
-import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/bloc/tripAvailableDetailBloc.dart';
@@ -7,6 +7,7 @@ import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/b
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/tripAvailableDetailContent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TripAvailableDetailPage extends StatefulWidget {
@@ -55,7 +56,7 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
       ));
 
       // Trayendo los datos: Tiempo estimado del trayecto y Distancia del punto de origen al punto de destino
-      context.read<TripAvailableDetailBloc>().add(GetTimeAndDistanceValues());
+      // context.read<TripAvailableDetailBloc>().add(GetTimeAndDistanceValues());
     });
   }
 
@@ -81,47 +82,45 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
     print('departureTime ${departureTime}');
 
     return Scaffold(
-      body: BlocBuilder<TripAvailableDetailBloc, TripAvailableDetailState>(
-        builder: (context, state) {
-          final responseTimeAndDistance = state.responseTimeAndDistance;
+      body: BlocListener<TripAvailableDetailBloc, TripAvailableDetailState>(
+        listener: (context, state) {
+          final responseReserveRes = state.responseReserve;
+          print('Click');
+          print(responseReserveRes);
 
-
-          if (responseTimeAndDistance is Loading) {
-            return const Center(child: CircularProgressIndicator());
+          if (responseReserveRes is Loading) {
+            print('Cargando...');
           }
-          else if (responseTimeAndDistance is Success) {
-            // TimeAndDistanceValues timeAndDistanceValues = responseTimeAndDistance.data as TimeAndDistanceValues;
-            return Scaffold(
-              body: TripAvailableDetailContent(
-                state, 
-                onReserve: () {
-                  context.read<TripAvailableDetailBloc>().add(CreateReserve(tripRequestId: idTrip!));
-
-                  final responseReserve = state.responseReserve;
-
-                  if (responseReserve is Success) {
-                    // int idReserve = state.responseReserve;
-                    print(responseReserve.data);
-                  }
-                  // Navigator.pushNamed(context, '/passenger/reserve/detail');
-                }
-              )
+          else if (responseReserveRes is Success) { 
+            print('Entro en responseReserveRes');
+            ReserveDetail responseReserve = responseReserveRes.data; 
+            print(responseReserve.toJson());
+            int? idReserve = responseReserve.idReservation;
+            print(idReserve);
+            Navigator.pushNamed(context, '/passenger/reserve/detail',
+              arguments: {
+                'idReserve': idReserve,
+              }
             );
+            Fluttertoast.showToast(msg: 'Reserva realizada', toastLength: Toast.LENGTH_LONG);
           }
+        },
+        child: BlocBuilder<TripAvailableDetailBloc, TripAvailableDetailState>(
+          builder: (context, state) {          
 
           return Scaffold(
             body: TripAvailableDetailContent(
               state, 
               onReserve: () {
                 context.read<TripAvailableDetailBloc>().add(CreateReserve(tripRequestId: idTrip!));
-                Navigator.pushNamed(context, '/passenger/reserve/detail');
               }
             )
           );
            
           // DESCOMENTAR
           // return Container(); 
-        },
+          })  
+        ,
       ),
     );
   }

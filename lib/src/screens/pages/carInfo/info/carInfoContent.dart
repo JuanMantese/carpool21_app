@@ -14,7 +14,7 @@ class CarInfoContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('CarInfo: ${car?.toJson()}');
-
+    print(originPage);
     return Stack(
       children: [
         _headerCar(context),
@@ -23,12 +23,23 @@ class CarInfoContent extends StatelessWidget {
           onPressed: () {
             if (originPage == '/driver/home') {
               Navigator.pushReplacementNamed(context, '/driver/home');
+              print('Driver: ${ModalRoute.of(context)?.settings.name}');
             } else if (originPage == '/car/list') {
               Navigator.pop(context, '/car/list');
+              print('CarList: ${ModalRoute.of(context)?.settings.name}');
+
             } else if (originPage == '/passenger/home') {
-              Navigator.pushReplacementNamed(context, '/passenger/home');
+              Navigator.pushReplacementNamed(context, '/driver/home');
+              print('Passenger: ${ModalRoute.of(context)?.settings.name}');
+            } else if (originPage == '/car/info') {
+              Navigator.pushReplacementNamed(context, '/driver/home');
+              print('ACA NO ENTRA: ${ModalRoute.of(context)?.settings.name}');
+
+            
             } else {
               Navigator.pop(context);
+              print('Pop: ${ModalRoute.of(context)?.settings.name}');
+
             }
           },
         ),        

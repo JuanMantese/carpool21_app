@@ -9,5 +9,8 @@ abstract class ReserveRepository {
   Future<Resource<ReserveDetail>> create(ReserveRequest reserveRequest);
 
   // Obtenemos todas las reservas registradas de un pasajero
-  Future<Resource<ReservesAll>> getAllReserves();
+  Future<Resource<ReserveDetail>> getReserveDetail(int idReserve);
+
+  // Obtenemos todas las reservas registradas de un pasajero
+  Future<Resource<ReservesAll>> getMyAllReserves();
 }

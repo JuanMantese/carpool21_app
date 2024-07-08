@@ -15,14 +15,14 @@ class DriverTripRequest {
   String destinationText;
   double destinationLat;
   double destinationLng;
-  int compensation;
+  // int compensation;
   int availableSeats; // Plazas disponibles
   String departureTime; // Horario de salida
   String? observations;
 
   DriverTripRequest({
     required this.vehicleId,
-    required this.compensation,
+    // required this.compensation,
     required this.pickupNeighborhood,
     required this.pickupText,
     required this.pickupLat,
@@ -38,7 +38,7 @@ class DriverTripRequest {
 
   factory DriverTripRequest.fromJson(Map<String, dynamic> json) => DriverTripRequest(
     vehicleId: json["vehicleId"],
-    compensation: json["compensation"],
+    // compensation: json["compensation"],
     pickupNeighborhood: json["pickupNeighborhood"],
     pickupText: json["pickupText"],
     pickupLat: (json['pickupLat'] as num).toDouble(),
@@ -54,7 +54,7 @@ class DriverTripRequest {
 
   Map<String, dynamic> toJson() => {
     "vehicleId": vehicleId,
-    "compensation": compensation,
+    // "compensation": compensation,
     "pickupNeighborhood": pickupNeighborhood,
     "pickupText": pickupText,
     "pickupLat": pickupLat,

@@ -10,7 +10,7 @@ class TripsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(state.testingTripsAll?.currentTrip);
+    // print(state.testingTripsAll?.currentTrip);
 
     return Scaffold(
       body: Stack(
@@ -22,41 +22,40 @@ class TripsContent extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 170, bottom: 40),
                 child: Column(
                   children: [
-                    if (state.testingTripsAll!.currentTrip != null)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text(
-                              'Viaje en Curso',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic,
-                                color: Color(0xFF006D59),
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Divider(
-                              color: Color(0xFF006D59),
-                              thickness: 2,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: TripsItem(
-                              state,
-                              state.testingTripsAll!.currentTrip,
-                              'currentTrip'
-                            ),
-                          ),
-                        ],
-                      ),
+                    // if (state.testingTripsAll!.currentTrip != null)
+                    //   Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       const Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //         child: Text(
+                    //           'Viaje en Curso',
+                    //           style: TextStyle(
+                    //             fontSize: 18,
+                    //             fontWeight: FontWeight.bold,
+                    //             fontStyle: FontStyle.italic,
+                    //             color: Color(0xFF006D59),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       const Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //         child: Divider(
+                    //           color: Color(0xFF006D59),
+                    //           thickness: 2,
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //         child: TripsItem(
+                    //           state.testingTripsAll!.currentTrip,
+                    //           'currentTrip'
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
 
-                    if (state.testingTripsAll!.futureTrips.isNotEmpty)
+                    if (state.testingTripsAll!.futureTrips!.isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -79,16 +78,16 @@ class TripsContent extends StatelessWidget {
                               thickness: 2,
                             ),
                           ),
-                          ...state.testingTripsAll!.futureTrips.map((reserve) {
+                          ...state.testingTripsAll!.futureTrips!.map((reserve) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: TripsItem(state, reserve, 'futureTrips'),
+                              child: TripsItem(reserve, 'futureTrips'),
                             );
                           }).toList(),
                         ],
                       ),
 
-                    if (state.testingTripsAll!.historicalTrips.isNotEmpty)
+                    if (state.testingTripsAll!.pastTrips!.isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -111,10 +110,10 @@ class TripsContent extends StatelessWidget {
                               thickness: 2,
                             ),
                           ),
-                          ...state.testingTripsAll!.historicalTrips.map((reserve) {
+                          ...state.testingTripsAll!.pastTrips!.map((reserve) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: TripsItem(state, reserve, 'historicalTrips'),
+                              child: TripsItem(reserve, 'historicalTrips'),
                             );
                           }).toList(),
                         ],

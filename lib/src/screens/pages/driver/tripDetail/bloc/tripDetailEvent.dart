@@ -10,6 +10,8 @@ class GetTripDetail extends TripDetailEvent {
   });
 }
 
+class TripDetailInitMap extends TripDetailEvent {}
+
 class InitializeMap extends TripDetailEvent {}
 
 // Permite cambiar la posicion de la camara del mapa para colocarla sobre la ruta

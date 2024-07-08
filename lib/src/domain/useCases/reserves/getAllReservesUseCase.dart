@@ -7,5 +7,5 @@ class GetAllReservesUseCase {
 
   GetAllReservesUseCase(this.reserveRepository);
 
-  run() => reserveRepository.getAllReserves();
+  run() => reserveRepository.getMyAllReserves();
 }

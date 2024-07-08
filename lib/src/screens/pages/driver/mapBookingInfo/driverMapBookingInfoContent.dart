@@ -36,7 +36,7 @@ class DriverMapBookingInfoContent extends StatelessWidget {
   // Mostrando la ruta dell viaje
   Widget _googleMaps(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
+      height: MediaQuery.of(context).size.height * 0.64,
       child: GoogleMap(  // Mapa de Google
         mapType: MapType.normal,
         initialCameraPosition: state.cameraPosition, // Posicion inicial del mapa
@@ -60,7 +60,7 @@ class DriverMapBookingInfoContent extends StatelessWidget {
 
   Widget _cardBookingInfo(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.49,
+      height: MediaQuery.of(context).size.height * 0.39,
       padding: EdgeInsets.only(
         left: 20, 
         right: 20,
@@ -136,24 +136,24 @@ class DriverMapBookingInfoContent extends StatelessWidget {
             leading: const Icon(Icons.timer),
           ),
 
-          ListTile(
-            title: const Text(
-              'Precio',
-              style: TextStyle(
-                fontSize: 15
-              ),
-            ),
-            subtitle: Text(
-              '\$${timeAndDistanceValues.tripPrice}',
-              style: const TextStyle(
-                fontSize: 13
-              ),
-            ),
-            leading: const Icon(
-              Icons.money,
-              color: Color.fromARGB(255, 23, 135, 52),
-            ),
-          ),
+          // ListTile(
+          //   title: const Text(
+          //     'Precio',
+          //     style: TextStyle(
+          //       fontSize: 15
+          //     ),
+          //   ),
+          //   subtitle: Text(
+          //     '\$${timeAndDistanceValues.tripPrice}',
+          //     style: const TextStyle(
+          //       fontSize: 13
+          //     ),
+          //   ),
+          //   leading: const Icon(
+          //     Icons.money,
+          //     color: Color.fromARGB(255, 23, 135, 52),
+          //   ),
+          // ),
 
           // Botón para confirmar los datos del viaje y crear el viaje.
           const Spacer(),

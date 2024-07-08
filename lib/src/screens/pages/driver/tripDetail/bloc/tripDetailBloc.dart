@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
@@ -98,11 +97,21 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
       // _setTestTripDetail(event, emit);
     }); 
 
+    on<TripDetailInitMap>((event, emit) async {
+      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+
+       emit(
+        state.copyWith(
+          controller: controller,
+        )
+      );
+    });
+
     on<InitializeMap>((event, emit) async {
       print('InitializeMap -------------------------------------');
       print(state.destinationLatLng);
 
-      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+      // Completer<GoogleMapController> controller = Completer<GoogleMapController>();
       
       // Defino los Markers aca para que primero se inicialicen las posiciones
       // Trayendo las imagenes de los marker que coloco en el mapa al trazar la ruta
@@ -130,7 +139,7 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
 
       emit(
         state.copyWith(
-          controller: controller,
+          // controller: controller,
           markers: {
             markerPickUp.markerId: markerPickUp,
             markerDestination.markerId: markerDestination,

@@ -38,6 +38,7 @@ class CustomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Global Key ${globals.currentRole}');
     return BlocProvider(
       create: (_) => NavigationBloc(GetIt.instance<AuthUseCases>()),
       child: BlocBuilder<NavigationBloc, NavigationState>(

@@ -110,7 +110,7 @@ class TripDetail {
     "compensation": compensation,
     "vehicle": vehicle?.toJson(),
     "observations": observations,
-    "reservations": Reservations != null ? List<dynamic>.from(reservations!.map((x) => x.toJson())) : null,
+    "reservations": reservations != null ? List<dynamic>.from(reservations!.map((x) => x.toJson())) : null,
     // "google_distance_matrix": googleDistanceMatrix?.toJson(),
     // "pickup_position": pickupPosition.toJson(),
     // "destination_position": destinationPosition.toJson(),

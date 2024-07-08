@@ -20,9 +20,10 @@ class _TripDetailPageState extends State<TripDetailPage> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState();    
 
-    
+    context.read<TripDetailBloc>().add(TripDetailInitMap());
+
 
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

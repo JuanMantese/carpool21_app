@@ -1,10 +1,13 @@
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
+import 'package:carpool_21_app/src/domain/models/reservesAll.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +15,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
 
   AuthUseCases authUseCases;
+  ReserveUseCases reserveUseCases;
 
-  PassengerHomeBloc(this.authUseCases): super(PassengerHomeState()) {
+  PassengerHomeBloc(this.authUseCases, this.reserveUseCases): super(PassengerHomeState()) {
     on<ChangeDrawerPage>((event, emit) {
       emit(
         state.copyWith(
@@ -150,21 +154,26 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
       }
     });
 
-    on<GetCurrentReserve>((event, emit) {
-      print('GetCurrentReserve');
+    on<GetCurrentReserve>((event, emit) async {
+      print('GetCurrentReserve Home Passenger ---------------');
 
       // Recuperando las reservas del Pasajero
-      // Resource<ReservesAll> response = await reserveUseCases.getAllReservesUseCase.run();
-      // print('Response - $response');
-      // emit(
-      //   state.copyWith(
-      //     response: response,
-      //   )
-      // );
+      Success<ReservesAll> reservesAllresponse = await reserveUseCases.getAllReservesUseCase.run();
+      print('Response - $reservesAllresponse');
 
-      // DELETE - Testeando con un objeto de prueba
-      print('Usando el Array de prueba');
-      _setCurrentReserve(event, emit);
+      if (reservesAllresponse is Success) {
+        ReservesAll reservesAll = reservesAllresponse.data;
+
+        emit(
+          state.copyWith(
+            reservesAll: reservesAll,
+          )
+        );
+      } else {
+        // DELETE - Testeando con un objeto de prueba
+        print('Usando el Array de prueba');
+        // _setCurrentReserve(event, emit);
+      }
     });
   }
 }

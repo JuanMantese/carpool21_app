@@ -44,6 +44,7 @@ import 'package:carpool_21_app/src/domain/useCases/car-info/updateCarInfoUseCase
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/createTripRequestUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getAllTripsUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getDriverTripsUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTimeAndDistanceUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/getTripDetailUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/createDriverPositionUseCase.dart';
@@ -62,6 +63,7 @@ import 'package:carpool_21_app/src/domain/useCases/passenger-request/getNerbyTri
 import 'package:carpool_21_app/src/domain/useCases/passenger-request/passengerRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/createReserveUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/getAllReservesUseCase.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/getReserveDetailUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/connectSocketUseCase.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/disconnectSocketUseCase.dart';
@@ -198,6 +200,7 @@ abstract class AppModule {
     createTripRequestUseCase: CreateTripRequestUseCase(driverTripRequestsRepository),
     getTimeAndDistance: GetTimeAndDistanceUseCase(driverTripRequestsRepository),
     getTripDetailUseCase: GetTripDetailUseCase(driverTripRequestsRepository),
+    getDriverTripsUseCase: GetDriverTripsUseCase(driverTripRequestsRepository),
     getAllTripsUseCase: GetAllTripsUseCase(driverTripRequestsRepository)
   );
 
@@ -219,6 +222,7 @@ abstract class AppModule {
   @injectable
   ReserveUseCases get reserveUseCases => ReserveUseCases(
     createReserve: CreateReserveUseCase(reserveRepository),
+    getReserveDetailUseCase: GetReserveDetailUseCase(reserveRepository),
     getAllReservesUseCase: GetAllReservesUseCase(reserveRepository)
   );
 

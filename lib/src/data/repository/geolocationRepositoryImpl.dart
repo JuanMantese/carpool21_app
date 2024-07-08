@@ -83,11 +83,12 @@ class GeolocationRepositoryImpl implements GeolocationRepository {
           String direction = placemarkList[0].thoroughfare!; 
           String street = placemarkList[0].subThoroughfare!;
           String city = placemarkList[0].locality!;
-          String department = placemarkList[0].administrativeArea!;
+          // String department = placemarkList[0].administrativeArea!;
           
           // Armado de la ubicación
           PlacemarkData placemarkData = PlacemarkData(
-            address: '$direction, $street, $city, $department', 
+            // address: '$direction, $street, $city, $department', 
+            address: '$direction, $street, $city', 
             lat: lat, 
             lng: lng
           );

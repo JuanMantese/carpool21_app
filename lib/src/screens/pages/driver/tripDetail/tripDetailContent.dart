@@ -186,19 +186,19 @@ class TripDetailContent extends StatelessWidget {
                     color: Colors.black
                   ),
                 ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.attach_money_rounded,
-                    // color: Color(0xFFdc2627),
-                  ),
-                  title: Text(
-                    tripDetail != null ? tripDetail!.compensation.toString() : ''
-                  ),
-                  titleTextStyle: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black
-                  ),
-                ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.attach_money_rounded,
+                //     // color: Color(0xFFdc2627),
+                //   ),
+                //   title: Text(
+                //     tripDetail != null ? tripDetail!.compensation.toString() : ''
+                //   ),
+                //   titleTextStyle: const TextStyle(
+                //     fontSize: 14,
+                //     color: Colors.black
+                //   ),
+                // ),
             
               ],
             ),
@@ -387,79 +387,127 @@ class TripDetailContent extends StatelessWidget {
   Widget _buttonsAction(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 26,),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                ),
-                backgroundColor: const Color(0xFFF9F9F9),
-                elevation: 0,
-                side: const BorderSide(
-                  color: Color(0xFFdc2627),
-                  width: 2.0
-                ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.close_rounded,
-                    color: Color(0xFFdc2627),
-                  ),
-                  SizedBox(width: 16),
-                  Text(
-                    'Cancelar',
-                    style: TextStyle(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    backgroundColor: const Color(0xFFF9F9F9),
+                    elevation: 0,
+                    side: const BorderSide(
                       color: Color(0xFFdc2627),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      width: 2.0
+                    ),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
                   ),
-                ],
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.close_rounded,
+                        color: Color(0xFFdc2627),
+                      ),
+                      SizedBox(width: 16),
+                      Text(
+                        'Cancelar',
+                        style: TextStyle(
+                          color: Color(0xFFdc2627),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    backgroundColor: const Color(0xFFF9F9F9),
+                    elevation: 0,
+                    side: const BorderSide(
+                      color: Color(0xFF00A98F),
+                      width: 2.0
+                    ),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.edit_outlined,
+                        color: Color(0xFF00A98F),
+                      ),
+                      SizedBox(width: 16),
+                      Text(
+                        'Editar',
+                        style: TextStyle(
+                          color: Color(0xFF00A98F),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ]
           ),
-          const SizedBox(width: 16),
-          Expanded(
+          Container(
+            width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: null,
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.only(
                   top: 10,
+                  left: 0,
+                  right: 0,
                   bottom: 10,
                 ),
                 backgroundColor: const Color(0xFFF9F9F9),
                 elevation: 0,
                 side: const BorderSide(
-                  color: Color(0xFF00A98F),
+                  color: Color.fromRGBO(0, 66, 142, 0.659),
                   width: 2.0
                 ),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
+                disabledBackgroundColor: Color.fromARGB(170, 217, 198, 198),
+                disabledForegroundColor: Color.fromARGB(255, 108, 100, 100),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.edit_outlined,
-                    color: Color(0xFF00A98F),
-                  ),
-                  SizedBox(width: 16),
+                  // Icon(
+                  //   Icons.close_rounded,
+                  //   color: Color.fromRGBO(0, 117, 255, 0.66),
+                  // ),
+                  // SizedBox(width: 16),
                   Text(
-                    'Editar',
+                    'Iniciar Viaje',
                     style: TextStyle(
-                      color: Color(0xFF00A98F),
-                      fontWeight: FontWeight.w500,
+                      // color: Colors.black,
+                        // Color.fromRGBO(0, 163, 255, 0.43), // Top color
+                      fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
                   ),
@@ -467,7 +515,7 @@ class TripDetailContent extends StatelessWidget {
               ),
             ),
           ),
-        ]
+        ],
       ),
     );
   }

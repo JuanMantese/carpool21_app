@@ -22,6 +22,7 @@ class ReserveService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${await token}'
       };
+      print(await token);
       String body = json.encode(reserveRequest.toJson());
 
       final response = await http.post(url, headers: headers, body: body);
@@ -45,10 +46,40 @@ class ReserveService {
     }
   }
 
-  // Trayendo todas las reservas de un pasajero
-  Future<Resource<ReservesAll>> getReservesAll() async {
+  // Trayendo el vehiculo del conductor
+  Future<Resource<ReserveDetail>> getReserveDetail(int idReserve) async {
     try {
-      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/reserves');
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-reservation/findOne/$idReserve');
+      Map<String, String> headers = { 
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await token}'
+      };
+
+      final response = await http.get(url, headers: headers);
+      final data = json.decode(response.body);
+
+      print(response);
+      print('Data: $data');
+      
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ReserveDetail reserveDetail = ReserveDetail.fromJson(data);
+        return Success(reserveDetail);
+      }
+      else {
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        return ErrorData(listToString(data['message']));
+      }
+    } catch (error) {
+      print('Error GetReserveDetail Service: $error');
+      return ErrorData(error.toString());
+    }
+  }
+
+  // Trayendo todas las reservas de un pasajero
+  Future<Resource<ReservesAll>> getMyReservesAll() async {
+    try {
+      Uri url = Uri.http(ApiConfig.API_CARPOOL21, '/trip-reservation/my-reservations');
       Map<String, String> headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${await token}'

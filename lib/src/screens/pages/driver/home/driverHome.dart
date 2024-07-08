@@ -6,6 +6,7 @@ import 'package:carpool_21_app/src/screens/widgets/navigation/Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:carpool_21_app/src/screens/utils/globals.dart' as globals;
 
 class DriverHomePage extends StatefulWidget {
   const DriverHomePage({super.key});
@@ -24,11 +25,12 @@ class _DriverHomeState extends State<DriverHomePage> {
 
     // Dispara el evento para obtener la información del usuario
     context.read<DriverHomeBloc>().add(GetUserInfo(userService));
+
+    globals.currentRole = 'driver';
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: BlocBuilder<DriverHomeBloc, DriverHomeState>(
         builder: (context, state) {

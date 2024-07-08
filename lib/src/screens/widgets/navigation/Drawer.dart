@@ -10,6 +10,7 @@ import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationSta
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carpool_21_app/src/screens/utils/globals.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -234,7 +235,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Contacto'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/contact');
+            // Navigator.pushNamed(context, '/contact');
           },
         ),
         ListTile(
@@ -242,31 +243,31 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Tips'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/tips');
+            // Navigator.pushNamed(context, '/tips');
           },
         ),
-        ListTile(
-          title: const Text('Maps'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/finder');
-          },
-        ),
-        ListTile(
-          title: const Text('Modal Trip'),
-          onTap: () {
-            CustomDialogTrip(
-              context: context,
-            );
-          },
-        ),
-        ListTile(
-          title: const Text('Trip Detail'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/trip/detail');
-          },
-        ),
+        // ListTile(
+        //   title: const Text('Maps'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/finder');
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Modal Trip'),
+        //   onTap: () {
+        //     CustomDialogTrip(
+        //       context: context,
+        //     );
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Trip Detail'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/trip/detail');
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.power_settings_new, color: Color(0xFF006D59)),
           title: const Text('Cerrar Sesion'),
@@ -309,7 +310,7 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Contacto'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/contact');
+            // Navigator.pushNamed(context, '/contact');
           },
         ),
         ListTile(
@@ -317,57 +318,58 @@ class CustomDrawer extends StatelessWidget {
           title: const Text('Tips'),
           onTap: () {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/tips');
+            // Navigator.pushNamed(context, '/tips');
           },
         ),
-        ListTile(
-          title: const Text('Maps'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/finder');
-          },
-        ),
-        ListTile(
-          title: const Text('MapLocation'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/location');
-          },
-        ),
-        ListTile(
-          title: const Text('Modal'),
-          onTap: () {
-            CustomDialog(
-              context: context,
-              title: '¡No puedes crear un viaje!',
-              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
-              icon: Icons.warning_rounded,
-              onPressedSend: () {
-                Navigator.of(context).pop();
-              },
-              textSendBtn: 'Registrar',
-              textCancelBtn: 'Cancelar',
-            );
-          },
-        ),
-        ListTile(
-          title: const Text('Modal Trip'),
-          onTap: () {
-            CustomDialogTrip(
-              context: context,
-            );
-          },
-        ),
+        // ListTile(
+        //   title: const Text('Maps'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/finder');
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('MapLocation'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/location');
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Modal'),
+        //   onTap: () {
+        //     CustomDialog(
+        //       context: context,
+        //       title: '¡No puedes crear un viaje!',
+        //       content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
+        //       icon: Icons.warning_rounded,
+        //       onPressedSend: () {
+        //         Navigator.of(context).pop();
+        //       },
+        //       textSendBtn: 'Registrar',
+        //       textCancelBtn: 'Cancelar',
+        //     );
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Modal Trip'),
+        //   onTap: () {
+        //     CustomDialogTrip(
+        //       context: context,
+        //     );
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.power_settings_new, color: Color(0xFF006D59)),
           title: const Text('Cerrar Sesion'),
           onTap: () {
             context.read<NavigationBloc>().add(Logout());
-            Navigator.pushAndRemoveUntil(
-              context, 
-              MaterialPageRoute(builder: ((context) => const CarPool21())), 
-              (route) => false
-            );
+            // Navigator.pushAndRemoveUntil(
+            //   context, 
+            //   MaterialPageRoute(builder: ((context) => const CarPool21())), 
+            //   (route) => false
+            // );
+            navigatorKey.currentState!.pushNamedAndRemoveUntil('/login', (route) => false);
           },
         ),
       ],

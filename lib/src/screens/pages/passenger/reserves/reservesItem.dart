@@ -1,12 +1,12 @@
 
-import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class ReservesItem extends StatelessWidget {
   
-  TripDetail? reserveDetail;
+  ReserveDetail? reserveDetail;
   String tripType;
 
   ReservesItem(this.reserveDetail, this.tripType, {super.key});
@@ -15,7 +15,12 @@ class ReservesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/passenger/reserve/detail');
+        int? idReserve = reserveDetail?.idReservation;
+        Navigator.pushNamed(context, '/passenger/reserve/detail',
+          arguments:{
+            'idReserve': idReserve,
+          }
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
@@ -45,13 +50,13 @@ class ReservesItem extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.my_location, color: Colors.white),
                       title: Text(
-                        reserveDetail!.pickupNeighborhood,
+                        reserveDetail!.tripRequest.pickupNeighborhood,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold
                         ),
                       ),
-                      subtitle: Text(reserveDetail!.pickupText,
+                      subtitle: Text(reserveDetail!.tripRequest.pickupText,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500
@@ -61,13 +66,13 @@ class ReservesItem extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.location_on, color: Colors.white),
                       title: Text(
-                        reserveDetail!.destinationNeighborhood,
+                        reserveDetail!.tripRequest.destinationNeighborhood,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold
                         ),
                       ),
-                      subtitle: Text(reserveDetail!.destinationText,
+                      subtitle: Text(reserveDetail!.tripRequest.destinationText,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500
@@ -91,7 +96,7 @@ class ReservesItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const SizedBox(height: 10),
-                    _startTripHour(reserveDetail!.departureTime),
+                    _startTripHour(reserveDetail!.tripRequest.departureTime),
                     const SizedBox(height: 10),
                     
                     if (tripType != 'historicalTrips') 
@@ -99,7 +104,7 @@ class ReservesItem extends StatelessWidget {
 
                     const SizedBox(height: 6),
                     
-                    if (tripType == 'futureTrips') 
+                    if (tripType == 'futureReservations') 
                       _cancelButton(),
                       
                     const SizedBox(height: 10),
@@ -124,7 +129,7 @@ class ReservesItem extends StatelessWidget {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       );
-    } else if (tripType == 'futureTrips') {
+    } else if (tripType == 'futureReservations') {
       return LinearGradient(
         colors: [
           const Color(0xFF009C84).withOpacity(0.88),

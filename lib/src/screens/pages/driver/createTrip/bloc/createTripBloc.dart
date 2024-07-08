@@ -124,7 +124,7 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
           destinationLng: state.destinationLatLng!.longitude,
           availableSeats: state.availableSeats!,
           departureTime: state.departureTime!, // '2024-07-06T21:00:00Z' Format
-          compensation: 1000,
+          // compensation: 1000,
           observations: state.tripObservations
         )
       );

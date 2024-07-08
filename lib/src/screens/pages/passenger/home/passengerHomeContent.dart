@@ -61,10 +61,17 @@ class PassengerHomeContent extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   
-                  if(state.currentReserve != null)
-                    ReservesItem(state.currentReserve, 'currentTrip')
-                  else
-                  _reserveCard(context),
+                  // if(state.currentReserve != null)
+                  //   ReservesItem(state.currentReserve, 'currentTrip')
+                  // else
+                  // _reserveCard(context),
+
+                  (state.reservesAll != null &&
+                    state.reservesAll?.futureReservations != null &&
+                    state.reservesAll!.futureReservations!.isNotEmpty
+                      ? ReservesItem(state.reservesAll?.futureReservations?[0], 'futureReservations')
+                      : _reserveCard(context)
+                  ),
                 ],
               ),
             ),

@@ -11,7 +11,7 @@ class ReservesContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(state.testingReservesAll?.currentReserve);
+    // print(state.testingReservesAll?.currentReserve);
 
     return Scaffold(
       body: Stack(
@@ -23,40 +23,40 @@ class ReservesContent extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 170, bottom: 40),
                 child: Column(
                   children: [
-                    if (state.testingReservesAll!.currentReserve != null)
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text(
-                              'Viaje en Curso',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic,
-                                color: Color(0xFF006D59),
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Divider(
-                              color: Color(0xFF006D59),
-                              thickness: 2,
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: ReservesItem(
-                              state.testingReservesAll!.currentReserve,
-                              'currentTrip'
-                            ),
-                          ),
-                        ],
-                      ),
+                    // if (state.testingReservesAll!.currentReserve != null)
+                    //   Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       const Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //         child: Text(
+                    //           'Viaje en Curso',
+                    //           style: TextStyle(
+                    //             fontSize: 18,
+                    //             fontWeight: FontWeight.bold,
+                    //             fontStyle: FontStyle.italic,
+                    //             color: Color(0xFF006D59),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       const Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    //         child: Divider(
+                    //           color: Color(0xFF006D59),
+                    //           thickness: 2,
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         padding: const EdgeInsets.symmetric(horizontal: 20),
+                    //         child: ReservesItem(
+                    //           state.testingReservesAll!.currentReserve,
+                    //           'currentTrip'
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
 
-                    if (state.testingReservesAll!.futureReserves.isNotEmpty)
+                    if (state.testingReservesAll!.futureReservations.isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -79,7 +79,7 @@ class ReservesContent extends StatelessWidget {
                               thickness: 2,
                             ),
                           ),
-                          ...state.testingReservesAll!.futureReserves.map((reserve) {
+                          ...state.testingReservesAll!.futureReservations.map((reserve) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: ReservesItem(reserve, 'futureTrips'),
@@ -88,7 +88,7 @@ class ReservesContent extends StatelessWidget {
                         ],
                       ),
 
-                    if (state.testingReservesAll!.historicalReserves.isNotEmpty)
+                    if (state.testingReservesAll!.pastReservations.isNotEmpty)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -111,7 +111,7 @@ class ReservesContent extends StatelessWidget {
                               thickness: 2,
                             ),
                           ),
-                          ...state.testingReservesAll!.historicalReserves.map((reserve) {
+                          ...state.testingReservesAll!.pastReservations.map((reserve) {
                             return Container(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: ReservesItem(reserve, 'historicalTrips'),

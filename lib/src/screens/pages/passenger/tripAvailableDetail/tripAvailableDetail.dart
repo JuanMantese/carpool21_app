@@ -8,10 +8,16 @@ import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/t
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TripAvailableDetailPage extends StatefulWidget {
-  const TripAvailableDetailPage({super.key});
+  final Map<String, dynamic> arguments;
+
+  const TripAvailableDetailPage({
+    super.key,
+    required this.arguments
+  });
 
   @override
   State<TripAvailableDetailPage> createState() => _TripAvailableDetailPageState();
@@ -19,14 +25,14 @@ class TripAvailableDetailPage extends StatefulWidget {
 
 class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
   // Inicializando variables
-  int? idTrip;
-  LatLng? pickUpLatLng;
-  String? pickUpText;
-  LatLng? destinationLatLng;
-  String? destinationText;
-  String? departureTime;
-  double? compensation;
-  Driver? driver;
+  late int idTrip;
+  late LatLng pickUpLatLng;
+  late String pickUpText;
+  late LatLng destinationLatLng;
+  late String destinationText;
+  late String departureTime;
+  late double compensation;
+  late Driver driver;
 
   @override
   void initState() {
@@ -34,16 +40,34 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
 
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // Recibiendo los datos de Origen y Destino desde AvailableTrips
+      final args = widget.arguments;
+
+      idTrip = args['idTrip'];
+      pickUpLatLng = args['pickUpLatLng'];
+      pickUpText = args['pickUpText'];
+      destinationLatLng = args['destinationLatLng'];
+      destinationText = args['destinationText'];
+      departureTime = args['departureTime'];
+      driver = args['driver'];
+      compensation = args['compensation'];
+      print('idTrip ${idTrip}');
+      print('pickUpLatLng ${pickUpLatLng}');
+      print('pickUpText ${pickUpText}');
+      print('destinationLatLng ${destinationLatLng}');
+      print('destinationText ${destinationText}');
+      print('departureTime ${departureTime}');
+
       context
         .read<TripAvailableDetailBloc>()
         .add(TripAvailableDetailInitEvent(
-          pickUpLatLng: pickUpLatLng!,
-          destinationLatLng: destinationLatLng!,
-          pickUpText: pickUpText!,
-          destinationText: destinationText!,
-          departureTime: departureTime!,
-          compensation: compensation!,
-          driver: driver!,
+          pickUpLatLng: pickUpLatLng,
+          destinationLatLng: destinationLatLng,
+          pickUpText: pickUpText,
+          destinationText: destinationText,
+          departureTime: departureTime,
+          compensation: compensation,
+          driver: driver,
         ));
       
       // Aca se ejecuta la funcion para agregar la ruta en el mapa origen/destino
@@ -51,8 +75,8 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
  
       // Ubicamos la camara sobre la ruta marcada
       context.read<TripAvailableDetailBloc>().add(ChangeMapCameraPosition(
-        pickUpLatLng: pickUpLatLng!,
-        destinationLatLng: destinationLatLng!
+        pickUpLatLng: pickUpLatLng,
+        destinationLatLng: destinationLatLng
       ));
 
       // Trayendo los datos: Tiempo estimado del trayecto y Distancia del punto de origen al punto de destino
@@ -62,30 +86,11 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Recibiendo los datos de Origen y Destino desde AvailableTrips
-    Map<String, dynamic> arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-
-    // Seteando valores
-    idTrip = arguments['idTrip'];
-    pickUpLatLng = arguments['pickUpLatLng'];
-    pickUpText = arguments['pickUpText'];
-    destinationLatLng = arguments['destinationLatLng'];
-    destinationText = arguments['destinationText'];
-    departureTime = arguments['departureTime'];
-    driver = arguments['driver'];
-    compensation = arguments['compensation'];
-    print('idTrip ${idTrip}');
-    print('pickUpLatLng ${pickUpLatLng}');
-    print('pickUpText ${pickUpText}');
-    print('destinationLatLng ${destinationLatLng}');
-    print('destinationText ${destinationText}');
-    print('departureTime ${departureTime}');
-
     return Scaffold(
       body: BlocListener<TripAvailableDetailBloc, TripAvailableDetailState>(
         listener: (context, state) {
           final responseReserveRes = state.responseReserve;
-          print('Click');
+          print('TripAvailableDetail');
           print(responseReserveRes);
 
           if (responseReserveRes is Loading) {
@@ -97,11 +102,16 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
             print(responseReserve.toJson());
             int? idReserve = responseReserve.idReservation;
             print(idReserve);
-            Navigator.pushNamed(context, '/passenger/reserve/detail',
-              arguments: {
-                'idReserve': idReserve,
-              }
-            );
+            // Navigator.pushNamed(context, '/passenger/reserve/detail',
+            //   arguments: {
+            //     'idReserve': idReserve,
+            //   }
+            // );
+
+            context.push('/passenger/0/reserve/detail', extra: {
+              'idReserve': idReserve
+            });
+
             Fluttertoast.showToast(msg: 'Reserva realizada', toastLength: Toast.LENGTH_LONG);
           }
         },
@@ -112,7 +122,7 @@ class _TripAvailableDetailPageState extends State<TripAvailableDetailPage> {
             body: TripAvailableDetailContent(
               state, 
               onReserve: () {
-                context.read<TripAvailableDetailBloc>().add(CreateReserve(tripRequestId: idTrip!));
+                context.read<TripAvailableDetailBloc>().add(CreateReserve(tripRequestId: idTrip));
               }
             )
           );

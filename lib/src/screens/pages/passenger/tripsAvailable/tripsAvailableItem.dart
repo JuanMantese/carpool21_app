@@ -2,6 +2,7 @@
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/bloc/tripsAvailableState.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -19,7 +20,18 @@ class TripsAvailableItem extends StatelessWidget {
         LatLng pickUpLatLng = LatLng(passengerRequest!.pickupLat, passengerRequest!.pickupLng);
         LatLng destinationLatLng = LatLng(passengerRequest!.destinationLat, passengerRequest!.destinationLng);
 
-        Navigator.pushNamed(context, '/passenger/request/trips/detail', arguments: {
+        // Navigator.pushNamed(context, '/passenger/request/trips/detail', arguments: {
+        //   'idTrip': passengerRequest?.idTrip,
+        //   'pickUpLatLng': pickUpLatLng,
+        //   'pickUpText': passengerRequest!.pickupText,
+        //   'destinationLatLng': destinationLatLng,
+        //   'destinationText': passengerRequest!.destinationText,
+        //   'departureTime': passengerRequest!.departureTime,
+        //   'compensation': passengerRequest!.compensation,
+        //   'driver': passengerRequest!.driver
+        // });
+
+        context.go('/passenger/0/request/trips/detail', extra: {
           'idTrip': passengerRequest?.idTrip,
           'pickUpLatLng': pickUpLatLng,
           'pickUpText': passengerRequest!.pickupText,
@@ -29,6 +41,8 @@ class TripsAvailableItem extends StatelessWidget {
           'compensation': passengerRequest!.compensation,
           'driver': passengerRequest!.driver
         });
+
+        
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),

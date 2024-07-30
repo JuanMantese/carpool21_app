@@ -8,6 +8,7 @@ import 'package:carpool_21_app/src/screens/widgets/CustomTimePicker.dart';
 import 'package:carpool_21_app/src/screens/widgets/googlePlacesAutoComplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:intl/intl.dart';
@@ -158,7 +159,8 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
                 margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 180, left: 30),
                 onPressed: () {
                   context.read<DriverMapFinderBloc>().add(DriverMapFinderResetEvent());
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  context.pop();
                 }, 
               ),
 
@@ -196,7 +198,17 @@ class _DriverMapFinderState extends State<DriverMapFinder> with WidgetsBindingOb
                   text: 'Continuar',
                   onPressed: () {
                     if (_isButtonEnabled(state)) {
-                      Navigator.pushNamed(context, '/driver/map/booking', arguments: {
+                      // Navigator.pushNamed(context, '/driver/map/booking', arguments: {
+                      //   'pickUpNeighborhood': state.pickUpNeighborhood,
+                      //   'pickUpText': state.pickUpText,
+                      //   'pickUpLatLng': state.pickUpLatLng,
+                      //   'destinationNeighborhood': state.destinationNeighborhood,
+                      //   'destinationText': state.destinationText,
+                      //   'destinationLatLng': state.destinationLatLng,
+                      //   'departureTime': state.departureTime,
+                      // });
+
+                      context.push('/driver/0/map/booking', extra: {
                         'pickUpNeighborhood': state.pickUpNeighborhood,
                         'pickUpText': state.pickUpText,
                         'pickUpLatLng': state.pickUpLatLng,

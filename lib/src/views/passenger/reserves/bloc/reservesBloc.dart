@@ -6,8 +6,8 @@ import 'package:carpool_21_app/src/domain/models/reservesAll.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesEvent.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesState.dart';
+import 'package:carpool_21_app/src/views/passenger/reserves/bloc/reservesEvent.dart';
+import 'package:carpool_21_app/src/views/passenger/reserves/bloc/reservesState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReservesBloc extends Bloc<ReservesEvent, ReservesState> {

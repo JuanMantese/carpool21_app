@@ -2,6 +2,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMap
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CustomDialogTrip extends StatelessWidget {
@@ -168,7 +169,8 @@ class CustomDialogTrip extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                context.pop();
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF00A98F)),
@@ -192,8 +194,9 @@ class CustomDialogTrip extends StatelessWidget {
   }
 
   void _setPredefinedLocation(BuildContext context, LatLng location, String neighborhood, String address, String locationType) {
-    Navigator.pop(context); // Cerrar el diálogo
-    Navigator.pushNamed(context, '/driver/finder'); // Navegar al mapa
+    context.pop(); // Cerrar el modal
+    context.push('/driver/0/finder');
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<DriverMapFinderBloc>().add(
         SelectPredefinedLocation(

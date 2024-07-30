@@ -1,6 +1,7 @@
 
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
@@ -16,11 +17,15 @@ class TripsItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         int? idDriverRequest = reserveDetail?.idTrip;
-        Navigator.pushNamed(context, '/driver/trip/detail', 
-          arguments:{
-            'idDriverRequest':  idDriverRequest,
-          }
-        );
+        // Navigator.pushNamed(context, '/driver/trip/detail', 
+        //   arguments:{
+        //     'idDriverRequest':  idDriverRequest,
+        //   }
+        // );
+
+        context.push('/driver/0/trip/detail', extra: {
+          'idDriverRequest':  idDriverRequest,
+        });
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),

@@ -2,6 +2,7 @@ import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -46,7 +47,8 @@ class ReserveDetailContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (Route<dynamic> route) => false,);
+            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (Route<dynamic> route) => false,);
+            context.go('/passenger/0');
           },
         ),
       ],
@@ -269,7 +271,7 @@ class ReserveDetailContent extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'Observaciones Description',
+                'Encuentro en acceso al edificio Experimenta 21',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black54,

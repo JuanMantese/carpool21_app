@@ -108,8 +108,8 @@ class DriverHomeBloc extends Bloc<DriverHomeEvent, DriverHomeState> {
       if (authResponse != null && authResponse.user != null) {
         print('Datos del usuario obtenidos');
         
-        User userData = authResponse.user;
-        List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+        User userData = authResponse.user!;
+        List<Role> roles = authResponse.user!.roles?.map((role) => role).toList() ?? [];
 
         emit(
           state.copyWith(

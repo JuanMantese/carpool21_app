@@ -24,6 +24,13 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
           pageIndex: event.pageIndex, 
         )
       );
+
+      // final currentState = state;
+      // if (currentState is PassengerHomeSuccess) {
+      //   emit(currentState.copyWith(pageIndex: event.pageIndex));
+      // } else {
+      //   emit(PassengerHomeInitial());
+      // }
     });
 
     // on<Logout>((event, emit) async {
@@ -63,11 +70,11 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         ],
       );
 
-      emit(state.copyWith(
-        roles: testUser.roles?.map((role) => role).toList(),
-        currentUser: testUser,
-        userService: event.userService, 
-      ));
+      // emit(state.copyWith(
+      //   roles: testUser.roles?.map((role) => role).toList(),
+      //   currentUser: testUser,
+      //   userService: event.userService, 
+      // ));
     }
 
     void _setCurrentReserve(GetCurrentReserve event, Emitter<PassengerHomeState> emit) {
@@ -127,9 +134,9 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
       );
 
       print('Cambiando los datos de la reserva');
-      emit(state.copyWith(
-        currentReserve: exampleCurrentReserve,
-      ));
+      // emit(state.copyWith(
+      //   currentReserve: exampleCurrentReserve,
+      // ));
     }
 
 
@@ -139,7 +146,7 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
       if (authResponse != null && authResponse.user != null) {
         print('Datos del usuario obtenidos - Passenger');
         print(authResponse.toJson());
-        List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+        List<Role> roles = authResponse.user!.roles?.map((role) => role).toList() ?? [];
         print(roles[0]);
         emit(
           state.copyWith(
@@ -152,18 +159,36 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         print('No entro en GetUserInfo - Passenger');
         _setTestUser(event, emit);
       }
+
+      // emit(PassengerHomeLoading());
+
+      // try {
+      //   AuthResponse? authResponse = await authUseCases.getUserSession.run();
+      //   if (authResponse != null && authResponse.user != null) {
+      //     List<Role> roles = authResponse.user!.roles?.map((role) => role).toList() ?? [];
+      //     emit(PassengerHomeSuccess(
+      //       roles: roles,
+      //       currentUser: authResponse.user,
+      //       userService: event.userService,
+      //     ));
+      //   } else {
+      //     emit(PassengerHomeError('Failed to get user info'));
+      //   }
+      // } catch (e) {
+      //   emit(PassengerHomeError(e.toString()));
+      // }
     });
 
     on<GetCurrentReserve>((event, emit) async {
       print('GetCurrentReserve Home Passenger ---------------');
 
       // Recuperando las reservas del Pasajero
-      Success<ReservesAll> reservesAllresponse = await reserveUseCases.getAllReservesUseCase.run();
-      print('Response - $reservesAllresponse');
+      Resource reservesAllresponse = await reserveUseCases.getAllReservesUseCase.run();
+      print('Response Reserves All: $reservesAllresponse');
 
       if (reservesAllresponse is Success) {
         ReservesAll reservesAll = reservesAllresponse.data;
-
+        print(reservesAll.toJson());
         emit(
           state.copyWith(
             reservesAll: reservesAll,
@@ -174,6 +199,24 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         print('Usando el Array de prueba');
         // _setCurrentReserve(event, emit);
       }
+
+      // emit(PassengerHomeLoading());
+      // try {
+      //   Resource reservesAllresponse = await reserveUseCases.getAllReservesUseCase.run();
+      //   if (reservesAllresponse is Success) {
+      //     ReservesAll reservesAll = reservesAllresponse.data;
+      //     final currentState = state;
+      //     if (currentState is PassengerHomeSuccess) {
+      //       emit(currentState.copyWith(reservesAll: reservesAll));
+      //     } else {
+      //       emit(PassengerHomeSuccess(reservesAll: reservesAll));
+      //     }
+      //   } else {
+      //     emit(PassengerHomeError('Failed to get reserves'));
+      //   }
+      // } catch (e) {
+      //   emit(PassengerHomeError(e.toString()));
+      // }
     });
   }
 }

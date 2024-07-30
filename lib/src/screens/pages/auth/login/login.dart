@@ -8,6 +8,7 @@ import 'package:carpool_21_app/src/screens/pages/auth/login/loginContent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,13 +26,6 @@ class _LoginPageState extends State<LoginPage> {
         listener: (context, state) {
           final response = state.response;
           if (response is ErrorData) {
-
-            // ELIMINAR - ESTA ACA PARA PROBAR EL HOME ANTES DE TENER UN BACKEND ---------------
-            // ---------------------------------------------------------------------------------
-            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
-            // ---------------------------------------------------------------------------------
-            // ELIMINAR - ESTA ACA PARA PROBAR EL HOME ANTES DE TENER UN BACKEND ---------------
-
             print('Error Data: ${response.message}');
             Fluttertoast.showToast(
               msg: response.message, 
@@ -45,13 +39,14 @@ class _LoginPageState extends State<LoginPage> {
             final authResponse = response.data as AuthResponse;
             context.read<LoginBloc>().add(SaveUserSession(authResponse: authResponse));
 
-            if (authResponse.user.roles!.length > 1) {
+            if (authResponse.user!.roles!.length > 1) {
               // Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
-              Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
-
+              // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+              context.go('/passenger/0');
             }
             else {
-              Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+              // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+              context.go('/passenger/0');
             }
 
             // Mostrar mensaje de éxito

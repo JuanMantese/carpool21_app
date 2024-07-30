@@ -18,4 +18,10 @@ abstract class AuthRepository {
 
   // Obtaining user session from local storage
   Future<AuthResponse?> getUserSession();
+
+  // Save user token and token expiration in local storage
+  Future<void> saveUserToken(AuthResponse authResponse);
+
+  // Obtaining user token and token expiration of local storage
+  Future<void> getUserToken();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AdvancedFiltersModal extends StatefulWidget {
   final Function(String, String, TimeOfDay, TimeOfDay) onFilter;
@@ -128,13 +129,15 @@ class _AdvancedFiltersModalState extends State<AdvancedFiltersModal> {
                     originDestination, campus, startTime ?? const TimeOfDay(hour: 0, minute: 0), 
                     endTime ?? const TimeOfDay(hour: 23, minute: 59)
                   );
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  context.pop();
                 },
                 child: const Text('Filtrar'),
               ),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  context.pop();
                 },
                 child: const Text('Cancelar'),
               ),

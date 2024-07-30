@@ -3,6 +3,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDeta
 import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/tripDetailReservesItem.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -51,7 +52,8 @@ class TripDetailContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (Route<dynamic> route) => false,);
+            // Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (Route<dynamic> route) => false,);
+            context.go('/driver/0');
           },
         ),
       ],

@@ -1,6 +1,7 @@
 
 import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
@@ -16,11 +17,15 @@ class ReservesItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         int? idReserve = reserveDetail?.idReservation;
-        Navigator.pushNamed(context, '/passenger/reserve/detail',
-          arguments:{
-            'idReserve': idReserve,
-          }
-        );
+        // Navigator.pushNamed(context, '/passenger/reserve/detail',
+        //   arguments:{
+        //     'idReserve': idReserve,
+        //   }
+        // );
+
+        context.push('/passenger/0/reserve/detail', extra: {
+          'idReserve': idReserve,
+        });
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),

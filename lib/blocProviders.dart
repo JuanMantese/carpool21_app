@@ -4,7 +4,6 @@ import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/driversPositionUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
-import 'package:carpool_21_app/src/domain/useCases/passenger-request/passengerRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/socket/socketUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/users/userUseCases.dart';
@@ -20,17 +19,18 @@ import 'package:carpool_21_app/src/screens/pages/driver/createTrip/bloc/createTr
 import 'package:carpool_21_app/src/screens/pages/driver/home/bloc/driverHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapLocation/bloc/driverMapLocationBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailBloc.dart';
-import 'package:carpool_21_app/src/screens/pages/driver/tripDetail/bloc/tripDetailEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/trips/bloc/tripsEvent.dart';
+import 'package:carpool_21_app/src/screens/pages/errors/bloc/error_bloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driverMapBookingInfoBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailBloc.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailEvent.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesBloc.dart';
-import 'package:carpool_21_app/src/screens/pages/passenger/reserves/bloc/reservesEvent.dart';
+import 'package:carpool_21_app/src/views/driver/home/bloc/driver_home_view_bloc.dart';
+import 'package:carpool_21_app/src/views/passenger/home/bloc/passenger_home_view_bloc.dart';
+import 'package:carpool_21_app/src/views/passenger/reserves/bloc/reservesBloc.dart';
+import 'package:carpool_21_app/src/views/passenger/reserves/bloc/reservesEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/bloc/tripAvailableDetailBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/bloc/tripsAvailableBloc.dart';
 import 'package:carpool_21_app/src/screens/pages/profile/info/bloc/profileInfoBloc.dart';
@@ -68,5 +68,11 @@ List<BlocProvider> blocProviders = [
   BlocProvider<CarUpdateBloc>(create: (context) => CarUpdateBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>())),
 
   BlocProvider<NavigationBloc>(create: (context) => NavigationBloc(locator<AuthUseCases>())),
+  BlocProvider<ErrorBloc>(create: (context) => ErrorBloc()),
   
+  // Views
+  BlocProvider<PassengerHomeViewBloc>(create: (context) => PassengerHomeViewBloc(locator<AuthUseCases>(), locator<ReserveUseCases>())),  
+  BlocProvider<DriverHomeViewBloc>(create: (context) => DriverHomeViewBloc(locator<AuthUseCases>(), locator<CarInfoUseCases>(), locator<DriverTripRequestsUseCases>())),
+
+
 ];

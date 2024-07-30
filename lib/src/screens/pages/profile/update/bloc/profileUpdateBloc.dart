@@ -192,16 +192,16 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
       AuthResponse authResponse = await authUseCases.getUserSession.run();
       
       // Set user values
-      authResponse.user.name = event.user.name;
-      authResponse.user.lastName = event.user.lastName;
-      authResponse.user.studentFile = event.user.studentFile;
-      authResponse.user.dni = event.user.dni;
-      authResponse.user.phone = event.user.phone;
-      authResponse.user.address = event.user.address;
-      authResponse.user.contactName = event.user.contactName;
-      authResponse.user.contactLastName = event.user.contactLastName;
-      authResponse.user.contactPhone = event.user.contactPhone;
-      authResponse.user.photoUser = event.user.photoUser;
+      authResponse.user!.name = event.user.name;
+      authResponse.user!.lastName = event.user.lastName;
+      authResponse.user!.studentFile = event.user.studentFile;
+      authResponse.user!.dni = event.user.dni;
+      authResponse.user!.phone = event.user.phone;
+      authResponse.user!.address = event.user.address;
+      authResponse.user!.contactName = event.user.contactName;
+      authResponse.user!.contactLastName = event.user.contactLastName;
+      authResponse.user!.contactPhone = event.user.contactPhone;
+      authResponse.user!.photoUser = event.user.photoUser;
       await authUseCases.saveUserSession.run(authResponse);
     });
   }

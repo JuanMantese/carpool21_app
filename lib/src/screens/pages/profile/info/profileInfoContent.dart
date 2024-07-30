@@ -2,6 +2,7 @@ import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButtonAction.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 class ProfileInfoContent extends StatelessWidget {
@@ -19,7 +20,8 @@ class ProfileInfoContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            context.pop();
           },
         ),
 
@@ -35,7 +37,8 @@ class ProfileInfoContent extends StatelessWidget {
               const Spacer(),
               CustomButtonAction(text: 'EDITAR PERFIL', icon: Icons.edit, 
                 onTapFunction: () {
-                  Navigator.pushNamed(context, '/profile/update', arguments: user);
+                  // Navigator.pushNamed(context, '/profile/update', arguments: user);
+                  context.push('/profile/update', extra: user);
                 }
               ),
               CustomButtonAction(text: 'CAMBIAR CONTRASEÑA', icon: Icons.lock_rounded, 

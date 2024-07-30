@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CarInfoPage extends StatefulWidget {
-  const CarInfoPage({super.key});
+  final Map<String, dynamic> arguments;
+
+  const CarInfoPage({
+    super.key,
+    required this.arguments
+  });
 
   @override
   State<CarInfoPage> createState() => _CarInfoPageState();
@@ -23,7 +28,11 @@ class _CarInfoPageState extends State<CarInfoPage> {
 
      // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      // Recibiendo los argumentos del Vehiculo
+      final args = widget.arguments;
+
+      // final args = ModalRoute.of(context)!.settings.arguments as Map;
+      
       idVehicle = args['idVehicle'];
       originPage = args['originPage'];
 

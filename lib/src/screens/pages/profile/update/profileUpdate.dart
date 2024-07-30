@@ -9,9 +9,15 @@ import 'package:carpool_21_app/src/screens/pages/profile/update/profileUpdateCon
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileUpdatePage extends StatefulWidget {
-  const ProfileUpdatePage({super.key});
+  final User? user;
+
+  const ProfileUpdatePage({
+    super.key,
+    this.user
+  });
 
   @override
   State<ProfileUpdatePage> createState() => _ProfileUpdatePageState();
@@ -25,6 +31,9 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   void initState() {
     super.initState();
 
+    // Asigna el valor de car desde el widget
+    user = widget.user;
+
     // Wait until all elements of the Widget build are loaded to execute the Event
     // This is done to prevent the user from coming in as null, as it is instantiated in the Widget build
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -35,10 +44,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   // Secondary execution: Triggered every time we make a state change in a widget on that screen
   @override
   Widget build(BuildContext context) {
-    // ELIMINAR - PERMITO EL VALOR NULL - Eliminar esto cuando tengamos el Back
-    user = ModalRoute.of(context)?.settings.arguments as User?;
-    // user = ModalRoute.of(context)?.settings.arguments as User; DESCOMENTAR
-
     return Scaffold(
       body: BlocListener<ProfileUpdateBloc, ProfileUpdateState>(
         listener: (context, state) {
@@ -60,8 +65,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
               context.read<ProfileInfoBloc>().add(GetUserInfo());
             });
 
-            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);   // REVISAR o ELIMINAR
-            Navigator.pop(context);
+            context.pop();
           }
         },
         child: BlocBuilder<ProfileUpdateBloc, ProfileUpdateState>(

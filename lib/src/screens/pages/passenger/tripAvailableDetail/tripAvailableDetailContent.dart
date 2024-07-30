@@ -4,6 +4,7 @@ import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomDialog.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -34,7 +35,8 @@ class TripAvailableDetailContent extends StatelessWidget {
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           color: Colors.black,
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            context.pop();
           },
         ),
       ],

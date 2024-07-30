@@ -6,6 +6,7 @@ import 'package:carpool_21_app/src/screens/utils/blocFormItem.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterContent extends StatefulWidget {
   final RegisterState state; // Recibe el bloc como parámetro opcional.
@@ -355,7 +356,7 @@ class RegisterContentState extends State<RegisterContent> {
                         ],
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        context.pop();
                       },
                     ),
                   ),

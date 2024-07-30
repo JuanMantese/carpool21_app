@@ -6,6 +6,7 @@ import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginContent extends StatefulWidget {
   final LoginState state;
@@ -24,10 +25,11 @@ class LoginContentState extends State<LoginContent> {
   Widget build(BuildContext context) {
     final state = widget.state;
 
-    return Form(
-      key: state.formKeyLogin,
-      child: Scaffold(
-        body: Column(
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Form(
+        key: state.formKeyLogin,
+        child: Column(
           children: <Widget>[
             Container(
               width: double.infinity,
@@ -159,7 +161,8 @@ class LoginContentState extends State<LoginContent> {
                       ],
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/register');
+                      // Navigator.pushNamed(context, '/register');
+                      context.push('/register');
                     },
                   ),
                 ],

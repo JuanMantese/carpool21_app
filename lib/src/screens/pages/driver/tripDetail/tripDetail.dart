@@ -8,7 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TripDetailPage extends StatefulWidget {
-  const TripDetailPage({super.key});
+  final Map<String, dynamic> arguments;
+
+  const TripDetailPage({
+    super.key,
+    required this.arguments
+  });
 
   @override
   State<TripDetailPage> createState() => _TripDetailPageState();
@@ -24,10 +29,13 @@ class _TripDetailPageState extends State<TripDetailPage> {
 
     context.read<TripDetailBloc>().add(TripDetailInitMap());
 
-
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      // Recibiendo los datos de Origen y Destino desde CreateTrip
+      final args = widget.arguments;
+      
+      // final args = ModalRoute.of(context)!.settings.arguments as Map;
+
       idTrip = args['idDriverRequest'];
 
       context.read<TripDetailBloc>().add(GetTripDetail(idTrip: idTrip));

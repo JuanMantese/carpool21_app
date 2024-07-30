@@ -7,6 +7,7 @@ import 'package:carpool_21_app/src/screens/pages/auth/register/registerContent.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -36,11 +37,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Envio al Login
             // Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-            Navigator.pop(context);
+            context.pop();
             Fluttertoast.showToast(msg: 'Registro exitoso', toastLength: Toast.LENGTH_LONG); 
             print('Success Data: ${response.data}');
 
-            // Form Reload DESCOMENTAR
+            // Form Reload
             // context.read<RegisterBloc>().add(FormReset());
           }
         },

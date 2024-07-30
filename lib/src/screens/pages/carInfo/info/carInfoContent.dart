@@ -2,6 +2,7 @@ import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButtonAction.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 class CarInfoContent extends StatelessWidget {
@@ -21,25 +22,19 @@ class CarInfoContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            if (originPage == '/driver/home') {
-              Navigator.pushReplacementNamed(context, '/driver/home');
+            print(originPage);
+            if (originPage == '/driver/0') {
+              context.go('/driver/0');
               print('Driver: ${ModalRoute.of(context)?.settings.name}');
-            } else if (originPage == '/car/list') {
-              Navigator.pop(context, '/car/list');
+            } else if (originPage == '/driver/0/car/list') {
+              context.pop();
               print('CarList: ${ModalRoute.of(context)?.settings.name}');
-
-            } else if (originPage == '/passenger/home') {
-              Navigator.pushReplacementNamed(context, '/driver/home');
+            } else if (originPage == '/passenger/0') {
+              context.go('/driver/0');
               print('Passenger: ${ModalRoute.of(context)?.settings.name}');
-            } else if (originPage == '/car/info') {
-              Navigator.pushReplacementNamed(context, '/driver/home');
-              print('ACA NO ENTRA: ${ModalRoute.of(context)?.settings.name}');
-
-            
             } else {
-              Navigator.pop(context);
+              context.pop();
               print('Pop: ${ModalRoute.of(context)?.settings.name}');
-
             }
           },
         ),        
@@ -56,7 +51,8 @@ class CarInfoContent extends StatelessWidget {
               const Spacer(),
               CustomButtonAction(text: 'EDITAR VEHÍCULO', icon: Icons.edit, 
                 onTapFunction: () {
-                  Navigator.pushNamed(context, '/car/update', arguments: car);
+                  // Navigator.pushNamed(context, '/car/update', arguments: car);
+                  context.push('/car/list/update', extra: car);
                 }
               ),
               CustomButtonAction(text: 'ELIMINAR VEHÍCULO', icon: Icons.delete_outline_rounded, 

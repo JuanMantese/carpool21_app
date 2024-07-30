@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReserveDetailPage extends StatefulWidget {
-  const ReserveDetailPage({super.key});
+  final Map<String, dynamic> arguments;
+
+  const ReserveDetailPage({
+    super.key,
+    required this.arguments
+  });
 
   @override
   State<ReserveDetailPage> createState() => _ReserveDetailPageState();
@@ -24,7 +29,11 @@ class _ReserveDetailPageState extends State<ReserveDetailPage> {
 
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      // Recibiendo el Id de la reserva
+      final args = widget.arguments;
+      
+      // final args = ModalRoute.of(context)!.settings.arguments as Map;
+
       idReserve = args['idReserve'];
 
       context.read<ReserveDetailBloc>().add(GetReserveDetail(idReserve: idReserve));

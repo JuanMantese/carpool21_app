@@ -1,4 +1,7 @@
 
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:carpool_21_app/src/data/dataSource/local/sharedPref.dart';
 import 'package:carpool_21_app/src/data/dataSource/remote/services/authService.dart';
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
@@ -65,6 +68,44 @@ class AuthRepositoryImpl implements AuthRepository {
       // We interpret the data that comes in JSON format
       AuthResponse authResponse = AuthResponse.fromJson(data);
       return authResponse;
+    }
+    return null;
+  }
+
+  @override
+  Future<void> saveUserToken(AuthResponse authResponse) async {
+    String tokenJson = json.encode({"token": authResponse.token});
+    String refreshTokenJson = json.encode({"refreshToken": authResponse.refreshToken});
+
+    sharedPref.saveToken(tokenJson, refreshTokenJson);
+  }
+
+  @override
+  Future<Map<String, String>?> getUserToken() async {
+    final dataToken = await sharedPref.readToken();
+    // print(dataToken);
+    // print(dataToken[0]);
+    // print(dataToken[1]);
+    if (dataToken.isNotEmpty && dataToken[0] != null && dataToken[1] != null) {
+      // Decoding the JSON formatted token and expiration date
+      try {
+        Map<String, dynamic> tokenMap = json.decode(dataToken[0]!);
+        Map<String, dynamic> refreshTokenMap = json.decode(dataToken[1]!);
+
+        // Extract the token and token expiration from the map
+        String token = tokenMap['token'];
+        String refreshToken = refreshTokenMap['refreshToken'];
+
+        Map<String, String> tokenData = {
+          'token': token,
+          'refreshToken': refreshToken,
+        };
+
+        return tokenData;        
+      } catch (e) {
+        print('Error: las cadenas JSON no contienen los campos esperados');
+      }
+
     }
     return null;
   }

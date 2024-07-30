@@ -81,7 +81,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       // PARA QUE APAREZCA El estado de Loading (circle) - Tirar el Back y que quede cargando
       Resource response = await authUseCases.login.run(state.email.value, state.password.value);
-
+      print('Login response');
+      print(response);
       // Issuance of status change - Success/Error
       emit(
         state.copyWith(
@@ -93,7 +94,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
 
     on<SaveUserSession>((event, emit) async {
+      // Save user session
       await authUseCases.saveUserSession.run(event.authResponse);
+
+      // Save token and refreshToken
+      await authUseCases.saveUserTokenUseCase.run(event.authResponse);
     });
 
   }

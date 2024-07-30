@@ -8,6 +8,7 @@ import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CarRegisterContent extends StatelessWidget {
 
@@ -32,7 +33,8 @@ class CarRegisterContent extends StatelessWidget {
                   CustomIconBack(
                     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
                     onPressed: () {
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
+                      context.pop();
                     },
                   ),
 

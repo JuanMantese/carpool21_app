@@ -4,17 +4,17 @@ class User {
   int? id;
   String name;
   String lastName;
-  String userId;
-  String dni;
-  String phone;
+  String? studentFile;
+  int dni;
+  int phone;
   String address;
-  String email;
-  String password;
-  String passwordConfirm;
+  String? email;
+  String? password;
+  String? passwordConfirm;
   String contactName;
-  String contactPhone;
   String contactLastName;
-  String? image;
+  int contactPhone;
+  String? photoUser;
   String? notificationToken;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -24,17 +24,17 @@ class User {
     this.id,
     required this.name,
     required this.lastName,
-    required this.userId,
+    this.studentFile,
     required this.dni,
     required this.phone,
     required this.address,
-    required this.email,
-    required this.password,
-    required this.passwordConfirm,
+    this.email,
+    this.password,
+    this.passwordConfirm,
     required this.contactName,
     required this.contactLastName,
     required this.contactPhone,
-    this.image,
+    this.photoUser,
     this.notificationToken,
     this.createdAt,
     this.updatedAt,
@@ -42,40 +42,39 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
+    id: json["idUser"],
     name: json["name"],
-    lastName: json["last_name"],
-    userId: json["user_id"],
-    dni: json["dni"],
-    phone: json["phone"],
+    lastName: json["lastName"],
+    studentFile: json["studentFile"],
+    dni: json["dni"] is String ? int.parse(json["dni"]) : json["dni"],
+    phone: json["phone"] is String ? int.parse(json["phone"]) : json["phone"],
     address: json["address"],
     email: json["email"],
-    password: json['password'],
-    passwordConfirm: json['password_confirm'],
-    contactName: json["contact_name"],
-    contactLastName: json["contact_last_name"],
-    contactPhone: json["contact_phone"],
-    image: json["image"],
-    notificationToken: json["notification_token"],
+    contactName: json["contactName"],
+    contactLastName: json["contactLastName"],
+    contactPhone: json["contactPhone"] is String ? int.parse(json["contactPhone"]) : json["contactPhone"],
+    // photoUser: json["photoUser"],
+    // notificationToken: json["notification_token"],
     roles: json["roles"] != null ? List<Role>.from(json["roles"].map((x) => Role.fromJson(x))) : [],
   );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
+    // 'idUser': id,
     'name': name,
-    'last_name': lastName,
-    'user_id': userId,
+    'lastName': lastName,
+    'studentFile': studentFile,
     'dni': dni,
     'phone': phone,
     'address': address,
     'email': email,
     'password': password,
-    'password_confirm': passwordConfirm,
-    'contact_name': contactName,
-    'contact_last_name': contactLastName,
-    'contact_phone': contactPhone,
-    'image': image,
-    'notification_token': notificationToken,
+    'contactName': contactName,
+    'contactLastName': contactLastName,
+    'contactPhone': contactPhone,
+    // 'photoUser': photoUser,
+    // 'notification_token': notificationToken,
+    // 'created_at': createdAt?.toIso8601String(),
+    // 'updated_at': updatedAt?.toIso8601String(),
     'roles': roles != null ? List<dynamic>.from(roles!.map((x) => x.toJson())) : [],
   };
 }

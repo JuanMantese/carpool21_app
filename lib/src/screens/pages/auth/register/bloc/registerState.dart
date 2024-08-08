@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 class RegisterState extends Equatable {
 
   // Register Form - Use GlobalKey
-  final GlobalKey<FormState>? formKey;
+  final GlobalKey<FormState>? formKeyRegister;
   final BlocFormItem name;
   final BlocFormItem lastName;
-  final BlocFormItem userId;
+  final BlocFormItem studentFile;
   final BlocFormItem dni;
   final BlocFormItem phone;
   final BlocFormItem address;
@@ -24,27 +24,27 @@ class RegisterState extends Equatable {
   final Resource? response;
 
   const RegisterState({
-    this.formKey,
+    this.formKeyRegister,
     this.name = const BlocFormItem(error: 'Ingresa tu nommbre'),
     this.lastName = const BlocFormItem(error: 'Ingresa tu apellido'),
-    this.userId = const BlocFormItem(error: 'Ingresa tu Legajo de Sigo 21'),
+    this.studentFile = const BlocFormItem(error: 'Ingresa tu legajo de Sigo 21'),
     this.dni = const BlocFormItem(error: 'Ingresa tu D.N.I.'),
-    this.phone = const BlocFormItem(error: 'Ingresa tu Telefono'),
-    this.address = const BlocFormItem(error: 'Ingresa tu direccion'),
-    this.email = const BlocFormItem(error: 'Ingresa tu email'),
-    this.password = const BlocFormItem(error: 'Ingresa una contrasena'),
-    this.passwordConfirm = const BlocFormItem(error: 'Confirma la contrasena'),
+    this.phone = const BlocFormItem(error: 'Ingresa tu teléfono'),
+    this.address = const BlocFormItem(error: 'Ingresa tu dirección'),
+    this.email = const BlocFormItem(error: 'Ingresa tu correo electrónico'),
+    this.password = const BlocFormItem(error: 'Ingresa una contraseña'),
+    this.passwordConfirm = const BlocFormItem(error: 'Confirma la contraseña'),
     this.contactName = const BlocFormItem(error: 'Ingresa el nombre de tu contacto'),
     this.contactLastName = const BlocFormItem(error: 'Ingresa el apellido de tu contacto'),
-    this.contactPhone = const BlocFormItem(error: 'Ingresa el telefono de tu contacto'),
+    this.contactPhone = const BlocFormItem(error: 'Ingresa el teléfono de tu contacto'),
     this.response
   });
 
   RegisterState copyWith({
-    GlobalKey<FormState>? formKey,
+    GlobalKey<FormState>? formKeyRegister,
     BlocFormItem? name,
     BlocFormItem? lastName,
-    BlocFormItem? userId,
+    BlocFormItem? studentFile,
     BlocFormItem? dni,
     BlocFormItem? phone,
     BlocFormItem? address,
@@ -57,10 +57,10 @@ class RegisterState extends Equatable {
     Resource? response,
   }) {
     return RegisterState(
-      formKey: formKey,
+      formKeyRegister: formKeyRegister,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
-      userId: userId ?? this.userId,
+      studentFile: studentFile ?? this.studentFile,
       dni: dni ?? this.dni,
       phone: phone ?? this.phone,
       address: address ?? this.address,
@@ -78,19 +78,19 @@ class RegisterState extends Equatable {
   toUser() => User(
     name: name.value, 
     lastName: lastName.value, 
-    userId: userId.value, 
-    dni: dni.value, 
-    phone: phone.value, 
+    studentFile: studentFile.value, 
+    dni: int.tryParse(dni.value) ?? 0, 
+    phone: int.tryParse(phone.value) ?? 0, 
     address: address.value, 
     email: email.value, 
     password: password.value, 
     passwordConfirm: passwordConfirm.value, 
     contactName: contactName.value, 
     contactLastName: contactLastName.value, 
-    contactPhone: contactPhone.value
+    contactPhone: int.tryParse(contactPhone.value) ?? 0
   );
 
   @override
-  List<Object?> get props => [name, lastName, userId, dni, phone, address, email, password, passwordConfirm, contactName, contactLastName, contactPhone, response];
+  List<Object?> get props => [name, lastName, studentFile, dni, phone, address, email, password, passwordConfirm, contactName, contactLastName, contactPhone, response];
 
 }

@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   
   AuthUseCases authUseCases;
-  final formKey = GlobalKey<FormState>();
+  final formKeyRegister = GlobalKey<FormState>();
 
   // constructor
   RegisterBloc(
@@ -18,7 +18,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   super(const RegisterState()) {
     
     on<RegisterInitEvent>((event, emit) {
-      emit(state.copyWith(formKey: formKey));
+      emit(state.copyWith(formKeyRegister: formKeyRegister));
     });
 
     on<NameChanged>((event, emit) {
@@ -26,9 +26,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           name: BlocFormItem(
             value: event.nameInput.value,
-            error: event.nameInput.value.isEmpty ? 'Ingresa tu nombre' : null
+            error: event.nameInput.value.isEmpty ? 'Ingresá tu nombre' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -38,21 +38,21 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           lastName: BlocFormItem(
             value: event.lastNameInput.value,
-            error: event.lastNameInput.value.isEmpty ? 'Ingresa tu apellido' : null
+            error: event.lastNameInput.value.isEmpty ? 'Ingresá tu apellido' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
 
-    on<UserIdChanged>((event, emit) {
+    on<StudentFileInputChanged>((event, emit) {
       emit(
         state.copyWith(
-          userId: BlocFormItem(
-            value: event.userIdInput.value,
-            error: event.userIdInput.value.isEmpty ? 'Ingresa tu legajo de Siglo 21' : null
+          studentFile: BlocFormItem(
+            value: event.studentFileInput.value,
+            error: event.studentFileInput.value.isEmpty ? 'Ingresá tu legajo de Siglo 21' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -62,9 +62,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           dni: BlocFormItem(
             value: event.dniInput.value,
-            error: event.dniInput.value.isEmpty ? 'Ingresa tu D.N.I.' : null
+            error: event.dniInput.value.isEmpty 
+              ? 'Ingresá tu D.N.I.'
+              : event.dniInput.value.length != 8
+                ? 'Ingresá tu D.N.I. con 8 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -74,9 +77,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           phone: BlocFormItem(
             value: event.phoneInput.value,
-            error: event.phoneInput.value.isEmpty ? 'Ingresa tu telefono' : null
+            error: event.phoneInput.value.isEmpty 
+              ? 'Ingresá tu telefono'
+              : event.phoneInput.value.length != 10 
+                ? 'Ingresá tu teléfono con 10 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -86,9 +92,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           address: BlocFormItem(
             value: event.addressInput.value,
-            error: event.addressInput.value.isEmpty ? 'Ingresa tu direccion' : null
+            error: event.addressInput.value.isEmpty ? 'Ingresá tu direccion' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -98,9 +104,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           email: BlocFormItem(
             value: event.emailInput.value,
-            error: event.emailInput.value.isEmpty ? 'Ingresa tu email' : null
+            error: event.emailInput.value.isEmpty ? 'Ingresá tu email' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -111,29 +117,30 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           password: BlocFormItem(
             value: event.passwordInput.value,
             error: event.passwordInput.value.isEmpty 
-              ? 'Ingresa una contrasena'
-              : event.passwordInput.value.length < 6
-                ? 'Minimo 6 caracteres' : null 
+              ? 'Ingresá una contrasena'
+              : event.passwordInput.value.length < 8
+                ? 'Mínimo 8 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
 
     on<PasswordConfirmChanged>((event, emit) {
+      
       emit(
         state.copyWith(
           passwordConfirm: BlocFormItem(
             value: event.passwordConfirmInput.value,
             error: event.passwordConfirmInput.value.isEmpty 
-              ? 'Confirma la contrasena'
-              : event.passwordConfirmInput.value.length < 6
-                ? 'Minimo 6 caracteres' 
+              ? 'Confirmá la contraseña'
+              : event.passwordConfirmInput.value.length < 8
+                ? 'Mínimo 8 caracteres' 
                 : event.passwordConfirmInput.value != state.password.value 
-                  ? 'La contrasena no coincide'
+                  ? 'La contraseña no coincide'
                   : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -143,9 +150,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           contactName: BlocFormItem(
             value: event.contactNameInput.value,
-            error: event.contactNameInput.value.isEmpty ? 'Ingresa el nombre de tu contacto' : null
+            error: event.contactNameInput.value.isEmpty ? 'Ingresá el nombre de tu contacto' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -155,9 +162,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           contactLastName: BlocFormItem(
             value: event.contactLastNameInput.value,
-            error: event.contactLastNameInput.value.isEmpty ? 'Ingresa el apellido de tu contacto' : null
+            error: event.contactLastNameInput.value.isEmpty ? 'Ingresá el apellido de tu contacto' : null
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
@@ -167,20 +174,23 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         state.copyWith(
           contactPhone: BlocFormItem(
             value: event.contactPhoneInput.value,
-            error: event.contactPhoneInput.value.isEmpty ? 'Ingresa el telefono de tu contacto' : null
+            error: event.contactPhoneInput.value.isEmpty 
+              ? 'Ingresá el telefono de tu contacto'
+              : event.contactPhoneInput.value.length != 10 
+                ? 'Ingresá el teléfono con 10 caracteres' : null 
           ),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
 
     on<FormSubmit>((event, emit) async {
-      print('Nombe: ${ state.name.value }');
+      print('Nombre: ${ state.name.value }');
       print('Apellido: ${ state.lastName.value }');
-      print('Legajo: ${ state.userId.value }');
+      print('Legajo: ${ state.studentFile.value }');
       print('DNI: ${ state.dni.value }');      
-      print('Telefono: ${ state.phone.value }');
-      print('Direccion: ${ state.address.value }');
+      print('Teléfono: ${ state.phone.value }');
+      print('Dirección: ${ state.address.value }');
       print('Email: ${ state.email.value }');
       print('Password: ${ state.password.value }');
       print('Password Confirm: ${ state.passwordConfirm.value }');
@@ -188,11 +198,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       print('Contact last name: ${ state.contactLastName.value }');
       print('Contact phone: ${ state.contactPhone.value }');
 
+      int? dni = int.tryParse(state.dni.value);
+      int? phone = int.tryParse(state.phone.value);
+      int? contactPhone = int.tryParse(state.contactPhone.value);
+
       // Issuance of status change - Loading
       emit(
         state.copyWith(
           response: Loading(),
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
 
@@ -203,13 +217,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(
         state.copyWith(
           response: response,
-          formKey: formKey
+          formKeyRegister: formKeyRegister
         )
       );
     });
 
     on<FormReset>((event, emit) {
-      state.formKey?.currentState?.reset();
+      state.formKeyRegister?.currentState?.reset();
     });
 
     on<SaveUserSession>((event, emit) async {

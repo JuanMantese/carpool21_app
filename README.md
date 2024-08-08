@@ -1,7 +1,7 @@
 # Carpool 21 - App
 
 <p align="center">
-  <img alt="carpool_logo" src="./lib/assets/img/carpool_logo.jpeg" width="150" />
+  <img alt="carpool_logo" src="./lib/assets/img/logo-carpool21.png" width="150" />
 </p>
 
 A new Flutter Application for students at Universidad Empresarial Siglo 21.
@@ -14,14 +14,14 @@ Developed by:
     DNI: 43272208
   - Franco Jara
     
-    Legajo: SOF
+    Legajo: SOF01681
 
-    DNI:
+    DNI: 36617205
   - Franco Apostoli
     
-    Legajo: SOF
+    Legajo: SOF01654
     
-    DNI:
+    DNI: 44762769
 
 ## Getting Started
 
@@ -30,6 +30,13 @@ Developed by:
 - XCode (MacOS)
 - Cocoapods (MaxOS)
 - Android SDK
+
+### Enviroments (Local, Dev, Prod)
+- API_URL=https://api.dev.example.com
+- DEBUG=true
+- API_GOOGLE_MAPS=API_KEY
+
+Es necesario crear los 3 archivos para manejar las variables de entorno, sino el proyecto no levanta
 
 This project is a starting point for a Flutter application.
 

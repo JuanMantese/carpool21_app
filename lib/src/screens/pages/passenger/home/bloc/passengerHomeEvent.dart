@@ -1,3 +1,5 @@
+import 'package:carpool_21_app/src/data/dataSource/remote/services/usersService.dart';
+
 abstract class PassengerHomeEvent {}
 
 // Navegando entre las paginas
@@ -7,3 +9,11 @@ class ChangeDrawerPage extends PassengerHomeEvent {
 }
 
 class Logout extends PassengerHomeEvent {}
+
+class GetUserInfo extends PassengerHomeEvent {
+  final UsersService userService;
+
+  GetUserInfo(this.userService);
+}
+
+class GetCurrentReserve extends PassengerHomeEvent {} 

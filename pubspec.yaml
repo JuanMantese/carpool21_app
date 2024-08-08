@@ -30,10 +30,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  intl: ^0.17.0
   cupertino_icons: ^1.0.6
+  another_flushbar: ^1.12.30
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
   http: ^1.2.1
@@ -41,6 +44,15 @@ dependencies:
   get_it: ^7.7.0
   fluttertoast: ^8.2.5
   shared_preferences: ^2.2.3
+  image_picker: ^1.1.1
+  path: ^1.9.0
+  http_parser: ^4.0.2
+  google_maps_flutter: ^2.6.1
+  google_places_flutter: ^2.0.8
+  geocoding: ^3.0.0
+  geolocator: ^12.0.0
+  flutter_polyline_points: ^2.0.0
+  socket_io_client: ^2.0.3+1
 
 flutter_native_splash:
   image: lib/assets/img/s21_logo.png
@@ -78,6 +90,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - .env.local
+    - .env.develop
+    - .env.production
     - lib/assets/img/
   # assets:
   #   - images/a_dot_burr.jpeg

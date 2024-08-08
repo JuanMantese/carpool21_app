@@ -6,27 +6,28 @@ import 'package:flutter/material.dart';
 class LoginState extends Equatable {
 
   // Screen with Form - Use GlobalKey
-  final GlobalKey<FormState>? formKey;
+  final GlobalKey<FormState>? formKeyLogin;
   final BlocFormItem email;
   final BlocFormItem password;
   final Resource? response;
 
   const LoginState({
-    this.formKey,
+    this.formKeyLogin,
     this.email = const BlocFormItem(error: 'Ingresa tu email'),
     this.password = const BlocFormItem(error: 'Ingresa tu contrasena'),
     this.response,
   });
 
+  // Instance of the LoginState class
   LoginState copyWith({
-    GlobalKey<FormState>? formKey,
+    GlobalKey<FormState>? formKeyLogin,
     BlocFormItem? email,
     BlocFormItem? password,
     Resource? response,
   }) {
     return LoginState(
       // Set the data that the user uploads. In case of null, I assign the default value
-      formKey: formKey,
+      formKeyLogin: formKeyLogin,
       email: email ?? this.email,
       password: password ?? this.password,
       response: response

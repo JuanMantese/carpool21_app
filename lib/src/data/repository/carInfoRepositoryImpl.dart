@@ -12,7 +12,7 @@ class CarInfoRepositoryImpl implements CarInfoRepository{
   CarInfoRepositoryImpl(this.carInfoService);
 
   @override
-  Future<Resource<bool>> create(CarInfo carInfo) {
+  Future<Resource<CarInfo>> create(CarInfo carInfo) {
     return carInfoService.create(carInfo);
   }
 

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/domain/models/driverTripRequest.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/car-info/carInfoUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
@@ -110,7 +111,7 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
       print('Asientos: ${state.availableSeats}');
       print('Observaciones: ${state.tripObservations}');
 
-      Resource<Map<String, dynamic>> response = await driverTripRequestsUseCases.createTripRequestUseCase.run(
+      Success<TripDetail> response = await driverTripRequestsUseCases.createTripRequestUseCase.run(
         DriverTripRequest(
           vehicleId: state.selectedVehicle!,
           pickupNeighborhood: state.pickUpNeighborhood,
@@ -123,7 +124,7 @@ class CreateTripBloc extends Bloc<CreateTripEvent, CreateTripState> {
           destinationLng: state.destinationLatLng!.longitude,
           availableSeats: state.availableSeats!,
           departureTime: state.departureTime!, // '2024-07-06T21:00:00Z' Format
-          compensation: 1000,
+          // compensation: 1000,
           observations: state.tripObservations
         )
       );

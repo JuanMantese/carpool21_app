@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ReserveDetailState extends Equatable {
 
-  final TripDetail? reserveDetail;
+  final ReserveDetail? reserveDetail;
   final Resource? response;
   
   final Completer<GoogleMapController>? controller;
@@ -33,7 +34,7 @@ class ReserveDetailState extends Equatable {
   });
 
   ReserveDetailState copyWith({
-    TripDetail? reserveDetail,
+    ReserveDetail? reserveDetail,
     Resource? response,
 
     Completer<GoogleMapController>? controller,

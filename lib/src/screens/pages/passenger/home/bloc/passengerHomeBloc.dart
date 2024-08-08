@@ -1,10 +1,13 @@
 import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
+import 'package:carpool_21_app/src/domain/models/reservesAll.dart';
 import 'package:carpool_21_app/src/domain/models/role.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/models/user.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/home/bloc/passengerHomeState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,14 +15,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
 
   AuthUseCases authUseCases;
+  ReserveUseCases reserveUseCases;
 
-  PassengerHomeBloc(this.authUseCases): super(PassengerHomeState()) {
+  PassengerHomeBloc(this.authUseCases, this.reserveUseCases): super(PassengerHomeState()) {
     on<ChangeDrawerPage>((event, emit) {
       emit(
         state.copyWith(
           pageIndex: event.pageIndex, 
         )
       );
+
+      // final currentState = state;
+      // if (currentState is PassengerHomeSuccess) {
+      //   emit(currentState.copyWith(pageIndex: event.pageIndex));
+      // } else {
+      //   emit(PassengerHomeInitial());
+      // }
     });
 
     // on<Logout>((event, emit) async {
@@ -30,7 +41,7 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
     // Usuario de prueba - Logica para obtener todos los datos del usuario
     void _setTestUser(GetUserInfo event, Emitter<PassengerHomeState> emit) {
       final User testUser = User(
-        id: 1,
+        idUser: 1,
         name: 'Juan',
         lastName: 'Mantese',
         studentFile: 'SOF01669',
@@ -45,8 +56,6 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         contactPhone: 3513751312,
         photoUser: 'lib/assets/img/profile-icon.png',
         notificationToken: null,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
         roles: [
           Role(
             idRole: "ADMIN",
@@ -61,11 +70,11 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         ],
       );
 
-      emit(state.copyWith(
-        roles: testUser.roles?.map((role) => role).toList(),
-        currentUser: testUser,
-        userService: event.userService, 
-      ));
+      // emit(state.copyWith(
+      //   roles: testUser.roles?.map((role) => role).toList(),
+      //   currentUser: testUser,
+      //   userService: event.userService, 
+      // ));
     }
 
     void _setCurrentReserve(GetCurrentReserve event, Emitter<PassengerHomeState> emit) {
@@ -100,26 +109,34 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
           year: 2023,
         ),
         observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
-        reserves: [
-          Reserve(
-            idTrip: 1,
-            idPassenger: 1,
-            name: 'Franco Jose',
-            lastName: 'Jara',
+        reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
           ),
-          Reserve(
-            idTrip: 1,
-            idPassenger: 2,
-            name: 'Franco',
-            lastName: 'Apostoli',
+          Reservations(
+            idReservation: 2, 
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 2,
+              name: 'Franco', 
+              lastName: 'Apostoli',
+              phone: '3517872662'
+            )
           ),
-        ],
+        ]
       );
 
       print('Cambiando los datos de la reserva');
-      emit(state.copyWith(
-        currentReserve: exampleCurrentReserve,
-      ));
+      // emit(state.copyWith(
+      //   currentReserve: exampleCurrentReserve,
+      // ));
     }
 
 
@@ -129,7 +146,7 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
       if (authResponse != null && authResponse.user != null) {
         print('Datos del usuario obtenidos - Passenger');
         print(authResponse.toJson());
-        List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+        List<Role> roles = authResponse.user!.roles?.map((role) => role).toList() ?? [];
         print(roles[0]);
         emit(
           state.copyWith(
@@ -142,23 +159,64 @@ class PassengerHomeBloc extends Bloc<PassengerHomeEvent, PassengerHomeState> {
         print('No entro en GetUserInfo - Passenger');
         _setTestUser(event, emit);
       }
+
+      // emit(PassengerHomeLoading());
+
+      // try {
+      //   AuthResponse? authResponse = await authUseCases.getUserSession.run();
+      //   if (authResponse != null && authResponse.user != null) {
+      //     List<Role> roles = authResponse.user!.roles?.map((role) => role).toList() ?? [];
+      //     emit(PassengerHomeSuccess(
+      //       roles: roles,
+      //       currentUser: authResponse.user,
+      //       userService: event.userService,
+      //     ));
+      //   } else {
+      //     emit(PassengerHomeError('Failed to get user info'));
+      //   }
+      // } catch (e) {
+      //   emit(PassengerHomeError(e.toString()));
+      // }
     });
 
-    on<GetCurrentReserve>((event, emit) {
-      print('GetCurrentReserve');
+    on<GetCurrentReserve>((event, emit) async {
+      print('GetCurrentReserve Home Passenger ---------------');
 
       // Recuperando las reservas del Pasajero
-      // Resource<ReservesAll> response = await reserveUseCases.getAllReservesUseCase.run();
-      // print('Response - $response');
-      // emit(
-      //   state.copyWith(
-      //     response: response,
-      //   )
-      // );
+      Resource reservesAllresponse = await reserveUseCases.getAllReservesUseCase.run();
+      print('Response Reserves All: $reservesAllresponse');
 
-      // DELETE - Testeando con un objeto de prueba
-      print('Usando el Array de prueba');
-      _setCurrentReserve(event, emit);
+      if (reservesAllresponse is Success) {
+        ReservesAll reservesAll = reservesAllresponse.data;
+        print(reservesAll.toJson());
+        emit(
+          state.copyWith(
+            reservesAll: reservesAll,
+          )
+        );
+      } else {
+        // DELETE - Testeando con un objeto de prueba
+        print('Usando el Array de prueba');
+        // _setCurrentReserve(event, emit);
+      }
+
+      // emit(PassengerHomeLoading());
+      // try {
+      //   Resource reservesAllresponse = await reserveUseCases.getAllReservesUseCase.run();
+      //   if (reservesAllresponse is Success) {
+      //     ReservesAll reservesAll = reservesAllresponse.data;
+      //     final currentState = state;
+      //     if (currentState is PassengerHomeSuccess) {
+      //       emit(currentState.copyWith(reservesAll: reservesAll));
+      //     } else {
+      //       emit(PassengerHomeSuccess(reservesAll: reservesAll));
+      //     }
+      //   } else {
+      //     emit(PassengerHomeError('Failed to get reserves'));
+      //   }
+      // } catch (e) {
+      //   emit(PassengerHomeError(e.toString()));
+      // }
     });
   }
 }

@@ -1,12 +1,14 @@
-import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailState.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class ReserveDetailContent extends StatelessWidget {
 
-  TripDetail? reserveDetail;
+  ReserveDetail? reserveDetail;
   ReserveDetailState state;
   
   ReserveDetailContent(this.reserveDetail, this.state, {super.key});
@@ -14,7 +16,6 @@ class ReserveDetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('ReserveDetailContent');
-    print(reserveDetail?.reserves?[0].name);
 
     return Stack(
       children: [
@@ -46,7 +47,8 @@ class ReserveDetailContent extends StatelessWidget {
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (Route<dynamic> route) => false,);
+            // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (Route<dynamic> route) => false,);
+            context.go('/passenger/0');
           },
         ),
       ],
@@ -134,8 +136,14 @@ class ReserveDetailContent extends StatelessWidget {
   }
 
   Widget _buildTripInfoMap(BuildContext context) {
+    print(reserveDetail!.tripRequest.timeDifference);
+    final formattedTime = DateFormat.Hm().format(DateTime.parse(reserveDetail!.tripRequest.departureTime.toString()));
+
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(
+        top: 10.0,
+        bottom: 10.0
+      ),
       child: Row(
         children: [
           Expanded(
@@ -149,33 +157,33 @@ class ReserveDetailContent extends StatelessWidget {
                     // color: Color(0xFF3b82f6),
                   ),
                   title: Text(
-                    reserveDetail != null ? reserveDetail!.departureTime : '',
+                    reserveDetail != null ? formattedTime : '',
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
                     color: Colors.black
                   ),
                 ),
-                ListTile(
-                  leading: const Icon(
-                    Icons.person_rounded,
-                    // color: Color(0xFF3b82f6),
-                  ),
-                  title: Text(
-                    reserveDetail != null ? reserveDetail!.timeDifference.toString() : '',
-                  ),
-                  titleTextStyle: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black
-                  ),
-                ),
+                // ListTile(
+                //   leading: const Icon(
+                //     Icons.person_rounded,
+                //     // color: Color(0xFF3b82f6),
+                //   ),
+                //   title: Text(
+                //     reserveDetail != null ? reserveDetail!.tripRequest.timeDifference.toString() : '',
+                //   ),
+                //   titleTextStyle: const TextStyle(
+                //     fontSize: 14,
+                //     color: Colors.black
+                //   ),
+                // ),
                 ListTile(
                   leading: const Icon(
                     Icons.attach_money_rounded,
                     // color: Color(0xFFdc2627),
                   ),
                   title: Text(
-                    reserveDetail != null ? reserveDetail!.compensation.toString() : ''
+                    reserveDetail != null ? reserveDetail!.tripRequest.compensation.toString() : ''
                   ),
                   titleTextStyle: const TextStyle(
                     fontSize: 14,
@@ -263,7 +271,7 @@ class ReserveDetailContent extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'Observaciones Description',
+                'Encuentro en acceso al edificio Experimenta 21',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black54,
@@ -305,17 +313,17 @@ class ReserveDetailContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        reserveDetail?.vehicle?.brand ?? '',
+                        reserveDetail?.tripRequest.vehicle?.brand ?? '',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text('Patente: ${reserveDetail?.vehicle?.patent ?? ''}'),
-                      Text('Año: ${reserveDetail?.vehicle?.year ?? ''}'),
-                      Text('Color: ${reserveDetail?.vehicle?.color ?? ''}'),
-                      Text('Cédula Verde: ${reserveDetail?.vehicle?.nroGreenCard ?? ''}'),
+                      Text('Patente: ${reserveDetail?.tripRequest.vehicle?.patent ?? ''}'),
+                      Text('Año: ${reserveDetail?.tripRequest.vehicle?.year ?? ''}'),
+                      Text('Color: ${reserveDetail?.tripRequest.vehicle?.color ?? ''}'),
+                      // Text('Cédula Verde: ${reserveDetail?.tripRequest.vehicle?.nroGreenCard ?? ''}'),
                     ],
                   ),
                 ),
@@ -350,14 +358,14 @@ class ReserveDetailContent extends StatelessWidget {
                 color: Color(0xFF3b82f6),
               ),
               title: Text(
-                reserveDetail != null ? reserveDetail!.pickupNeighborhood : '',
+                reserveDetail != null ? reserveDetail!.tripRequest.pickupNeighborhood : '',
               ),
               titleTextStyle: const TextStyle(
                 fontSize: 14,
                 color: Colors.black
               ),
               subtitle: Text(
-                reserveDetail != null ? reserveDetail!.pickupText : '',
+                reserveDetail != null ? reserveDetail!.tripRequest.pickupText : '',
               ),
             ),
             ListTile(
@@ -366,14 +374,14 @@ class ReserveDetailContent extends StatelessWidget {
                 color: Color(0xFFdc2627),
               ),
               title: Text(
-                reserveDetail != null ? reserveDetail!.destinationNeighborhood : ''
+                reserveDetail != null ? reserveDetail!.tripRequest.destinationNeighborhood : ''
               ),
               titleTextStyle: const TextStyle(
                 fontSize: 14,
                 color: Colors.black
               ),
               subtitle: Text(
-                reserveDetail != null ? reserveDetail!.destinationText : ''
+                reserveDetail != null ? reserveDetail!.tripRequest.destinationText : ''
               ),
             ),
           ],
@@ -387,9 +395,7 @@ class ReserveDetailContent extends StatelessWidget {
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom,),
       child: Center(
         child: ElevatedButton(
-          onPressed: () {
-            // Navigator.pushNamed(context, '/car/register');
-          },
+          onPressed: () {},
           style: OutlinedButton.styleFrom(
             fixedSize: Size(180, 50),
             padding: const EdgeInsets.only(

@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/timeAndDistanceValue.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/bloc/tripAvailableDetailEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripAvailableDetail/bloc/tripAvailableDetailState.dart';
@@ -14,9 +17,10 @@ class TripAvailableDetailBloc extends Bloc<TripAvailableDetailEvent, TripAvailab
 
   GeolocationUseCases geolocationUseCases;
   DriverTripRequestsUseCases driverTripRequestsUseCases;
+  ReserveUseCases reserveUseCases;
   // AuthUseCases authUseCases;
   
-  TripAvailableDetailBloc(this.geolocationUseCases, this.driverTripRequestsUseCases): super(TripAvailableDetailState()) {
+  TripAvailableDetailBloc(this.geolocationUseCases, this.driverTripRequestsUseCases, this.reserveUseCases): super(TripAvailableDetailState()) {
   
     on<TripAvailableDetailInitEvent>((event, emit) async {
       Completer<GoogleMapController> controller = Completer<GoogleMapController>();
@@ -28,6 +32,8 @@ class TripAvailableDetailBloc extends Bloc<TripAvailableDetailEvent, TripAvailab
           destinationText: event.destinationText,
           destinationLatLng: event.destinationLatLng,
           departureTime: event.departureTime,
+          compensation: event.compensation,
+          driver: event.driver,
           controller: controller,
         )
       );
@@ -107,21 +113,44 @@ class TripAvailableDetailBloc extends Bloc<TripAvailableDetailEvent, TripAvailab
     });
 
     // Trayendo los datos: Teimpo estimado del trayecto y Distancia del punto de origen al punto de destino
-    on<GetTimeAndDistanceValues>((event, emit) async {
+    // on<GetTimeAndDistanceValues>((event, emit) async {
+    //   emit(
+    //     state.copyWith(
+    //       responseTimeAndDistance: Loading()
+    //     )
+    //   );
+    //   Resource<TimeAndDistanceValues> response = await driverTripRequestsUseCases.getTimeAndDistance.run(
+    //     state.pickUpLatLng!.latitude,
+    //     state.pickUpLatLng!.longitude,
+    //     state.destinationLatLng!.latitude,
+    //     state.destinationLatLng!.longitude,
+    //   );
+    //   emit(
+    //     state.copyWith(
+    //       responseTimeAndDistance: response
+    //     )
+    //   );
+    // });
+
+    on<CreateReserve>((event, emit) async {
+      ReserveRequest reserveRequest = ReserveRequest(
+        tripRequestId: event.tripRequestId, 
+        isPaid: true
+      );
+
       emit(
         state.copyWith(
-          responseTimeAndDistance: Loading()
+          responseReserve: Loading()
         )
       );
-      Resource<TimeAndDistanceValues> response = await driverTripRequestsUseCases.getTimeAndDistance.run(
-        state.pickUpLatLng!.latitude,
-        state.pickUpLatLng!.longitude,
-        state.destinationLatLng!.latitude,
-        state.destinationLatLng!.longitude,
-      );
+
+      Resource<ReserveDetail> reserveDetailRes = await reserveUseCases.createReserve.run(reserveRequest);
+      print('reserveDetailRes');
+      print(reserveDetailRes);
+
       emit(
         state.copyWith(
-          responseTimeAndDistance: response
+          responseReserve: reserveDetailRes
         )
       );
     });

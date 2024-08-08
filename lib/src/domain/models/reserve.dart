@@ -1,27 +1,19 @@
-class Reserve {
-  int idTrip;
-  int idPassenger;
-  String name;
-  String lastName;
+class ReserveRequest {
+  int tripRequestId;
+  bool isPaid;
 
-  Reserve({
-    required this.idTrip,
-    required this.idPassenger,
-    required this.name,
-    required this.lastName,
+  ReserveRequest({
+    required this.tripRequestId,
+    required this.isPaid,
   });
 
-  factory Reserve.fromJson(Map<String, dynamic> json) => Reserve(
-    idTrip: json["idTrip"],
-    idPassenger: json["idPassenger"],
-    name: json["name"],
-    lastName: json["lastName"],
+  factory ReserveRequest.fromJson(Map<String, dynamic> json) => ReserveRequest(
+    tripRequestId: json["tripRequestId"],
+    isPaid: json["isPaid"],
   );
 
   Map<String, dynamic> toJson() => {
-    'idTrip': idTrip,
-    'idPassenger': idPassenger,
-    'name': name,
-    'lastName': lastName,
+    'tripRequestId': tripRequestId,
+    'isPaid': isPaid,
   };
 }

@@ -7,23 +7,27 @@ AuthResponse authResponseFromJson(String str) => AuthResponse.fromJson(json.deco
 String authResponseToJson(AuthResponse data) => json.encode(data.toJson());
 
 class AuthResponse {
-  User user;
+  User? user;
   String token;
+  String refreshToken;
 
   AuthResponse({
-    required this.user,
+    this.user,
     required this.token,
+    required this.refreshToken
   });
 
   // Receives a json object and transforms it into a dynamic object
   factory AuthResponse.fromJson(Map<String, dynamic> json) => AuthResponse(
     user: User.fromJson(json["user"]),
     token: json["token"],
+    refreshToken: json?["refreshToken"] != null ? json["refreshToken"] : '',
   );
 
   // Allows access to all User information and the Session Token
   Map<String, dynamic> toJson() => {
-    "user": user.toJson(),
+    "user": user?.toJson(),
     "token": token,
+    "refreshToken": refreshToken,
   };
 }

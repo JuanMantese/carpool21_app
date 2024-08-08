@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 // ignore: must_be_immutable
 class CustomDialog extends StatelessWidget {
@@ -64,7 +65,11 @@ class CustomDialog extends StatelessWidget {
           children: [
             Expanded(
               child: ElevatedButton(
-                onPressed: onPressedSend,
+                onPressed: () {
+                  // Navigator.of(context).pop();
+                  context.pop();
+                  onPressedSend();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF00A98F),
                   side: const BorderSide(color: Color(0xFF00A98F)),
@@ -86,7 +91,8 @@ class CustomDialog extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  context.pop();
                 },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF00A98F)),

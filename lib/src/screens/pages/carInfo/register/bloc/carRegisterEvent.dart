@@ -29,12 +29,6 @@ class YearChanged extends CarRegisterEvent {
   YearChanged({ required this.yearInput }); 
 }
 
-// Input Seats Event
-class SeatsChanged extends CarRegisterEvent {
-  final BlocFormItem seatsInput;
-  SeatsChanged({ required this.seatsInput }); 
-}
-
 // Input Color Event
 class ColorChanged extends CarRegisterEvent {
   final BlocFormItem colorInput;

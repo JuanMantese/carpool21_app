@@ -10,6 +10,8 @@ import 'package:carpool_21_app/src/screens/widgets/navigation/bloc/navigationSta
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carpool_21_app/src/screens/utils/globals.dart' as globals;
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDrawer extends StatelessWidget {
 
@@ -21,7 +23,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final String currentRole = currentUser.roles!.isNotEmpty ? currentUser.roles!.first.idRole : 'unknown';
-    print('Roles: ${roles}');
+    print('Roles: ${roles.toList()}');
 
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) {
@@ -72,7 +74,8 @@ class CustomDrawer extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           context.read<NavigationBloc>().add(ChangeUserRol('PASSENGER'));
-                          Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+                          // Navigator.pushNamedAndRemoveUntil(context, '/passenger/home', (route) => false);
+                          context.go('/passenger/0');
                           globals.currentRole = 'passenger';
                         },
                         style: ElevatedButton.styleFrom(
@@ -104,19 +107,22 @@ class CustomDrawer extends StatelessWidget {
                             // Verificamos que el usuario tenga al menos 1 vehiculo registrado
                             CustomDialog(
                               context: context,
-                              title: '¡No puedes crear un viaje!',
-                              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
+                              title: '¡Acceso Denegado!',
+                              content: 'No puedes acceder al rol conductor hasta no tener 1 vehículo registrado.\n¿Deseas registrar tu vehículo?',
                               icon: Icons.warning_rounded,
                               onPressedSend: () {
-                                Navigator.of(context).pop();
-                                Navigator.pushNamed(context, '/car/register');
+                                // Navigator.pushNamed(context, '/car/register', arguments: '/passenger/home');
+                                context.push('/car/list/register', extra: {
+                                  'originPage': '/passenger/0',
+                                });
                               },
                               textSendBtn: 'Registrar',
                               textCancelBtn: 'Cancelar',
                             );
                           } else {
                             context.read<NavigationBloc>().add(ChangeUserRol('DRIVER'));
-                            Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false);
+                            // Navigator.pushNamedAndRemoveUntil(context, '/driver/home', (route) => false);
+                            context.go('/driver/0');
                             globals.currentRole = 'driver';
                           }
                         },
@@ -210,74 +216,89 @@ class CustomDrawer extends StatelessWidget {
           leading: const Icon(Icons.account_circle_outlined, color: Color(0xFF006D59)),
           title: const Text('Perfil'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/profile');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/profile');
+            context.pop();
+            context.push('/profile');
           },
         ),
         ListTile(
           leading: const Icon(Icons.payments_rounded, color: Color(0xFF006D59)),
           title: const Text('Métodos de pago'),
           onTap: () {
-            Navigator.pop(context);
-            // Navigator.pushNamed(context, '/metodos-pago');
+            context.pop();
+            // context.push('/metodos-pago');
           },
         ),
         ListTile(
           leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
           title: const Text('Registrar Vehículo'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/car/register');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/car/register');
+            context.pop();
+            context.push('/car/list/register', extra: {
+              'originPage': '/passenger/0',
+            });
           },
         ),
         ListTile(
           leading: const Icon(Icons.perm_phone_msg, color: Color(0xFF006D59)),
           title: const Text('Contacto'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/contact');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/contact');
+            context.pop();
+            context.push('/contact');
           },
         ),
         ListTile(
           leading: const Icon(Icons.article, color: Color(0xFF006D59)),
           title: const Text('Tips'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/tips');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/tips');
+            context.pop();
+            context.push('/tips');
           },
         ),
-        ListTile(
-          title: const Text('Maps'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/finder');
-          },
-        ),
-        ListTile(
-          title: const Text('Modal Trip'),
-          onTap: () {
-            CustomDialogTrip(
-              context: context,
-            );
-          },
-        ),
-        ListTile(
-          title: const Text('Trip Detail'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/trip/detail');
-          },
-        ),
+        // ListTile(
+        //   title: const Text('Maps'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/finder');
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Modal Trip'),
+        //   onTap: () {
+        //     CustomDialogTrip(
+        //       context: context,
+        //     );
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Trip Detail'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/trip/detail');
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.power_settings_new, color: Color(0xFF006D59)),
           title: const Text('Cerrar Sesion'),
           onTap: () {
             context.read<NavigationBloc>().add(Logout());
-            Navigator.pushAndRemoveUntil(
-              context, 
-              MaterialPageRoute(builder: ((context) => const CarPool21())), 
-              (route) => false
-            );
+            context.go('/login');
+
+            // Navigator.pushAndRemoveUntil(
+            //   context, 
+            //   MaterialPageRoute(builder: ((context) => const CarPool21())), 
+            //   (route) => false
+            // );
+
+            // REVISAR
+            // navigatorKey.currentState!.pushNamedAndRemoveUntil('/login', (route) => false);
           },
         ),
       ],
@@ -292,82 +313,95 @@ class CustomDrawer extends StatelessWidget {
           leading: const Icon(Icons.account_circle_outlined, color: Color(0xFF006D59)),
           title: const Text('Perfil'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/profile');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/profile');
+            context.pop();
+            context.push('/profile');
           },
         ),
         ListTile(
           leading: const Icon(Icons.directions_car_rounded, color: Color(0xFF006D59)),
           title: const Text('Vehículos'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/car/list');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/car/list');
+            context.pop();
+            context.push('/car/list');
           },
         ),
         ListTile(
           leading: const Icon(Icons.perm_phone_msg, color: Color(0xFF006D59)),
           title: const Text('Contacto'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/contact');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/contact');
+            context.pop();
+            // context.push('/contact');
           },
         ),
         ListTile(
           leading: const Icon(Icons.article, color: Color(0xFF006D59)),
           title: const Text('Tips'),
           onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/tips');
+            // Navigator.pop(context);
+            // Navigator.pushNamed(context, '/tips');
+            context.pop();
+            context.push('/tips');
           },
         ),
-        ListTile(
-          title: const Text('Maps'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/finder');
-          },
-        ),
-        ListTile(
-          title: const Text('MapLocation'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/driver/location');
-          },
-        ),
-        ListTile(
-          title: const Text('Modal'),
-          onTap: () {
-            CustomDialog(
-              context: context,
-              title: '¡No puedes crear un viaje!',
-              content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
-              icon: Icons.warning_rounded,
-              onPressedSend: () {
-                Navigator.of(context).pop();
-              },
-              textSendBtn: 'Registrar',
-              textCancelBtn: 'Cancelar',
-            );
-          },
-        ),
-        ListTile(
-          title: const Text('Modal Trip'),
-          onTap: () {
-            CustomDialogTrip(
-              context: context,
-            );
-          },
-        ),
+        // ListTile(
+        //   title: const Text('Maps'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/finder');
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('MapLocation'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(context, '/driver/location');
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Modal'),
+        //   onTap: () {
+        //     CustomDialog(
+        //       context: context,
+        //       title: '¡No puedes crear un viaje!',
+        //       content: 'Debes tener al menos 1 vehículo registrado para poder ofrecer viajes.\n¿Deseas registrar tu vehículo?',
+        //       icon: Icons.warning_rounded,
+        //       onPressedSend: () {
+        //         Navigator.of(context).pop();
+        //       },
+        //       textSendBtn: 'Registrar',
+        //       textCancelBtn: 'Cancelar',
+        //     );
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('Modal Trip'),
+        //   onTap: () {
+        //     CustomDialogTrip(
+        //       context: context,
+        //     );
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.power_settings_new, color: Color(0xFF006D59)),
           title: const Text('Cerrar Sesion'),
           onTap: () {
             context.read<NavigationBloc>().add(Logout());
-            Navigator.pushAndRemoveUntil(
-              context, 
-              MaterialPageRoute(builder: ((context) => const CarPool21())), 
-              (route) => false
-            );
+            context.go('/login');
+
+            // Navigator.pushAndRemoveUntil(
+            //   context, 
+            //   MaterialPageRoute(builder: ((context) => const CarPool21())), 
+            //   (route) => false
+            // );
+
+            // REVISAR
+            // navigatorKey.currentState!.pushNamedAndRemoveUntil('/login', (route) => false);
           },
         ),
       ],

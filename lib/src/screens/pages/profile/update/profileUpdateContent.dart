@@ -9,6 +9,7 @@ import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileUpdateContent extends StatelessWidget {
 
@@ -34,7 +35,8 @@ class ProfileUpdateContent extends StatelessWidget {
                   CustomIconBack(
                     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
                     onPressed: () {
-                      Navigator.pop(context);
+                      // Navigator.pop(context);
+                      context.pop();
                     },
                   ),
 
@@ -172,28 +174,6 @@ class ProfileUpdateContent extends StatelessWidget {
                 text: 'Apellido', 
                 initialValue: user?.lastName,
                 inputType: TextInputType.text
-              ),
-              CustomTextField(
-                onChanged: (text) {
-                  context.read<ProfileUpdateBloc>().add(StudentFileChanged(studentFileInput: BlocFormItem(value: text)));
-                },
-                validator: (value) {
-                  return state.studentFile.error;
-                },
-                text: 'Legajo', 
-                initialValue: user?.studentFile,
-                inputType: TextInputType.text
-              ),
-              CustomTextField(
-                onChanged: (text) {
-                  context.read<ProfileUpdateBloc>().add(DniChanged(dniInput: BlocFormItem(value: text)));
-                },
-                validator: (value) {
-                  return state.dni.error;
-                },
-                text: 'DNI', 
-                initialValue: user?.dni.toString(),
-                inputType: TextInputType.number
               ),
               CustomTextField(
                 onChanged: (text) {

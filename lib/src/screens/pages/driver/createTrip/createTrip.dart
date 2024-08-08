@@ -12,9 +12,15 @@ import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateTripPage extends StatefulWidget {
-  const CreateTripPage({super.key});
+  final Map<String, dynamic> arguments;
+
+  const CreateTripPage({
+    super.key,
+    required this.arguments
+  });
 
   @override
   State<CreateTripPage> createState() => _CreateTripState();
@@ -35,7 +41,10 @@ class _CreateTripState extends State<CreateTripPage> {
 
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      // Recibiendo los datos de Origen y Destino desde DriverMapBooking
+      final args = widget.arguments;
+
+      // final args = ModalRoute.of(context)!.settings.arguments as Map;
       pickUpNeighborhood = args['pickUpNeighborhood'];
       pickUpText = args['pickUpText'];
       destinationNeighborhood = args['destinationNeighborhood'];
@@ -71,11 +80,21 @@ class _CreateTripState extends State<CreateTripPage> {
           if (responseDriverTripRequest is Success) {
             print(responseDriverTripRequest.data);
             TripDetail driverTripRequest = responseDriverTripRequest.data; 
-            int idDriverRequest = driverTripRequest.idTrip;
+            int? idDriverRequest = driverTripRequest.idTrip;
             
             // DESCOMENTAR
             // context.read<CreateTripBloc>().add(EmitNewClientRequestSocketIO(idDriverRequest: idDriverRequest));
-            Navigator.pushNamed(context, '/driver/trip/detail', arguments: idDriverRequest);
+           
+            // Navigator.pushNamed(context, '/driver/trip/detail', 
+            //   arguments:{
+            //     'idDriverRequest':  idDriverRequest,
+            //   }
+            // );
+
+            context.push('/driver/0/trip/detail', extra: {
+              'idDriverRequest':  idDriverRequest,
+            });
+
             Fluttertoast.showToast(msg: 'Solicitud enviada', toastLength: Toast.LENGTH_LONG);
           }
         },
@@ -83,10 +102,10 @@ class _CreateTripState extends State<CreateTripPage> {
           children: [
             _headerProfile(context),
             CustomIconBack(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + 15, left: 30),
+              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
               onPressed: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                context.pop();
               },
             ),
             Container(

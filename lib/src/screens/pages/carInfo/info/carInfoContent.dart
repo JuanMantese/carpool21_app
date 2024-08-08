@@ -2,28 +2,42 @@ import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomButtonAction.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 
 class CarInfoContent extends StatelessWidget {
 
   CarInfo? car;
+  String? originPage;
 
-  CarInfoContent(this.car, {super.key});
+  CarInfoContent(this.car, this.originPage, {super.key});
 
   @override
   Widget build(BuildContext context) {
     print('CarInfo: ${car?.toJson()}');
-
+    print(originPage);
     return Stack(
       children: [
         _headerCar(context),
         CustomIconBack(
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           onPressed: () {
-            Navigator.pop(context);
+            print(originPage);
+            if (originPage == '/driver/0') {
+              context.go('/driver/0');
+              print('Driver: ${ModalRoute.of(context)?.settings.name}');
+            } else if (originPage == '/driver/0/car/list') {
+              context.pop();
+              print('CarList: ${ModalRoute.of(context)?.settings.name}');
+            } else if (originPage == '/passenger/0') {
+              context.go('/driver/0');
+              print('Passenger: ${ModalRoute.of(context)?.settings.name}');
+            } else {
+              context.pop();
+              print('Pop: ${ModalRoute.of(context)?.settings.name}');
+            }
           },
-        ),
+        ),        
 
         Padding(
           padding: EdgeInsets.only(
@@ -35,12 +49,13 @@ class CarInfoContent extends StatelessWidget {
               _cardCarData(context),
 
               const Spacer(),
-              CustomButtonAction(text: 'EDITAR VEHICULO', icon: Icons.edit, 
+              CustomButtonAction(text: 'EDITAR VEHÍCULO', icon: Icons.edit, 
                 onTapFunction: () {
-                  Navigator.pushNamed(context, '/car/update', arguments: car);
+                  // Navigator.pushNamed(context, '/car/update', arguments: car);
+                  context.push('/car/list/update', extra: car);
                 }
               ),
-              CustomButtonAction(text: 'ELIMINAR VEHICULO', icon: Icons.settings_power, 
+              CustomButtonAction(text: 'ELIMINAR VEHÍCULO', icon: Icons.delete_outline_rounded, 
                 onTapFunction: () {},
                 colorTop: const Color(0xFF6D0000),
                 colorBottom: const Color(0xFFD20000),

@@ -4,6 +4,7 @@ import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/tripsA
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:carpool_21_app/src/screens/widgets/SearchBar.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TripsAvailableContent extends StatelessWidget {
 
@@ -32,7 +33,8 @@ class TripsAvailableContent extends StatelessWidget {
           CustomIconBack(
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              context.pop();
             },
           ),
 

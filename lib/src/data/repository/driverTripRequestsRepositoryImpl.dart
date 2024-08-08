@@ -34,12 +34,17 @@ class DriverTripRequestsRepositoryImpl implements DriverTripRequestsRepository {
   }
 
   @override
-  Future<Resource<TripDetail>> getTripDetail() {
-    return driverTripRequestsService.getTripDetail();
+  Future<Resource<TripDetail>> getTripDetail(int idTrip) {
+    return driverTripRequestsService.getTripDetail(idTrip);
   }
 
   @override
-  Future<Resource<TripsAll>> getAllTrips() {
-    return driverTripRequestsService.getTripsAll();
+  Future<Resource<TripsAll>> getDriverTrips() {
+    return driverTripRequestsService.getDriverTrips();
+  }
+
+  @override
+  Future<Resource<List<TripDetail>>> getAvailableTrips() {
+    return driverTripRequestsService.getAvailableTrips();
   }
 }

@@ -1,11 +1,9 @@
 
-import 'package:carpool_21_app/src/domain/models/authResponse.dart';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/driverPosition.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/auth/authUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/drivers-position/driversPositionUseCases.dart';
-import 'package:carpool_21_app/src/domain/useCases/passenger-request/passengerRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/bloc/tripsAvailableEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/tripsAvailable/bloc/tripsAvailableState.dart';
@@ -15,16 +13,17 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
 
   AuthUseCases authUseCases;
   DriversPositionUseCases driversPositionUseCases;
-  PassengerRequestsUseCases passengerRequestsUseCases;
+
+  DriverTripRequestsUseCases driverTripRequestsUseCases;
 
   TripsAvailableBloc(
     this.authUseCases,
     this.driversPositionUseCases,
-    this.passengerRequestsUseCases
+    this.driverTripRequestsUseCases
   ): super(TripsAvailableState()) {
 
     // DELETE - Testeando con un objeto de prueba
-    void _setTestPassengerRequests(GetNearbyTripRequest event, Emitter<TripsAvailableState> emit) {
+    void _setTestPassengerRequests(GetTripsAvailable event, Emitter<TripsAvailableState> emit) {
       List<TripDetail> toTripsAvailable = [
         TripDetail(
           idTrip: 1,
@@ -89,7 +88,7 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
       ];
 
       emit(state.copyWith(
-        testingArrayTrips: toTripsAvailable,
+        availableTrips: toTripsAvailable,
       ));
     }
 
@@ -115,10 +114,35 @@ class TripsAvailableBloc extends Bloc<TripsAvailableEvent, TripsAvailableState> 
 
       // DELETE - Testeando con un objeto de prueba
       print('Usando el Array de prueba');
-      _setTestPassengerRequests(event, emit);
+      // _setTestPassengerRequests(event, emit);
+
+    });
+
+    on<GetTripsAvailable>((event, emit) async {
+      print('GetTripsAvailable ---------------------');
+      Success<List<TripDetail>> availableTripsRes = await driverTripRequestsUseCases.getAllTripsUseCase.run();
+      print(availableTripsRes);
+      emit(
+        state.copyWith(
+          response: Loading(),
+        )
+      );
+
+      if (availableTripsRes is Success) {
+        List<TripDetail> availableTrips = availableTripsRes.data;
+
+        emit(
+          state.copyWith(
+            availableTrips: availableTrips,
+          )
+        );
+      }
+
+      // DELETE - Testeando con un objeto de prueba
+      print('Usando el Array de prueba');
+      // _setTestPassengerRequests(event, emit);
 
     });
 
   }
-
 }

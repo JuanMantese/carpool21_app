@@ -3,6 +3,7 @@ import 'package:carpool_21_app/src/screens/pages/carInfo/list/bloc/carListState.
 import 'package:carpool_21_app/src/screens/pages/carInfo/list/carItem.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CarListContent extends StatelessWidget {
   
@@ -37,7 +38,8 @@ class CarListContent extends StatelessWidget {
           CustomIconBack(
             margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              context.pop();
             },
           ),
 
@@ -70,7 +72,10 @@ class CarListContent extends StatelessWidget {
         offset: const Offset(-16, 0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/car/register');
+            // Navigator.pushNamed(context, '/car/register', arguments: '/car/list');
+            context.push('/car/list/register', extra: {
+              'originPage': '/car/list',
+            });
           },
           backgroundColor: Color(0xFF00A48B),
           child: const Icon(

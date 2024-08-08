@@ -1,4 +1,5 @@
 
+import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 abstract class TripAvailableDetailEvent {}
@@ -10,6 +11,8 @@ class TripAvailableDetailInitEvent extends TripAvailableDetailEvent {
   final String destinationText;
   final LatLng destinationLatLng;
   final String departureTime;
+  final double compensation;
+  final Driver driver;
   
   TripAvailableDetailInitEvent({
     required this.pickUpText,
@@ -17,6 +20,8 @@ class TripAvailableDetailInitEvent extends TripAvailableDetailEvent {
     required this.destinationText,
     required this.destinationLatLng,
     required this.departureTime,
+    required this.compensation,
+    required this.driver
   });
 }
 
@@ -36,3 +41,11 @@ class AddPolyline extends TripAvailableDetailEvent {}
 
 // Trayendo los datos: Teimpo estimado del trayecto y Distancia del punto de origen al punto de destino
 class GetTimeAndDistanceValues extends TripAvailableDetailEvent {}
+
+class CreateReserve extends TripAvailableDetailEvent {
+  final int tripRequestId;
+  
+  CreateReserve({
+    required this.tripRequestId,
+  });
+}

@@ -28,11 +28,9 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
     on<ProfileUpdateInitEvent>((event, emit) {
       emit(
         state.copyWith(
-          id: event.user?.id,
+          id: event.user?.idUser,
           name: BlocFormItem(value: event.user?.name ?? ''),
           lastName: BlocFormItem(value: event.user?.lastName ?? ''),
-          studentFile: BlocFormItem(value: event.user?.studentFile ?? ''),
-          dni: BlocFormItem(value: event.user?.dni?.toString() ?? ''),
           phone: BlocFormItem(value: event.user?.phone?.toString() ?? ''),
           address: BlocFormItem(value: event.user?.address ?? ''),
           contactName: BlocFormItem(value: event.user?.contactName ?? ''),
@@ -60,30 +58,6 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
           lastName: BlocFormItem(
             value: event.lastNameInput.value,
             error: event.lastNameInput.value.isEmpty ? 'Ingresa tu apellido' : null
-          ),
-          formKey: formKey
-        )
-      );
-    });
-
-    on<StudentFileChanged>((event, emit) {
-      emit(
-        state.copyWith(
-          studentFile: BlocFormItem(
-            value: event.studentFileInput.value,
-            error: event.studentFileInput.value.isEmpty ? 'Ingresa tu legajo de Siglo 21' : null
-          ),
-          formKey: formKey
-        )
-      );
-    });
-
-    on<DniChanged>((event, emit) {
-      emit(
-        state.copyWith(
-          dni: BlocFormItem(
-            value: event.dniInput.value,
-            error: event.dniInput.value.isEmpty ? 'Ingresa tu D.N.I.' : null
           ),
           formKey: formKey
         )
@@ -186,9 +160,7 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
 
     on<FormSubmit>((event, emit) async {
       print('Nombe: ${ state.name.value }');
-      print('Apellido: ${ state.lastName.value }');
-      print('Legajo: ${ state.studentFile.value }');
-      print('DNI: ${ state.dni.value }');      
+      print('Apellido: ${ state.lastName.value }');   
       print('Telefono: ${ state.phone.value }');
       print('Direccion: ${ state.address.value }');
       print('Contact name: ${ state.contactName.value }');
@@ -220,16 +192,16 @@ class ProfileUpdateBloc extends Bloc<ProfileUpdateEvent, ProfileUpdateState> {
       AuthResponse authResponse = await authUseCases.getUserSession.run();
       
       // Set user values
-      authResponse.user.name = event.user.name;
-      authResponse.user.lastName = event.user.lastName;
-      authResponse.user.studentFile = event.user.studentFile;
-      authResponse.user.dni = event.user.dni;
-      authResponse.user.phone = event.user.phone;
-      authResponse.user.address = event.user.address;
-      authResponse.user.contactName = event.user.contactName;
-      authResponse.user.contactLastName = event.user.contactLastName;
-      authResponse.user.contactPhone = event.user.contactPhone;
-      authResponse.user.photoUser = event.user.photoUser;
+      authResponse.user!.name = event.user.name;
+      authResponse.user!.lastName = event.user.lastName;
+      authResponse.user!.studentFile = event.user.studentFile;
+      authResponse.user!.dni = event.user.dni;
+      authResponse.user!.phone = event.user.phone;
+      authResponse.user!.address = event.user.address;
+      authResponse.user!.contactName = event.user.contactName;
+      authResponse.user!.contactLastName = event.user.contactLastName;
+      authResponse.user!.contactPhone = event.user.contactPhone;
+      authResponse.user!.photoUser = event.user.photoUser;
       await authUseCases.saveUserSession.run(authResponse);
     });
   }

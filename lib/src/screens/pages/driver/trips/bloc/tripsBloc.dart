@@ -1,7 +1,6 @@
 
 
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/models/tripsAll.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
@@ -21,52 +20,60 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
 
   void _setTestTrips(GetTripsAll event, Emitter<TripsState> emit) {
     final TripsAll exampleTripsAll = TripsAll(
-      currentTrip: TripDetail(
-        idTrip: 1,
-        idDriver: 1,
-        driver: Driver(
-          name: 'Carlos',
-          lastName: 'Perez',
-          phone: '1234567890',
-          photo: 'https://example.com/photo.jpg',
-        ),
-        pickupNeighborhood: 'Centro',
-        pickupText: '789 Oak St',
-        pickupLat: 37.7749,
-        pickupLng: -122.4294,
-        destinationNeighborhood: 'Campus Universitario',
-        destinationText: '123 Pine St',
-        destinationLat: 37.7949,
-        destinationLng: -122.4194,
-        availableSeats: 2,
-        departureTime: '2024-06-15T18:30:00Z',
-        distance: 12.0,
-        timeDifference: 20,
-        compensation: 25.0,
-        vehicle: CarInfo(
-          brand: 'Honda',
-          model: 'Civic',
-          patent: '123456',
-          color: 'red',
-          nroGreenCard: '1234',
-          year: 2023,
-        ),
-        observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
-        reserves: [
-          Reserve(
-            idTrip: 1,
-            idPassenger: 1,
-            name: 'Franco Jose',
-            lastName: 'Jara',
-          ),
-          Reserve(
-            idTrip: 1,
-            idPassenger: 2,
-            name: 'Franco',
-            lastName: 'Apostoli',
-          ),
-        ],
-      ),
+      // currentTrip: TripDetail(
+      //   idTrip: 1,
+      //   idDriver: 1,
+      //   driver: Driver(
+      //     name: 'Carlos',
+      //     lastName: 'Perez',
+      //     phone: '1234567890',
+      //     photo: 'https://example.com/photo.jpg',
+      //   ),
+      //   pickupNeighborhood: 'Centro',
+      //   pickupText: '789 Oak St',
+      //   pickupLat: 37.7749,
+      //   pickupLng: -122.4294,
+      //   destinationNeighborhood: 'Campus Universitario',
+      //   destinationText: '123 Pine St',
+      //   destinationLat: 37.7949,
+      //   destinationLng: -122.4194,
+      //   availableSeats: 2,
+      //   departureTime: '2024-06-15T18:30:00Z',
+      //   distance: 12.0,
+      //   timeDifference: 20,
+      //   compensation: 25.0,
+      //   vehicle: CarInfo(
+      //     brand: 'Honda',
+      //     model: 'Civic',
+      //     patent: '123456',
+      //     color: 'red',
+      //     nroGreenCard: '1234',
+      //     year: 2023,
+      //   ),
+      //   observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
+      //   reservations: [
+      //     Reservations(
+      //       idReservation: 1,
+      //       isPaid: true, 
+      //       passenger: Passenger(
+      //         idUser: 1, 
+      //         name: 'Franco Jose', 
+      //         lastName: 'Jara',
+      //         phone: '2517872662'
+      //       )
+      //     ),
+      //     Reservations(
+      //       idReservation: 2, 
+      //       isPaid: true, 
+      //       passenger: Passenger(
+      //         idUser: 2,
+      //         name: 'Franco', 
+      //         lastName: 'Apostoli',
+      //         phone: '3517872662'
+      //       )
+      //     ),
+      //   ]
+      // ),
       futureTrips: [
         TripDetail(
           idTrip: 2,
@@ -99,14 +106,28 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
             year: 2022,
           ),
           observations: 'Encuentro en la entrada principal del estadio',
-          reserves: [
-            Reserve(
-              idTrip: 2,
-              idPassenger: 3,
-              name: 'María',
-              lastName: 'Fernandez',
-            ),
-          ],
+          reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
+          ),
+          Reservations(
+            idReservation: 2, 
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 2,
+              name: 'Franco', 
+              lastName: 'Apostoli',
+              phone: '3517872662'
+            )
+          ),
+        ]
         ),
         TripDetail(
           idTrip: 2,
@@ -139,14 +160,18 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
             year: 2022,
           ),
           observations: 'Encuentro en la entrada principal del estadio',
-          reserves: [
-            Reserve(
-              idTrip: 2,
-              idPassenger: 3,
-              name: 'María',
-              lastName: 'Fernandez',
-            ),
-          ],
+          reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
+          )
+        ]
         ),
         TripDetail(
           idTrip: 2,
@@ -179,14 +204,18 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
             year: 2022,
           ),
           observations: 'Encuentro en la entrada principal del estadio',
-          reserves: [
-            Reserve(
-              idTrip: 2,
-              idPassenger: 3,
-              name: 'María',
-              lastName: 'Fernandez',
-            ),
-          ],
+          reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
+          ),
+        ]
         ),
         TripDetail(
           idTrip: 2,
@@ -219,17 +248,21 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
             year: 2022,
           ),
           observations: 'Encuentro en la entrada principal del estadio',
-          reserves: [
-            Reserve(
-              idTrip: 2,
-              idPassenger: 3,
-              name: 'María',
-              lastName: 'Fernandez',
-            ),
-          ],
+          reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
+          )
+        ]
         ),
       ],
-      historicalTrips: [
+      pastTrips: [
         TripDetail(
           idTrip: 3,
           idDriver: 3,
@@ -261,14 +294,18 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
             year: 2021,
           ),
           observations: 'Encuentro en la entrada del parque',
-          reserves: [
-            Reserve(
-              idTrip: 3,
-              idPassenger: 4,
-              name: 'Juan',
-              lastName: 'Perez',
-            ),
-          ],
+          reservations: [
+          Reservations(
+            idReservation: 1,
+            isPaid: true, 
+            passenger: Passenger(
+              idUser: 1, 
+              name: 'Franco Jose', 
+              lastName: 'Jara',
+              phone: '2517872662'
+            )
+          ),
+        ]
         ),
       ],
     );

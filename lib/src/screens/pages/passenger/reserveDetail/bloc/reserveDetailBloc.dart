@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
+import 'package:carpool_21_app/src/domain/models/reserveDetail.dart';
+import 'package:carpool_21_app/src/domain/models/reserveRequest.dart';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/useCases/driver-trip-request/driverTripRequestUseCases.dart';
 import 'package:carpool_21_app/src/domain/useCases/geolocation/geolocationUseCases.dart';
+import 'package:carpool_21_app/src/domain/useCases/reserves/reserveUseCases.dart';
+import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailEvent.dart';
 import 'package:carpool_21_app/src/screens/pages/passenger/reserveDetail/bloc/reserveDetailState.dart';
 import 'package:flutter/material.dart';
@@ -13,88 +16,111 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class ReserveDetailBloc extends Bloc<ReserveDetailEvent, ReserveDetailState> {
 
   GeolocationUseCases geolocationUseCases;
+  ReserveUseCases reserveUseCases;
   DriverTripRequestsUseCases driverTripRequestsUseCases;
 
   // Constructor
-  ReserveDetailBloc(this.geolocationUseCases, this.driverTripRequestsUseCases): super(ReserveDetailState()) {
+  ReserveDetailBloc(this.geolocationUseCases, this.reserveUseCases, this.driverTripRequestsUseCases): super(ReserveDetailState()) {
     
     void _setTestReserveDetail(GetReserveDetail event, Emitter<ReserveDetailState> emit) {
-      final TripDetail testTripDetail = TripDetail(
-        idTrip: 1,
-        idDriver: 1,
-        driver: Driver(
-          name: 'Carlos',
-          lastName: 'Perez',
-          phone: '1234567890',
-        ),
-        pickupNeighborhood: 'Patio Olmos Shopping',
-        pickupText: "Av. Vélez Sarsfield 361, Córdoba",
-        pickupLat: -31.4198807,
-        pickupLng: -64.1908178,
-        destinationNeighborhood: 'Campus Universitario',
-        destinationText: "Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina",
-        destinationLat: -31.322187,
-        destinationLng: -64.2219203,
-        availableSeats: 2,
-        departureTime: "18:30",
-        distance: 12.0,
-        timeDifference: 20,
-        vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2023),
-        compensation: 25.0,
-        observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
-        reserves: [
-          Reserve(
-            idTrip: 1, 
-            idPassenger: 1, 
-            name: 'Franco Jose', 
-            lastName: 'Jara'
-          ),
-          Reserve(
-            idTrip: 1, 
-            idPassenger: 2, 
-            name: 'Franco', 
-            lastName: 'Apostoli'
-          ),
-        ]
-      );
+      // final ReserveDetail testReserveDetail = ReserveDetail(
+      //   idTrip: 1,
+      //   idDriver: 1,
+      //   driver: Driver(
+      //     name: 'Carlos',
+      //     lastName: 'Perez',
+      //     phone: '1234567890',
+      //   ),
+      //   pickupNeighborhood: 'Patio Olmos Shopping',
+      //   pickupText: "Av. Vélez Sarsfield 361, Córdoba",
+      //   pickupLat: -31.4198807,
+      //   pickupLng: -64.1908178,
+      //   destinationNeighborhood: 'Campus Universitario',
+      //   destinationText: "Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina",
+      //   destinationLat: -31.322187,
+      //   destinationLng: -64.2219203,
+      //   availableSeats: 2,
+      //   departureTime: "18:30",
+      //   distance: 12.0,
+      //   timeDifference: 20,
+      //   vehicle: CarInfo(brand: "Honda", model: "Civic", patent: '123456', color: 'red', nroGreenCard: '1234', year: 2023),
+      //   compensation: 25.0,
+      //   observations: 'Encuentro en el Patio Olmos sobre la puerta de entrada que da a Bvd Illia',
+      //   reservations: [
+      //     Reservations(
+      //       idReservation: 1,
+      //       isPaid: true, 
+      //       passenger: Passenger(
+      //         idUser: 1, 
+      //         name: 'Franco Jose', 
+      //         lastName: 'Jara',
+      //         phone: '2517872662'
+      //       )
+      //     ),
+      //     Reservations(
+      //       idReservation: 2, 
+      //       isPaid: true, 
+      //       passenger: Passenger(
+      //         idUser: 2,
+      //         name: 'Franco', 
+      //         lastName: 'Apostoli',
+      //         phone: '3517872662'
+      //       )
+      //     ),
+      //   ]
+      // );
 
-      emit(state.copyWith(
-        reserveDetail: testTripDetail,
-        pickUpLatLng: LatLng(testTripDetail.pickupLat, testTripDetail.pickupLng),
-        destinationLatLng: LatLng(testTripDetail.destinationLat, testTripDetail.destinationLng)
-      ));
+      // emit(state.copyWith(
+      //   reserveDetail: testTripDetail,
+      //   pickUpLatLng: LatLng(testTripDetail.pickupLat, testTripDetail.pickupLng),
+      //   destinationLatLng: LatLng(testTripDetail.destinationLat, testTripDetail.destinationLng)
+      // ));
     }
 
     on<GetReserveDetail>((event, emit) async {
-      // try {
-      //   // Realizar la consulta para traer el detalle de un viaje
-      //   AuthResponse authResponse = await authUseCases.getUserSession.run();
+      print('Aca entramos en GetTripDetail');
 
-      //   if (authResponse != null && authResponse.user != null) {
-      //     print('Datos del usuario obtenidos');
-      //     emit(
-      //       state.copyWith(
-      //         tripDetail: tripDetailContent,
-      //       )
-      //     );
-      //   } else {
-      //     print('AuthResponse es Null');
-      //     _setTestTripDetail(event, emit);
-      //   }
-      // } catch (error) {
-      //   print('Error GetTripDetail $error');
-      //   _setTestTripDetail(event, emit);
-      // }
+      try {
+        // Realizar la consulta para traer el detalle de un viaje
+        Success<ReserveDetail> reserveDetailRes = await reserveUseCases.getReserveDetailUseCase.run(event.idReserve);
+        if (reserveDetailRes is Success) {
+          ReserveDetail reserveDetail = reserveDetailRes.data;
+          print('ACA: ${reserveDetail.toJson()}');
+          emit(
+            state.copyWith(
+              reserveDetail: reserveDetail,
+              pickUpLatLng: LatLng(reserveDetail.tripRequest.pickupLat, reserveDetail.tripRequest.pickupLng),
+              destinationLatLng: LatLng(reserveDetail.tripRequest.destinationLat, reserveDetail.tripRequest.destinationLng)
+            )
+          );
+        } else {
+          print('======================== GetReserveDetail NO ENTRO ========================');
+          _setTestReserveDetail(event, emit);
+        }
+      } catch (error) {
+        print('======================== Error GetTripDetail $error ========================');
+        _setTestReserveDetail(event, emit);
+      }
 
-      print('Usando _setTestReserveDetail');
+      print('======================== Usando _setTestReserveDetail ========================');
       _setTestReserveDetail(event, emit);
     }); 
+
+    on<ReserveDetailInitMap>((event, emit) async {
+      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+
+       emit(
+        state.copyWith(
+          controller: controller,
+        )
+      );
+    });
 
     on<InitializeMap>((event, emit) async {
       print('InitializeMap -------------------------------------');
       print(state.destinationLatLng);
 
-      Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+      // Completer<GoogleMapController> controller = Completer<GoogleMapController>();
       
       // Defino los Markers aca para que primero se inicialicen las posiciones
       // Trayendo las imagenes de los marker que coloco en el mapa al trazar la ruta
@@ -122,7 +148,7 @@ class ReserveDetailBloc extends Bloc<ReserveDetailEvent, ReserveDetailState> {
 
       emit(
         state.copyWith(
-          controller: controller,
+          // controller: controller,
           markers: {
             markerPickUp.markerId: markerPickUp,
             markerDestination.markerId: markerDestination,

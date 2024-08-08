@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:carpool_21_app/src/domain/models/tripDetail.dart';
 import 'package:carpool_21_app/src/domain/utils/resource.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class TripDetailState extends Equatable {

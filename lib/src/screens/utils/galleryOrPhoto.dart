@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 GalleryOrPhotoDialog(BuildContext context, Function() pickImage, Function() takePhoto) {
@@ -17,7 +18,8 @@ GalleryOrPhotoDialog(BuildContext context, Function() pickImage, Function() take
         actions: [
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              context.pop();
               pickImage();
             }, 
             child: const Text(
@@ -29,7 +31,8 @@ GalleryOrPhotoDialog(BuildContext context, Function() pickImage, Function() take
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              context.pop();
               takePhoto();
             }, 
             child: const Text(

@@ -2,6 +2,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMap
 import 'package:carpool_21_app/src/screens/pages/driver/mapFinder/bloc/driverMapFinderEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CustomDialogTrip extends StatelessWidget {
@@ -58,9 +59,10 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  // LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  LatLng(-31.322187171680053, -64.22192009394531),
                   'Campus Siglo 21',
-                  'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
+                  'Universidad Siglo 21, De los Latinos, Córdoba, Argentina',
                   'destination',
                 );
               },
@@ -84,9 +86,10 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  // LatLng(-31.4227129, -64.18551), // Coordenadas del Nva Cba 
+                  LatLng(-31.422511271602012, -64.18393187764372,),
                   'Cede Nueva Córdoba',
-                  'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
+                  'Universidad Siglo 21, Ituzaingó, Córdoba, Argentina',
                   'destination',
                 );
               },
@@ -110,9 +113,10 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  // LatLng(-31.322187, -64.2219203), // Coordenadas del Campus Universitario
+                  LatLng(-31.322187171680053, -64.22192009394531),
                   'Campus Siglo 21',
-                  'Universidad Siglo 21, De los Latinos, Córdoba, Córdoba Province, Argentina',
+                  'Universidad Siglo 21, De los Latinos, Córdoba, Argentina',
                   'pickUp',
                 );
               },
@@ -136,9 +140,10 @@ class CustomDialogTrip extends StatelessWidget {
               onPressed: () {
                 _setPredefinedLocation(
                   context,
-                  LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  // LatLng(-31.4227129, -64.18551), // Coordenadas del Campus Universitario
+                  LatLng(-31.422511271602012, -64.18393187764372,),
                   'Cede Nueva Córdoba',
-                  'Universidad Siglo 21, Ituzaingó, Córdoba, Córdoba Province, Argentina',
+                  'Universidad Siglo 21, Ituzaingó, Córdoba, Argentina',
                   'pickUp',
                 );
               },
@@ -164,7 +169,8 @@ class CustomDialogTrip extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                context.pop();
               },
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Color(0xFF00A98F)),
@@ -188,8 +194,9 @@ class CustomDialogTrip extends StatelessWidget {
   }
 
   void _setPredefinedLocation(BuildContext context, LatLng location, String neighborhood, String address, String locationType) {
-    Navigator.pop(context); // Cerrar el diálogo
-    Navigator.pushNamed(context, '/driver/finder'); // Navegar al mapa
+    context.pop(); // Cerrar el modal
+    context.push('/driver/0/finder');
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<DriverMapFinderBloc>().add(
         SelectPredefinedLocation(

@@ -52,7 +52,7 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       AuthResponse? authResponse = await authUseCases.getUserSession.run();
       if (authResponse != null && authResponse.user != null) {
         print('Entro en GetUserInfo - Navigation');
-        List<Role> roles = authResponse.user.roles?.map((role) => role).toList() ?? [];
+        List<Role> roles = authResponse.user!.roles?.map((role) => role).toList() ?? [];
         print('roles $roles');
         emit(
           state.copyWith(

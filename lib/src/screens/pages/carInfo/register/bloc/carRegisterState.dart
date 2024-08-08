@@ -14,7 +14,6 @@ class CarRegisterState extends Equatable {
   final BlocFormItem model; // Modelo
   final BlocFormItem patent; // Patente
   final BlocFormItem year; // Año del auto
-  final BlocFormItem seats; // Cantidad de asientos
   final BlocFormItem color; // Color del auto
   final BlocFormItem nroGreenCard; // Numero Cedula Verde
   final Resource? response; 
@@ -26,7 +25,6 @@ class CarRegisterState extends Equatable {
     this.model = const BlocFormItem(error: 'Ingresá el Modelo'),
     this.patent = const BlocFormItem(error: 'Ingresá la patente'),
     this.year = const BlocFormItem(error: 'Ingresá el Año del Vehículo'),
-    this.seats = const BlocFormItem(error: 'Elegí la cantidad de asientos'),
     this.color = const BlocFormItem(error: 'Elegí el color'),
     this.nroGreenCard = const BlocFormItem(error: 'Ingresá el Nro de Cedula Verde'),
     this.response
@@ -39,7 +37,6 @@ class CarRegisterState extends Equatable {
     BlocFormItem? model,
     BlocFormItem? patent,
     BlocFormItem? year,
-    BlocFormItem? seats,
     BlocFormItem? color,
     BlocFormItem? nroGreenCard,
     Resource? response,
@@ -51,7 +48,6 @@ class CarRegisterState extends Equatable {
       model: model ?? this.model,
       patent: patent ?? this.patent,
       year: year ?? this.year,
-      seats: seats ?? this.seats,
       color: color ?? this.color,
       nroGreenCard: nroGreenCard ?? this.nroGreenCard,
       response: response
@@ -59,5 +55,5 @@ class CarRegisterState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [brand, model, patent, year, seats, color, nroGreenCard, response];
+  List<Object?> get props => [brand, model, patent, year, color, nroGreenCard, response];
 }

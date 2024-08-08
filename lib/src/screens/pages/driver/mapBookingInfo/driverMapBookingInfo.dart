@@ -9,11 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DriverMapBookingInfo extends StatefulWidget {
-  const DriverMapBookingInfo({super.key});
+  final Map<String, dynamic> arguments;
+
+  const DriverMapBookingInfo({
+    super.key,
+    required this.arguments
+  });
 
   @override
-  State<DriverMapBookingInfo> createState() =>
-    _DriverMapBookingInfoState();
+  State<DriverMapBookingInfo> createState() => _DriverMapBookingInfoState();
 }
 
 class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
@@ -35,9 +39,11 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
 
     // Espera que todos los elementos del build sean construidos antes de ejecutarse
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // Recibiendo los datos de Origen y Destino desde DriverMapFinder
+      final arguments = widget.arguments;
 
       // Recibiendo los datos de Origen y Destino desde DriverMapFinder
-      Map<String, dynamic> arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+      // Map<String, dynamic> arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
 
       // Seteando valores
       pickUpNeighborhood = arguments['pickUpNeighborhood'];
@@ -107,8 +113,8 @@ class _DriverMapBookingInfoState extends State<DriverMapBookingInfo> {
           // DELETE - Eliminar: Esta puesto para probar sin el back
           TimeAndDistanceValues mockTimeAndDistanceValues = TimeAndDistanceValues(
             tripPrice: 1000.0,
-            distance: Distance(text: "10 km", value: 10.0),
-            duration: Duration(text: "15 minutos", value: 15.0),
+            distance: Distance(text: "15 km", value: 10.0),
+            duration: Duration(text: "30 minutos", value: 15.0),
           );
           return Scaffold(
               body: DriverMapBookingInfoContent(

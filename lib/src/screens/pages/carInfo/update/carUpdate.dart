@@ -7,9 +7,15 @@ import 'package:carpool_21_app/src/screens/pages/carInfo/update/carUpdateContent
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
 class CarUpdatePage extends StatefulWidget {
-  const CarUpdatePage({super.key});
+  final CarInfo? car;
+
+  const CarUpdatePage({
+    super.key,
+    this.car
+  });
 
   @override
   State<CarUpdatePage> createState() => _CarUpdatePageState();
@@ -23,6 +29,9 @@ class _CarUpdatePageState extends State<CarUpdatePage> {
   void initState() {
     super.initState();
 
+    // Asigna el valor de car desde el widget
+    car = widget.car;
+
     // Wait until all elements of the Widget build are loaded to execute the Event
     // This is done to prevent the user from coming in as null, as it is instantiated in the Widget build
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -33,9 +42,6 @@ class _CarUpdatePageState extends State<CarUpdatePage> {
   // Secondary execution: Triggered every time we make a state change in a widget on that screen
   @override
   Widget build(BuildContext context) {
-    // ELIMINAR el signo de pregunta del final ya que PERMITE EL VALOR NULL - Eliminar esto cuando tengamos el Back
-    car = ModalRoute.of(context)?.settings.arguments as CarInfo?;
-
     return Scaffold(
       body: BlocListener<CarUpdateBloc, CarUpdateState>(
         listener: (context, state) {
@@ -56,7 +62,8 @@ class _CarUpdatePageState extends State<CarUpdatePage> {
               // context.read<CarUpdateBloc>().add(GetUserInfo());
             });
 
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            context.pop();
           }
         },
         child: BlocBuilder<CarUpdateBloc, CarUpdateState>(

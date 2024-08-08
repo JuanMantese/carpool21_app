@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
-import 'package:carpool_21_app/src/domain/models/reserve.dart';
 
 TripDetail passengerRequestFromJson(String str) => TripDetail.fromJson(json.decode(str));
 
@@ -18,14 +17,14 @@ class TripDetail {
   String destinationText;
   double destinationLat;
   double destinationLng;
-  int availableSeats;
+  int? availableSeats;
   String departureTime; // Date Format
   double? distance; // En kilometros
   int? timeDifference; // En minutos
   double? compensation;
   CarInfo? vehicle;
   String? observations;
-  List<Reserve>? reserves;
+  List<Reservations>? reservations;
 
   // GoogleDistanceMatrix? googleDistanceMatrix;
   // Position pickupPosition;
@@ -43,14 +42,14 @@ class TripDetail {
     required this.destinationText,
     required this.destinationLat,
     required this.destinationLng,
-    required this.availableSeats,
+    this.availableSeats,
     required this.departureTime,
     this.distance,
     this.timeDifference,
     this.compensation,
     this.vehicle,
     this.observations,
-    this.reserves,
+    this.reservations,
     // this.googleDistanceMatrix,
     // required this.pickupPosition,
     // required this.destinationPosition,
@@ -86,14 +85,14 @@ class TripDetail {
     compensation: json["compensation"]?.toDouble(),
     vehicle: json["vehicle"] != null ? CarInfo.fromJson(json["vehicle"]) : null,
     observations: json["observations"],
-    reserves: json["reserves"] != null ? List<Reserve>.from(json["reserves"].map((x) => Reserve.fromJson(x))) : null,
+    reservations: json["reservations"] != null ? List<Reservations>.from(json["reservations"].map((x) => Reservations.fromJson(x))) : null,
     // googleDistanceMatrix: json["google_distance_matrix"] != null ? GoogleDistanceMatrix.fromJson(json["google_distance_matrix"]) : null, 
     // pickupPosition: Position.fromJson(json["pickup_position"]),
     // destinationPosition: Position.fromJson(json["destination_position"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "id": idTrip,
+    "idTrip": idTrip,
     "idDriver": idDriver,
     "driver": driver?.toJson(),
     "pickupNeighborhood": pickupNeighborhood,
@@ -111,7 +110,7 @@ class TripDetail {
     "compensation": compensation,
     "vehicle": vehicle?.toJson(),
     "observations": observations,
-    "reserves": reserves != null ? List<dynamic>.from(reserves!.map((x) => x.toJson())) : null,
+    "reservations": reservations != null ? List<dynamic>.from(reservations!.map((x) => x.toJson())) : null,
     // "google_distance_matrix": googleDistanceMatrix?.toJson(),
     // "pickup_position": pickupPosition.toJson(),
     // "destination_position": destinationPosition.toJson(),
@@ -146,16 +145,73 @@ class Driver {
   };
 }
 
-class Position {
+class Passenger {
+  int idUser;
+  String name;
+  String lastName;
+  String phone;
+  String? photo;
+
+  Passenger({
+    required this.idUser,
+    required this.name,
+    required this.lastName,
+    required this.phone,
+    this.photo,
+  });
+
+  factory Passenger.fromJson(Map<String, dynamic> json) => Passenger(
+    idUser: json["idUser"],
+    name: json["name"],
+    lastName: json["lastName"],
+    phone: json["phone"],
+    photo: json["photo"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "idUser": idUser,
+    "name": name,
+    "lastName": lastName,
+    "phone": phone,
+    "photoUser": photo,
+  };
+}
+
+class Reservations {
+  int idReservation;
+  bool isPaid;
+  Passenger? passenger;
+
+  Reservations({
+    required this.idReservation,
+    required this.isPaid,
+    required this.passenger,
+  });
+
+  factory Reservations.fromJson(Map<String, dynamic> json) => Reservations(
+    idReservation: json["idReservation"], 
+    isPaid: json["isPaid"], 
+    passenger: json["passenger"] != null ? Passenger.fromJson(json["passenger"]) : null,
+
+  );
+
+  Map<String, dynamic> toJson() => {
+    "idReservation": idReservation,
+    "isPaid": isPaid,
+    "passenger": passenger?.toJson(),
+  };
+}
+
+class PositionTrip {
   double x;
   double y;
 
-  Position({
+  PositionTrip({
     required this.x,
     required this.y,
   });
 
-  factory Position.fromJson(Map<String, dynamic> json) => Position(
+  factory PositionTrip.fromJson(Map<String, dynamic> json) => PositionTrip(
     x: json["x"]?.toDouble(),
     y: json["y"]?.toDouble(),
   );
@@ -167,8 +223,8 @@ class Position {
 }
 
 class GoogleDistanceMatrix {
-  Distance distance;
-  Distance duration;
+  DistanceMatrix distance;
+  DistanceMatrix duration;
   String status;
 
   GoogleDistanceMatrix({
@@ -178,8 +234,8 @@ class GoogleDistanceMatrix {
   });
 
   factory GoogleDistanceMatrix.fromJson(Map<String, dynamic> json) => GoogleDistanceMatrix(
-    distance: Distance.fromJson(json["distance"]),
-    duration: Distance.fromJson(json["duration"]),
+    distance: DistanceMatrix.fromJson(json["distance"]),
+    duration: DistanceMatrix.fromJson(json["duration"]),
     status: json["status"],
   );
 
@@ -190,16 +246,16 @@ class GoogleDistanceMatrix {
   };
 }
 
-class Distance {
+class DistanceMatrix {
   String text;
   int value;
 
-  Distance({
+  DistanceMatrix({
     required this.text,
     required this.value,
   });
 
-  factory Distance.fromJson(Map<String, dynamic> json) => Distance(
+  factory DistanceMatrix.fromJson(Map<String, dynamic> json) => DistanceMatrix(
     text: json["text"],
     value: json["value"],
   );

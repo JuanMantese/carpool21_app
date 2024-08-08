@@ -1,6 +1,7 @@
 
 import 'package:carpool_21_app/src/domain/models/carInfo.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CarItem extends StatelessWidget {
 
@@ -13,8 +14,14 @@ class CarItem extends StatelessWidget {
     print('Car Info Item: ${car.toJson()}');
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/car/info', arguments: {
+        // Navigator.pushNamed(context, '/car/info', arguments: {
+        //   'idVehicle': car.idVehicle,
+        //   'originPage': '/car/list',
+        // });
+
+        context.push('/car/list/info', extra: {
           'idVehicle': car.idVehicle,
+          'originPage': '/car/list',
         });
       },
       child: Card(
@@ -46,9 +53,10 @@ class CarItem extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
+                        Text('Modelo: ${car.model ?? ''}'),
                         Text('Año: ${car.year ?? ''}'),
                         Text('Color: ${car.color ?? ''}'),
-                        Text('Cédula Verde: ${car.nroGreenCard ?? ''}'),
+                        // Text('Cédula Verde: ${car.nroGreenCard ?? ''}'),
                       ],
                     ),
                   ),
@@ -61,7 +69,8 @@ class CarItem extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.edit, color: Colors.teal),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/car/update', arguments: car);
+                  // Navigator.pushNamed(context, '/car/update', arguments: car);
+                  context.push('/car/list/update', extra: car);
                 },
               ),
             ),

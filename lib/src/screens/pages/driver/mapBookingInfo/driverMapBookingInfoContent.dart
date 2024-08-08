@@ -3,6 +3,7 @@ import 'package:carpool_21_app/src/screens/pages/driver/mapBookingInfo/bloc/driv
 import 'package:carpool_21_app/src/screens/widgets/CustomButton.dart';
 import 'package:carpool_21_app/src/screens/widgets/CustomIconBack.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // PANTALLA DONDE EL PASAJERO VA A VER EL RECORRIDO QUE HACE EL VIAJE QUE ESTA CONSULTANDO
@@ -26,7 +27,8 @@ class DriverMapBookingInfoContent extends StatelessWidget {
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 30),
           color: Colors.black,
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            context.pop();
           },
         ),
       ],
@@ -36,7 +38,7 @@ class DriverMapBookingInfoContent extends StatelessWidget {
   // Mostrando la ruta dell viaje
   Widget _googleMaps(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
+      height: MediaQuery.of(context).size.height * 0.64,
       child: GoogleMap(  // Mapa de Google
         mapType: MapType.normal,
         initialCameraPosition: state.cameraPosition, // Posicion inicial del mapa
@@ -60,7 +62,7 @@ class DriverMapBookingInfoContent extends StatelessWidget {
 
   Widget _cardBookingInfo(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.49,
+      height: MediaQuery.of(context).size.height * 0.39,
       padding: EdgeInsets.only(
         left: 20, 
         right: 20,
@@ -136,43 +138,55 @@ class DriverMapBookingInfoContent extends StatelessWidget {
             leading: const Icon(Icons.timer),
           ),
 
-          ListTile(
-            title: const Text(
-              'Precio',
-              style: TextStyle(
-                fontSize: 15
-              ),
-            ),
-            subtitle: Text(
-              '\$${timeAndDistanceValues.tripPrice}',
-              style: const TextStyle(
-                fontSize: 13
-              ),
-            ),
-            leading: const Icon(
-              Icons.money,
-              color: Color.fromARGB(255, 23, 135, 52),
-            ),
-          ),
+          // ListTile(
+          //   title: const Text(
+          //     'Precio',
+          //     style: TextStyle(
+          //       fontSize: 15
+          //     ),
+          //   ),
+          //   subtitle: Text(
+          //     '\$${timeAndDistanceValues.tripPrice}',
+          //     style: const TextStyle(
+          //       fontSize: 13
+          //     ),
+          //   ),
+          //   leading: const Icon(
+          //     Icons.money,
+          //     color: Color.fromARGB(255, 23, 135, 52),
+          //   ),
+          // ),
 
           // Botón para confirmar los datos del viaje y crear el viaje.
           const Spacer(),
           CustomButton(
             text: 'Confirmar recorrido',
             onPressed: () {
-              Navigator.pushNamed(context, '/driver/createTrip',
-                arguments: {
-                  'pickUpNeighborhood': state.pickUpNeighborhood,
-                  'pickUpText': state.pickUpText,
-                  'pickUpLatLng': state.pickUpLatLng,
-                  'destinationNeighborhood': state.destinationNeighborhood,
-                  'destinationText': state.destinationText,
-                  'destinationLatLng': state.destinationLatLng,
-                  'departureTime': state.departureTime,
-                  'timeAndDistanceValues': timeAndDistanceValues,
-                  'state': state,
-                }
-              );
+              // Navigator.pushNamed(context, '/driver/createTrip',
+              //   arguments: {
+              //     'pickUpNeighborhood': state.pickUpNeighborhood,
+              //     'pickUpText': state.pickUpText,
+              //     'pickUpLatLng': state.pickUpLatLng,
+              //     'destinationNeighborhood': state.destinationNeighborhood,
+              //     'destinationText': state.destinationText,
+              //     'destinationLatLng': state.destinationLatLng,
+              //     'departureTime': state.departureTime,
+              //     'timeAndDistanceValues': timeAndDistanceValues,
+              //     'state': state,
+              //   }
+              // );
+
+              context.push('/driver/0/createTrip', extra: {
+                'pickUpNeighborhood': state.pickUpNeighborhood,
+                'pickUpText': state.pickUpText,
+                'pickUpLatLng': state.pickUpLatLng,
+                'destinationNeighborhood': state.destinationNeighborhood,
+                'destinationText': state.destinationText,
+                'destinationLatLng': state.destinationLatLng,
+                'departureTime': state.departureTime,
+                'timeAndDistanceValues': timeAndDistanceValues,
+                'state': state,
+              });
             },
             margin: const EdgeInsets.only(
               right: 40,
